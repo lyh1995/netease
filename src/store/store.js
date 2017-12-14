@@ -32,6 +32,13 @@ export const store= new Vuex.Store({
 			imgUrl: "url('/static/search.svg')",
 			leftStyle: "85.9%"
 		}],
+		playerHeadIcon: [{
+			imgUrl: "url('/static/goback.svg')",
+			leftStyle: "0%"
+		}, {
+			imgUrl: "url('/static/share.svg')",
+			leftStyle: "85.9%"
+		}],
 		listData: [{
 			icon: "url('/static/localMusic.svg')",
 			listName: "本地音乐"

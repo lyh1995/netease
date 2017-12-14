@@ -1,0 +1,11 @@
+<svg width="35px" height="35px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<line x1="7" y1="17.5" x2="28" y2="17.5" class="line" />
+	<line x1="7" y1="17.5" x2="17" y2="9.5" class="line" />
+	<line x1="7" y1="17.5" x2="17" y2="25.5" class="line" />
+<style>
+.line {
+	stroke:#FFF;
+	stroke-width:2;
+}
+</style>
+</svg>

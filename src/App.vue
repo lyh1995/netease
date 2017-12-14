@@ -64,13 +64,12 @@ export default {
 @import "./css/base.scss";
 
 .router-enter-active {
-  transition: all .4s ease-out;
+  transition: all .5s ease-out;
 }
 .router-leave-active {
   transition: all 0 ease;
 }
 .router-enter, .router-leave-active {
-  transform: translateY(350px);
   opacity: 0;
 }
 #app{

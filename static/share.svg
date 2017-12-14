@@ -1,0 +1,13 @@
+<svg width="35px" height="35px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	<line x1="5" y1="17.5" x2="21.7" y2="10.2" class="line" />
+	<line x1="5" y1="17.5" x2="21.7" y2="24.8" class="line" />
+	<circle cx="5" cy="17.5" class="line" r="4" fill="#6E6E6E" />
+	<circle cx="21.7" cy="10.2" class="line" r="4" fill="#6E6E6E" />
+	<circle cx="21.7" cy="24.8" class="line" r="4" fill="#6E6E6E" />
+<style>
+.line {
+	stroke:#FFF;
+	stroke-width:2;
+}
+</style>
+</svg>
