@@ -1,3 +1,6 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVg/1.1/DTD/svg11.dtd">
 <svg width="35px" height="35px" version="1.1" xmlns="http://www.w3.org/2000/svg">
 	<line x1="5" y1="17.5" x2="21.7" y2="10.2" class="line" />
 	<line x1="5" y1="17.5" x2="21.7" y2="24.8" class="line" />

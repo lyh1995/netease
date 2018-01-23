@@ -16,21 +16,23 @@ export const store= new Vuex.Store({
 		isMyListShow: false,//控制'创建的歌单'是否显示
 		isShowFooter: true,//控制播放器是否显示
 		isPlaying: false,
+		isScrolling: false,
+		testData:'',
 		headIcon: [{
 			imgUrl: "url('/static/asideList.svg')",
-			leftStyle: "0%"
+			leftStyle: `calc(7% - 17.5px)`
 		}, {
 			imgUrl: "url('/static/music.svg')",
-			leftStyle: "30.4%"
+			leftStyle: `calc(35% - 17.5px)`
 		}, {
 			imgUrl: "url('/static/wangyiyun.svg')",
-			leftStyle: "42.4%"
+			leftStyle: `calc(50% - 17.5px)`
 		}, {
 			imgUrl: "url('/static/found.svg')",
-			leftStyle: "54.7%"
+			leftStyle: `calc(65% - 17.5px)`
 		}, {
 			imgUrl: "url('/static/search.svg')",
-			leftStyle: "85.9%"
+			leftStyle: `calc(93% - 17.5px)`
 		}],
 		playerHeadIcon: [{
 			imgUrl: "url('/static/goback.svg')",
@@ -74,7 +76,8 @@ export const store= new Vuex.Store({
 			songImg: '/static/reputation.jpg',
 			singer: 'Taylor Swift',
 			lyric: 'Taylor Swift - Reputation',
-			song: '/static/Taylor Swift - Getaway Car.mp3'
+			song: '/static/Taylor Swift - Getaway Car.mp3',
+			songTime: '233'
 		},
 		skinColor: "#D43C31",//"#C20C0C",
 		footerColor: "#FFFFFF",
@@ -84,7 +87,9 @@ export const store= new Vuex.Store({
 		playMode: "loop",
 		lrcData: [],
 		strix: 0,
-		songStartTime: 0.2
+		songStartTime: 0.2,
+		lrcScrollTop: 0,
+		songTimeNow: 0
 	},
 	mutations: {
 		toogleTab (state) {
@@ -111,6 +116,7 @@ export const store= new Vuex.Store({
 		},//切换播放状态
 		songTimeChange (state, time) {
 			if (time <= state.songStartTime) {
+				state.songTimeNow = time;
 				state.strix = 0;
 				state.musicPlayedNow.lyric = state.lrcData[0].text;
 			} else if (state.strix < state.lrcData.length - 1) {
@@ -119,6 +125,12 @@ export const store= new Vuex.Store({
 					state.musicPlayedNow.lyric = state.lrcData[state.strix].text;
           }
 			}
+		},
+		lrcScrollTopChange (state, top) {
+			state.lrcScrollTop = top;
+		},
+		scroll (state, bool) {
+			state.isScrolling = bool;
 		}
 	},
 	getters: {
@@ -142,6 +154,7 @@ export const store= new Vuex.Store({
 	                	let newTime = (minutes*60 + seconds).toFixed(2);
 	                	console.log(newTime);
 	                	dataLrc.push({
+					index: i,
 	                		time: newTime,
               				text: dataOfLrc[i].replace(/^.+?\]/, '')
 	                	})
@@ -151,6 +164,17 @@ export const store= new Vuex.Store({
 	                console.log('lrcdata');
 	                console.log(state.lrcData);
 	              }
+	            })
+	            .then(() => {
+	            });
+	        resolve();
+	      });
+	    },
+	    getTestData({ commit,state }) {
+	    	return new Promise((resolve, reject) => {
+	        Vue.axios.get('/api/test-data')
+	            .then (res => {
+	            	state.testData = res;
 	            })
 	            .then(() => {
 	            });

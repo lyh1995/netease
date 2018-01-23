@@ -3,7 +3,9 @@ import Router from 'vue-router'
 import MusicList from '../components/Front/MusicList/MusicList.vue'
 import Front from '../components/Front/Front.vue'
 import Player from '../components/Player/Player.vue'
-import Roller from '../components/Player/Roller/Roller.vue'
+import Roller from '../components/Player/Roll/Roller.vue'
+import Lryicer from '../components/Player/Lryic/Lryicer.vue'
+import Search from '../components/Searcher/Searcher.vue'
 
 Vue.use(Router)
 
@@ -30,8 +32,18 @@ export default new Router({
 	    		path: '/',
 	    		name: 'Roller',
 	    		component: Roller
-	    	}
+	    	},
+		{
+			path: '/Player/Lryicer',
+			name: 'Lryicer',
+			component: Lryicer
+		}
     	]
+    },
+    {
+    	path: '/Search',
+    	name: 'Searcher',
+    	component: Search
     }
   ]
 })

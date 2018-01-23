@@ -1,7 +1,7 @@
 <template>
   <div :style="{backgroundColor: skinColor}" class="header">
     <div v-for="(item, index) of headIcon">
-      <span :style="{background: item.imgUrl,left: item.leftStyle}" class="head-icon"></span>
+      <span :style="{background: item.imgUrl,left: item.leftStyle}" class="head-icon" @click="iconFun(index)"></span>
     </div>
   </div>
 </template>
@@ -15,7 +15,8 @@ export default {
   computed: {
     ...mapState([
       'skinColor',
-      'headIcon'
+      'headIcon',
+      'testData'
     ])
   },
   data() {
@@ -24,7 +25,21 @@ export default {
   },
   methods: {
     ...mapMutations([
-      ])
+      ]),
+    iconFun(index) {
+      switch (index) {
+        case 0:
+          console.log(0);break;
+        case 1:
+          console.log(1);break;
+        case 2:
+          console.log(2);break;
+        case 3:
+          console.log(3);break;
+        case 4:
+          this.$router.push({path:'/Search'});break;
+      }
+    }
   }
 }
 </script>
@@ -40,7 +55,7 @@ export default {
     flex: 1;
     width: 35px;
     height: 35px;
-    margin: 18px 15px 15px 15px;
+    top: 1.5%;
     cursor: pointer;
   }
 }
@@ -54,7 +69,7 @@ export default {
     flex: 1;
     width: 35px;
     height: 35px;
-    margin: 13px 15px 15px 5px;
+    top: 3%;
     cursor: pointer;
   }
 }

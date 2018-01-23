@@ -11,7 +11,8 @@ var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
-var http = require('http');
+var http = require('http')
+var NeteaseMusic = require('simple-netease-cloud-music');
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -20,6 +21,7 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 // Define HTTP proxies to your custom API backend
 // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
+var netApi = new NeteaseMusic()
 
 var app = express()
 var data = require('../music-data.json');
@@ -27,6 +29,18 @@ var lrcData = require('../lryic.json');
 // var musicData = data.musicData;
 
 var apiRoutes = express.Router();
+var testData;
+
+netApi.lyric('479403027').then(data => {
+    testData = data;
+});
+
+apiRoutes.get('/test-data', function (req, res) {
+  res.json({
+    errno: 0,
+    musicData: testData
+  });
+});
 
 apiRoutes.get('/music-data', function (req, res) {
   res.json({
