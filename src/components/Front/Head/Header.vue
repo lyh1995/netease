@@ -37,7 +37,8 @@ export default {
         case 3:
           console.log(3);break;
         case 4:
-          this.$router.push({path:'/Search'});break;
+          //this.$router.push({path:'/Search'});
+          this.$store.commit('toogleHead', false);break;
       }
     }
   }
@@ -67,9 +68,9 @@ export default {
   .head-icon {
     position: absolute;
     flex: 1;
-    width: 35px;
-    height: 35px;
-    top: 3%;
+    width: 25px;
+    height: 25px;
+    top: 3.7%;
     cursor: pointer;
   }
 }

@@ -131,6 +131,9 @@ export const store= new Vuex.Store({
 		},
 		scroll (state, bool) {
 			state.isScrolling = bool;
+		},
+		toogleHead (state, bool) {
+			state.isShowHead = bool;
 		}
 	},
 	getters: {

@@ -1,6 +1,6 @@
 <template>
   <div class="searcher">
-    <div class="head" :style="{backgroundColor: playerBack}">
+    <div class="head" :style="{backgroundColor: skinColor}">
       <span class="head-icon" @click="goback" :style="{background: backicon,left: '0%'}"></span>
       <input type="text" class="searchtext" v-model="songname">
       <span class="head-icon" @click="search" :style="{background: searchicon,left: '85.9%'}"></span>
@@ -16,7 +16,7 @@ export default {
   name: 'Searcher',
   computed: {
     ...mapState([
-      'playerBack'
+      'skinColor'
     ])
   },
   data() {

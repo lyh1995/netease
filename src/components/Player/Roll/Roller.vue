@@ -52,8 +52,8 @@ export default {
     }
     .swith {
       position: absolute;
-      left: 43%;
-      top: -3.9%;
+      left: 44%;
+      top: -4.9%;
       width: 33%;
       height: 32.5%;
       background-image: url('/static/swith.png');
@@ -61,11 +61,11 @@ export default {
       z-index: 1;
     }
     .img {
-      width: 340px;
-      height: 340px;
+      width: 260px;
+      height: 260px;
       border-radius: 5px;
-      margin-top: calc(65% - 175px);
-      margin-left: calc(50% - 170px);
+      margin-top: calc(65% - 145px);
+      margin-left: calc(50% - 130px);
       border: 50px solid black;
       border-radius: 50%;
     }
