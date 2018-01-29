@@ -5,8 +5,8 @@
       <span class="song-name">{{musicPlayedNow.songName}}</span>
       <span class="song-lyric">{{musicPlayedNow.lyric}}</span>
     </div>
-    <span :style="{background: playState}" style="right: 70px" class="footer-icon" @click="tooglePlayState"></span>
-    <span style="background: url('/static/footerList.svg');right: 10px" class="footer-icon"></span>
+    <span :style="{background: playState}" style="right: 46px" class="footer-icon" @click="tooglePlayState"></span>
+    <span style="background: url('/static/footerList.svg');right: 6px" class="footer-icon"></span>
   </div>
 </template>
 
@@ -96,11 +96,11 @@ export default {
     cursor: pointer;
 
   .song-img {
-    width: 60px;
-    height: 60px;
+    width: 35px;
+    height: 35px;
     border-radius: 5px;
     margin: 4px;
-    margin-bottom: -20px;
+    margin-bottom: -25px;
   }
   .song-name {
     display: inline-block;
@@ -112,27 +112,29 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     padding-bottom: 0px;
-    font-size: 20px;
+    font-size: 14px;
   }
   .song-lyric {
     display: inline-block;
     width: 46%;
     vertical-align: top;
-    margin-top: -8px;
-    margin-left: 73px;
+    margin-top: 0px;
+    margin-left: 50px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     padding-bottom: 0px;
-    font-size: 10px;
+    font-size: 12px;
     color: #787878;
+    -webkit-transform-origin-x: 0;
+    -webkit-transform: scale(0.85);
   }
   .footer-icon {
-    bottom: 10px;
+    bottom: 1%;
     flex: 1;
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 25px;
+    height: 25px;
     margin: 4px;
   }
 }

@@ -4,8 +4,7 @@
     <MyHeader v-show="isShowHead"></MyHeader>
     <MySearcher v-show="!isShowHead"></MySearcher>
     <!-- tab页 -->
-    <router-view v-show="isShowHead"></router-view>
-    <div class="searchblank" v-show="!isShowHead"></div>
+    <router-view></router-view>
     <!-- 播放器 -->
     <MyFooter v-show="isShowFooter"></MyFooter>
   </div>
@@ -45,14 +44,5 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-
-  .searchblank {
-    padding-top: 4px;
-    padding-left: 4px;
-    padding-right:4px;
-    flex:8;
-    overflow: auto;
-    background-color: #F0F4F3;
-  }
 }
 </style>

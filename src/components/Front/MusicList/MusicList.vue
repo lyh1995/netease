@@ -6,7 +6,7 @@
     </div>
     <div class="list-created">
       <span :style="{background: initialTabData}" class="list-tab" @click="toogleTab"></span>
-      <span class="mylist-created" @click="toogleTab">创建的歌单</span>
+      <span class="mylist-created" @click="toogleTab">创建的歌单({{musicListCreated.length}})</span>
       <span class="list-setting" @click="toogleSettings"></span>
     </div>
     <div v-for="(item, index) of musicListCreated" class="my-list" v-show="isMyListShow">
@@ -170,7 +170,7 @@ export default {
     padding-top: 4px;
     padding-left: 4px;
     padding-right:4px;
-    flex:8;
+    flex: 8;
     overflow: auto;
     -webkit-user-select:none;
     -moz-user-select:none;
@@ -220,12 +220,13 @@ export default {
     -moz-user-select:none;
     -o-user-select:none;
     user-select:none;
+    font-size: 12px;
 
     .list-tab {
       display: inline-block;
       position: absolute;
       left: 20px;
-      top: 9px;
+      top: 6px;
       width: 15px;
       height: 15px;
       background-size: contain;
@@ -240,7 +241,7 @@ export default {
       background:url('/static/settings.svg');
       position: absolute;
       right: 20px;
-      top: 7px;
+      top: 4px;
       width: 20px;
       height: 20px;
       background-size: contain;
@@ -256,33 +257,35 @@ export default {
     border: none;
 
     .mylist-img {
-      width: 50px;
-      height: 50px;
+      width: 45px;
+      height: 45px;
       border-radius: 5px;
     }
     .mylist-name {
       display: inline-block;
       width: 65%;
       vertical-align: top;
-      margin-top:-5px;
+      margin-top: 0px;
       margin-left: 10px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       padding-bottom: 0px;
-      font-size: 23px;
+      font-size: 15px;
     }
     .mylist-songnum {
       display: inline-block;
       width: 65%;
       vertical-align: top;
       margin-top: -25px;
-      margin-left: 65px;
+      margin-left: 60px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       padding-bottom: 20px;
-      font-size: 14px;
+      font-size: 12px;
+      -webkit-transform-origin-x: 0;
+      -webkit-transform: scale(0 85);
     }
   }
 }

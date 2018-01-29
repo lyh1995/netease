@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MusicList from '../components/Front/MusicList/MusicList.vue'
+import SearchList from '../components/Front/SearchList/SearchList.vue'
 import Front from '../components/Front/Front.vue'
 import Player from '../components/Player/Player.vue'
 import Roller from '../components/Player/Roll/Roller.vue'
@@ -20,7 +21,12 @@ export default new Router({
 	    		path: '/',
 	    		name: 'MusicList',
 	    		component: MusicList
-	    	}
+	    	},
+		{
+			path: '/Search',
+			name: 'Search',
+			component: SearchList
+		}
     	]
     },
     {

@@ -25,7 +25,8 @@ export default {
     ...mapState([
       'musicPlayedNow',
       'playMode',
-      'isPlaying'
+      'isPlaying',
+      'songCurrentTime'
     ])
   },
   data() {
@@ -42,6 +43,11 @@ export default {
           this.$refs.player.pause();
         }
       }
+    },
+    songCurrentTime: {
+	handler (now, old) {
+		this.$refs.player.currentTime = now;
+	}
     }
   },
   methods: {

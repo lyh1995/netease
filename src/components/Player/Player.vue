@@ -13,7 +13,7 @@
       </transition>
     </div>
     <div class="foot" @mouseup="mouseUp" @mousemove="mouseMove">
-      <div class="tempo">
+      <div class="tempo" :style="{backgroundColor: playerBack}">
         <div class="time">
           <span>{{timeNowStr}}</span>
         </div
@@ -38,15 +38,15 @@ import { mapState } from 'vuex'
 export default {
   name: 'Player',
   mounted() {
-    this.wrapperLenght = Number.parseFloat(window.getComputedStyle(this.$refs.wrapper).width);
+    this.wrapperLength = Number.parseFloat(window.getComputedStyle(this.$refs.wrapper).width);
     this.sliderLength = Number.parseFloat(window.getComputedStyle(this.$refs.slider).width);
+    this.sliderChange(this.songTimeNow);
   },
   computed: {
     ...mapState([
       'playerBack',
       'playerHeadIcon',
       'musicPlayedNow',
-      'songTimeNo',
       'songTimeNow'
     ])
   },
@@ -73,11 +73,14 @@ export default {
     },
     changeTime(e) {
       if (e.target != this.$refs.slider) {
-        if (e.offsetX > this.wrapperLength - this.sliderLength) {
+        /*if (e.offsetX > this.wrapperLength - this.sliderLength) {
           this.$refs.fill.style.width = this.wrapperLength - this.sliderLength + "px";
         } else {
           this.$refs.fill.style.width = e.offsetX + "px";
-        }
+        }*/
+	this.$refs.fill.style.width = e.offsetX + "px";
+	this.$refs.slider.style.left = e.offsetX - 10 + "px";
+	this.$store.commit('songPercentChange', {nume: e.offsetX, deno: this.wrapperLength});
       }
     },
     timeFormate(time) {
@@ -105,13 +108,19 @@ export default {
     },
     mouseUp() {
       this.dragable = false;
+    },
+    sliderChange(timeNow) {
+	let fillLength = timeNow / this.musicPlayedNow.songTime * this.wrapperLength;
+	this.$refs.fill.style.width = fillLength + "px";
+	this.$refs.slider.style.left = fillLength - 10 + "px";
     }
   },
   watch: {
     songTimeNow: {
       handler(now, old) {
+	this.sliderChange(now);
         /*let nowCeil = Math.ceil(now);
-        let oldCeil = mMath.ceil(old);
+        let oldCeil = Math.ceil(old);
         if (nowCeil !== oldCeil) {
         	if(now - oldCeil > oldCeil - old)
         }*/
@@ -175,12 +184,12 @@ export default {
       width: 35%;
       vertical-align: top;
       margin-top: 14px;
-      margin-left: 80px;
+      margin-left: 65px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       padding-bottom: 0px;
-      font-size: 20px;
+      font-size: 16px;
       color: #FFF;
     }
     .singer {
@@ -188,14 +197,16 @@ export default {
       width: 55%;
       vertical-align: top;
       margin-top: -1px;
-      margin-left: 81px;
+      margin-left: 67px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       padding-bottom: 0px;
-      font-szie: 15px;
+      font-szie: 12px;
       color: #FFF;
       opacity: .4;
+      -webkit-transform-origin-x: 0;
+      -webkit-transform: scale(0.75);
     }
   }
   .mid {
@@ -210,7 +221,6 @@ export default {
       position: relative;
       width: 92%;
       height: 15%;
-      background-color: white;
       left: 4%;
 
       .time {
@@ -219,6 +229,9 @@ export default {
         font-size: 5px;
         width: 7.5%;
         display: inline-block;
+	position: absolute;
+	right: 93%;
+	color: white;
       }
       .endtime {
         vertical-align: top;
@@ -226,25 +239,34 @@ export default {
         font-size: 5px;
         width: 7.5%;
         display: inline-block;
+	position: absolute;
+	left: 93%;
+	color: silver;
       }
       .wrapper {
         margin: 0 0 0 0;
         display: inline-block;
-        width: 85%;
-        height: 100%;
-        background-color: gray;
+        width: 80%;
+        height: 4px;
+	position: absolute;
+	left: 11%;
+	top: 65%;
+	background-color: silver;
 
         .slider {
-          width: 5%;
-          height: 100%;
-          background-color: black;
-          display: inline-block;
+	  width: 20px;
+	  height: 20px;
+	  background: url('/static/slider.svg');
+	  display: inline-block;
+	  position: absolute;
+	  top: -200%;
         }
         .fill {
           width: 0%;
-          height: 100%;
-          background-color: green;
+          height: 4px;
+          background-color: red;
           display: inline-block;
+	  position: absolute;
         }
       }
     }

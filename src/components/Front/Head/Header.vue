@@ -33,12 +33,13 @@ export default {
         case 1:
           console.log(1);break;
         case 2:
-          console.log(2);break;
+          console.log(2);document.documentElement.webkitRequestFullScreen();break;
         case 3:
-          console.log(3);break;
+          console.log(3);document.webkitCancelFullScreen();break;
         case 4:
           //this.$router.push({path:'/Search'});
-          this.$store.commit('toogleHead', false);break;
+          this.$router.push({ path: '/Search' });
+          break;
       }
     }
   }
