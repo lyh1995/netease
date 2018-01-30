@@ -80,6 +80,7 @@ export const store= new Vuex.Store({
 			song: '/static/Taylor Swift - Getaway Car.mp3',
 			songTime: '233'
 		},
+		testSearchData: ["No Limit", "Perfect"],
 		skinColor: "#D43C31",//"#C20C0C",
 		footerColor: "#FFFFFF",
 		tabColor: "#F0F4F3",
@@ -93,6 +94,8 @@ export const store= new Vuex.Store({
 		songTimeNow: 0,
 		songCurrentTime: 0,
 		songSearchList: [],
+		songSearched: "",
+		songPlayingId: "",
 		keycode: [8, 12, 32, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 111, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222]
 	},
 	mutations: {
@@ -149,12 +152,20 @@ export const store= new Vuex.Store({
 		musicIdChange (state, id) {
 			let url = `http://music.163.com/song/media/outer/url?id=${id}.mp3`;
 			state.musicPlayedNow.song = url;
+			state.songPlayingId = id;
 		},
 		getSongSearchList (state, arr) {
-			state.songSearchList = arr;
+			if (arr.length <= 10) {
+				state.songSearchList = arr;
+			} else {
+				state.songSearchList = arr.slice(0, 10);
+			}
 		},
 		isShowSearchList (state, bool) {
 			state.isShowSearchSongList = bool;
+		},
+		getSongSearchedName (state, str) {
+			state.songSearched = str;
 		}
 	},
 	getters: {
@@ -178,7 +189,7 @@ export const store= new Vuex.Store({
 	                	let newTime = (minutes*60 + seconds).toFixed(2);
 	                	console.log(newTime);
 	                	dataLrc.push({
-					index: i,
+							index: i,
 	                		time: newTime,
               				text: dataOfLrc[i].replace(/^.+?\]/, '')
 	                	})

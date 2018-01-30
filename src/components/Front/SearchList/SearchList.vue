@@ -1,8 +1,6 @@
 <template>
   <div class="search-list">
-    <div class="search-song-list" v-show="isShowSearchSongList">
-      <MySearchSongList></MySearchSongList>
-    </div>
+    <MySearchSongList v-show="isShowSearchSongList"></MySearchSongList>
   </div>
 </template>
 
@@ -16,10 +14,10 @@ export default {
   components: {
     MySearchSongList
   },
-  mounted() {
+  activated() {
     this.$store.commit('toogleHead', false);
   },
-  beforeDestroy() {
+  deactivated() {
     this.$store.commit('toogleHead', true);
   },
   computed: {
@@ -54,6 +52,7 @@ export default {
 }
 @media screen and (min-width: 320px) and (max-width: 480px){
   .search-list {
+    position: relative;
     padding-top: 4px;
     padding-left: 4px;
     padding-right:4px;
@@ -64,10 +63,6 @@ export default {
     -o-user-select:none;
     user-select:none;
     background-color: #F0F4F3;
-
-    .search-song-list {
-      z-index: 1;
-    }
    }
 }
 </style>

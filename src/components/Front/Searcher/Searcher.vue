@@ -1,7 +1,7 @@
 <template>
   <div :style="{backgroundColor: skinColor}" class="search-header">
     <span class="search-head-icon" @click="goback" :style="{background: backicon}"></span>
-    <input type="text" class="searchtext" v-model="songname" :style="{backgroundColor: skinColor}" placeholder="search" @keyup="search" @focus="getfocus" @blur="losefocus" ref="inputext">
+    <input type="text" class="searchtext" v-model="songname" :style="{backgroundColor: skinColor}" placeholder="search" @focus="getfocus" @blur="losefocus" ref="inputext">
   </div>
 </template>
 
@@ -14,8 +14,7 @@ export default {
   computed: {
     ...mapState([
       'skinColor',
-      'isShowHead',
-      'keycode'
+      'isShowHead'
     ])
   },
   data() {
@@ -31,9 +30,10 @@ export default {
     goback() {
       this.$router.push({ path: '/' });
     },
-    search(e) {
-      if (this.keycode.indexOf(e.keyCode) !== -1) {
+    searchSong() {
+      if (this.songname.length !== 0) {
         if (!this.isStrAllBlank(this.songname)) {
+          this.$store.commit('getSongSearchedName', this.songname);
           this.$store.commit('isShowSearchList', true);
           /*console.log(this.songname);
           let req = Object.assign({
@@ -43,25 +43,24 @@ export default {
           */
           let codeSongName = escape(this.songname);
           let reqStr = `/netApi/search?keywords=${codeSongName}`;
-          this.$axios.get(reqStr).then(res => {
+          this.$axios.get(reqStr, {timeout: 1000}).then(res => {
             console.log(res);
             if (res.data.result.songs) {
               console.log(res.data.result.songs[0].id);
               let songName = [];
               for (let i = 0;i <= res.data.result.songs.length - 1;i++) {
-                songName.push(res.data.result.songs[i].name);
+                songName.push({name: res.data.result.songs[i].name, id: res.data.result.songs[i].id});
               }
               console.log(songName);
               let songNameRes = this.getNoRepeatName(songName);
               console.log(songNameRes);
               this.$store.commit('getSongSearchList', songNameRes);
-              this.$store.commit('musicIdChange', res.data.result.songs[0].id);
             } else {
               let str = [];
               this.$store.commit('getSongSearchList', str);
             }
           });
-          let reqStrSuggest = `/netApi/search/suggest?keywords=${codeSongName}`;
+          /*let reqStrSuggest = `/netApi/search/suggest?keywords=${codeSongName}`;
           this.$axios.get(reqStrSuggest).then(res => {
             console.log(res);
             if (res.data.result.songs) {
@@ -84,10 +83,11 @@ export default {
           /*this.$axios.get('/netApi/music/url?id=460043703').then(res => {
             console.log(res);
           });*/
-        }
-        if (this.songname.length === 0) {
+        } else {
           this.$store.commit('isShowSearchList', false);
         }
+      } else {
+        this.$store.commit('isShowSearchList', false);
       }
     },
     getfocus() {
@@ -103,13 +103,13 @@ export default {
     getNoRepeatName(arr) {
       let low = [];
       let res = [];
-      res.push(arr[0]);
-      low.push(arr[0].toLowerCase());
+      res.push({name: arr[0].name, id: arr[0].id});
+      low.push(arr[0].name.toLowerCase());
       if (arr.length > 1) {
         for (let i = 1;i <= arr.length - 1;i++) {
-          if (low.indexOf(arr[i].toLowerCase()) === -1) {
-            res.push(arr[i]);
-            low.push(arr[i].toLowerCase());
+          if (low.indexOf(arr[i].name.toLowerCase()) === -1) {
+            res.push({name: arr[i].name, id: arr[i].id});
+            low.push(arr[i].name.toLowerCase());
           }
         }
       }
@@ -133,8 +133,14 @@ export default {
     isShowHead: {
       handler(now, old) {
         if (now === false) {
+          this.songname = "";
           this.$refs.inputext.focus();
         }
+      }
+    },
+    songname: {
+      handler(now, old) {
+	this.searchSong();
       }
     }
   }

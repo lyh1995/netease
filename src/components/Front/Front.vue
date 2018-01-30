@@ -4,7 +4,9 @@
     <MyHeader v-show="isShowHead"></MyHeader>
     <MySearcher v-show="!isShowHead"></MySearcher>
     <!-- tab页 -->
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
     <!-- 播放器 -->
     <MyFooter v-show="isShowFooter"></MyFooter>
   </div>

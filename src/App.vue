@@ -26,7 +26,8 @@ export default {
       'musicPlayedNow',
       'playMode',
       'isPlaying',
-      'songCurrentTime'
+      'songCurrentTime',
+      'songPlayingId'
     ])
   },
   data() {
@@ -45,9 +46,15 @@ export default {
       }
     },
     songCurrentTime: {
-	handler (now, old) {
-		this.$refs.player.currentTime = now;
-	}
+      handler (now, old) {
+        this.$refs.player.currentTime = now;
+      }
+    },
+    songPlayingId: {
+      handler (now, old) {
+        this.$refs.player.pause();
+        setTimeout(() => this.$refs.player.play(), 100);
+      }
     }
   },
   methods: {
