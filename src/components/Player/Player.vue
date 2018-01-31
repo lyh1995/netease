@@ -63,7 +63,8 @@ export default {
     iconfun(index) {
       switch (index) {
         case 0:
-          this.$router.push({ path: '/' });
+          //this.$router.push({ path: '/' });
+          this.$router.back(-1);
           break;
         case 1:
           console.log("share");

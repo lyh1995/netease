@@ -45,19 +45,19 @@ export const store= new Vuex.Store({
 		listData: [{
 			icon: "url('/static/localMusic.svg')",
 			listName: "本地音乐"
-	    }, {
+		}, {
 			icon: "url('/static/recentPlayed.svg')",
 			listName: "最近播放"
-	    }, {
-	    	icon: "url('/static/download.svg')",
+		}, {
+			icon: "url('/static/download.svg')",
 			listName: "下载管理"
-	    }, {
+		}, {
 			icon: "url('/static/myRadio.svg')",
 			listName: "我的电台"
-	    }, {
+		}, {
 			icon: "url('/static/myCollection.svg')",
 			listName: "我的收藏"
-	    }],
+		}],
 		initialTabData: "url('/static/tabDown.svg')",//创建歌单的icon
 		musicListCreated: [{
 			name: "reputation",
@@ -130,7 +130,7 @@ export const store= new Vuex.Store({
 				if (time > state.lrcData[state.strix+1].time) {
 					state.strix++;
 					state.musicPlayedNow.lyric = state.lrcData[state.strix].text;
-          }
+				}
 			}
 		},
 		lrcScrollTopChange (state, top) {
@@ -172,50 +172,50 @@ export const store= new Vuex.Store({
 
 	},
 	actions: {
-	    getLrc({ commit,state }) {
-	      return new Promise((resolve, reject) => {
-	        Vue.axios.get('/api/lryic')
-	            .then (res => {
-	            	console.log(res);
-	              if (res.data.errno === 0) {
-	                let dataOfLrc = res.data.lrcData.split("<br/>");
-	                let dataLrc = [];
-	                for (let i in dataOfLrc) {
-	                	let timeMatch = dataOfLrc[i].match(/\[(\d+:\d+\.\d+)\]/);
-	                	timeMatch = timeMatch[1];
-	                	console.log(timeMatch);
-	                	let minutes = parseInt(timeMatch.slice(0, timeMatch.indexOf(':')));
-	                	let seconds = parseFloat(timeMatch.substr(timeMatch.indexOf(':')+1));
-	                	let newTime = (minutes*60 + seconds).toFixed(2);
-	                	console.log(newTime);
-	                	dataLrc.push({
-							index: i,
-	                		time: newTime,
-              				text: dataOfLrc[i].replace(/^.+?\]/, '')
-	                	})
-	                }
-	                state.lrcData = dataLrc;
-	                localStorage.lrcData = JSON.stringify(state.lrcData);
-	                console.log('lrcdata');
-	                console.log(state.lrcData);
-	              }
-	            })
-	            .then(() => {
-	            });
-	        resolve();
-	      });
-	    },
-	    getTestData({ commit,state }) {
-	    	return new Promise((resolve, reject) => {
-	        Vue.axios.get('/api/test-data')
-	            .then (res => {
-	            	state.testData = res;
-	            })
-	            .then(() => {
-	            });
-	        resolve();
-	      });
-	    }
+		getLrc({ commit,state }) {
+			return new Promise((resolve, reject) => {
+				Vue.axios.get('/api/lryic')
+					.then (res => {
+						console.log(res);
+						if (res.data.errno === 0) {
+							let dataOfLrc = res.data.lrcData.split("<br/>");
+							let dataLrc = [];
+							for (let i in dataOfLrc) {
+								let timeMatch = dataOfLrc[i].match(/\[(\d+:\d+\.\d+)\]/);
+								timeMatch = timeMatch[1];
+								console.log(timeMatch);
+								let minutes = parseInt(timeMatch.slice(0, timeMatch.indexOf(':')));
+								let seconds = parseFloat(timeMatch.substr(timeMatch.indexOf(':')+1));
+								let newTime = (minutes*60 + seconds).toFixed(2);
+								console.log(newTime);
+								dataLrc.push({
+									index: i,
+									time: newTime,
+									text: dataOfLrc[i].replace(/^.+?\]/, '')
+								})
+							}
+							state.lrcData = dataLrc;
+							localStorage.lrcData = JSON.stringify(state.lrcData);
+							console.log('lrcdata');
+							console.log(state.lrcData);
+						}
+					})
+					.then(() => {
+					});
+					resolve();
+			});
+		},
+		getTestData({ commit,state }) {
+			return new Promise((resolve, reject) => {
+				Vue.axios.get('/api/test-data')
+					.then (res => {
+						state.testData = res;
+					})
+					.then(() => {
+					});
+				resolve();
+			});
+		}
 	}
 
 })

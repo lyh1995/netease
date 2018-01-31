@@ -1,9 +1,15 @@
 <template>
   <div class="tab-index">
     <!-- 顶部 -->
-    <MyHeader v-show="isShowHead"></MyHeader>
-    <MySearcher v-show="!isShowHead"></MySearcher>
+    <!--<MyHeader v-show="isShowHead"></MyHeader>-->
+    <!--<MySearcher v-show="!isShowHead"></MySearcher>-->
     <!-- tab页 -->
+    <keep-alive>
+      <router-view name="head"></router-view>
+    </keep-alive>
+    <keep-alive>
+      <router-view name="search"></router-view>
+    </keep-alive>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>

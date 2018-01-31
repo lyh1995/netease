@@ -183,11 +183,10 @@ export default {
       position: absolute;
       width: 80%;
       left: 14%;
-      top: 3.8%;
+      top: 3.9%;
       padding-bottom: 3px;
-      font-size: 20px;
+      font-size: 18px;
       color: white;
-      placeholder: {color:#deacac;};
       border-top-width: 0px;
       border-left-width: 0px;
       border-right-width: 0px;
