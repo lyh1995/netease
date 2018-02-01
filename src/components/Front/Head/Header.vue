@@ -54,31 +54,13 @@ export default {
 
 <style lang="scss">
 .header {
-  flex: .7;
-  width: 100%;
-
   .head-icon {
     position: absolute;
-    flex: 1;
-    width: 35px;
-    height: 35px;
-    top: 1.5%;
-    cursor: pointer;
-  }
-}
-@media screen and (min-width: 320px) and (max-width: 480px){
-  .header {
-  flex: 1;
-  width: 100%;
-
-  .head-icon {
-    position: absolute;
-    flex: 1;
     width: 25px;
     height: 25px;
-    top: 3.7%;
+    top: 30px;
     cursor: pointer;
   }
 }
-}
+
 </style>

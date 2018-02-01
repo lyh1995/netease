@@ -165,9 +165,6 @@ export default {
 @media screen and (min-width: 320px) and (max-width: 480px){
   ::-webkit-input-placeholder{color: silver;}
   .search-header {
-  flex: 1;
-  width: 100%;
-
     .search-head-icon {
       position: absolute;
       flex: 1;

@@ -52,16 +52,6 @@ export default {
 }
 @media screen and (min-width: 320px) and (max-width: 480px){
   .search-list {
-    position: relative;
-    padding-top: 4px;
-    padding-left: 4px;
-    padding-right:4px;
-    flex: 8;
-    overflow: auto;
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -o-user-select:none;
-    user-select:none;
     background-color: #F0F4F3;
    }
 }

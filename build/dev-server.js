@@ -15,7 +15,7 @@ var http = require('http')
 var NeteaseMusic = require('simple-netease-cloud-music');
 
 // default port where dev server listens for incoming traffic
-var port = process.env.PORT || config.dev.port
+var port = 443
 // automatically open browser, if not set will be false
 var autoOpenBrowser = !!config.dev.autoOpenBrowser
 // Define HTTP proxies to your custom API backend

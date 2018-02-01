@@ -71,6 +71,14 @@ export const store= new Vuex.Store({
 			name: "red",
 			imgUrl: "/static/red.jpg",
 			songNum: "22"
+		}, {
+			name: "red",
+			imgUrl: "/static/red.jpg",
+			songNum: "22"
+		}, {
+			name: "1989",
+			imgUrl: "/static/1989.jpg",
+			songNum: "19"
 		}],
 		musicPlayedNow: {
 			songName: 'Getaway Car',

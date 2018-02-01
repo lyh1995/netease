@@ -5,16 +5,16 @@
     <!--<MySearcher v-show="!isShowHead"></MySearcher>-->
     <!-- tab页 -->
     <keep-alive>
-      <router-view name="head"></router-view>
+      <router-view name="head" front-head></router-view>
     </keep-alive>
     <keep-alive>
-      <router-view name="search"></router-view>
+      <router-view name="search" front-head></router-view>
     </keep-alive>
     <keep-alive>
-      <router-view></router-view>
+      <router-view front-mid></router-view>
     </keep-alive>
     <!-- 播放器 -->
-    <MyFooter v-show="isShowFooter"></MyFooter>
+    <MyFooter v-show="isShowFooter" front-foot></MyFooter>
   </div>
 </template>
 
@@ -48,9 +48,29 @@ export default {
 <style lang="scss">
 .tab-index {
   position: relative;
-  display: flex;
-  flex-direction: column;
   width: 100%;
   height: 100%;
+
+  [front-head] {
+    height: 70px;
+    width: 100%;
+  }
+  [front-mid] {
+    padding: 0 4px 0 4px;
+    height: 81.25%;
+    overflow: auto;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    font-size: 14px;
+  }
+  [front-foot] {
+    position: absolute;
+    height: 50px;
+    width: 100%;
+    cursor: pointer;
+    bottom: 0px;
+  }
 }
 </style>
