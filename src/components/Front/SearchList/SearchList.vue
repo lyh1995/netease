@@ -53,6 +53,7 @@ export default {
 @media screen and (min-width: 320px) and (max-width: 480px){
   .search-list {
     background-color: #F0F4F3;
+    position: relative;
    }
 }
 </style>

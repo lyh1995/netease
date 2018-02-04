@@ -167,7 +167,6 @@ export default {
   .search-header {
     .search-head-icon {
       position: absolute;
-      flex: 1;
       width: 25px;
       height: 25px;
       top: 3%;

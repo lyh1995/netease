@@ -47,7 +47,8 @@ export default {
       'playerBack',
       'playerHeadIcon',
       'musicPlayedNow',
-      'songTimeNow'
+      'songTimeNow',
+      'currentPath'
     ])
   },
   data() {
@@ -64,7 +65,7 @@ export default {
       switch (index) {
         case 0:
           //this.$router.push({ path: '/' });
-          this.$router.back(-1);
+          this.$router.push({path: this.currentPath});
           break;
         case 1:
           console.log("share");

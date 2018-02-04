@@ -53,7 +53,7 @@ export default {
     songPlayingId: {
       handler (now, old) {
         this.$refs.player.pause();
-        setTimeout(() => this.$refs.player.play(), 100);
+        setTimeout(() => this.$store.commit('tooglePlayState'), 100);
       }
     }
   },

@@ -52,6 +52,7 @@ export default {
   height: 100%;
 
   [front-head] {
+    position: relative;
     height: 70px;
     width: 100%;
   }

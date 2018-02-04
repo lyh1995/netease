@@ -64,17 +64,27 @@ export default {
       this.$router.push({ path: '/Player' });
     },
     timeFun() {
-      this.$refs.lrcbox.scrollTop = this.$refs.lrcbox.children[this.strix + 4].offsetTop - this.$refs.lrcbox.children[4].offsetTop;
-      this.$store.commit('scroll', false);
+      try {
+        if (this.$refs.lrcbox) {
+          this.$refs.lrcbox.scrollTop = this.$refs.lrcbox.children[this.strix + 4].offsetTop - this.$refs.lrcbox.children[4].offsetTop;
+          this.$store.commit('scroll', false);
+        } else {
+          console.log("lrcbox dont exist");
+        }
+      } catch(error) {
+        console.log("oh... an error happen");
+      }
     },
     scrollTimeFun(step, scrollLength, time) {
-      this.$refs.lrcbox.scrollTop += step;
-      this.scrollStrix++;
-      if (this.scrollStrix !== this.freq) {
-        setTimeout(() => this.scrollTimeFun(step, scrollLength, time), time);
-      } else {
-        this.scrollStrix = 0;
-        this.$refs.lrcbox.scrollTop = scrollLength;
+      if (this.$refs.lrcbox) {
+        this.$refs.lrcbox.scrollTop += step;
+        this.scrollStrix++;
+        if (this.scrollStrix !== this.freq) {
+          setTimeout(() => this.scrollTimeFun(step, scrollLength, time), time);
+        } else {
+          this.scrollStrix = 0;
+          this.$refs.lrcbox.scrollTop = scrollLength;
+        }
       }
     },
     scrolling(e) {

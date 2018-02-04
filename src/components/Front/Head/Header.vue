@@ -33,7 +33,7 @@ export default {
       if (target.nodeName.toLocaleLowerCase() === "span") {
         switch (target.id) {
           case '0':
-            console.log(0);break;
+            console.log(0);alert(document.documentElement.clientWidth + "+" + document.documentElement.clientHeight + "+" + window.innerWidth + "+" + window.innerHeight);break;
           case '1':
             console.log(1);window.open("http://localhost:8080/#/","","width=360,height=640");break;
           case '2':

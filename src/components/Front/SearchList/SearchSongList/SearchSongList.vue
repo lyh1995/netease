@@ -52,9 +52,9 @@ export default {
 <style lang="scss">
 .search-song-list {
   position: absolute;
-  width: 90%;
-  left: 5%;
-  top: 1%;
+  width: 340px;
+  left: 10px;
+  top: 5px;
   box-shadow: 0px 3px 20px 3px gray;
 
   .container {
