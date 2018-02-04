@@ -41,7 +41,7 @@ export default {
           console.log("list");break;
         default:
           console.log('go player');
-          this.$srore.commit('getCurrentPath', this.$router.history.current.fullpath);
+          this.$store.commit('getCurrentPath', this.$router.history.current.fullPath);
           this.$router.push({path:'/Player'});
           break;
       }

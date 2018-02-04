@@ -169,8 +169,8 @@ export default {
       position: absolute;
       width: 25px;
       height: 25px;
-      top: 3%;
-      left: 2%;
+      top: 20px;
+      left: 8px;
       cursor: pointer;
       display: inline-block;
     }
@@ -178,8 +178,8 @@ export default {
       outline: none;
       position: absolute;
       width: 80%;
-      left: 14%;
-      top: 3.9%;
+      left: 50px;
+      top: 25px;
       padding-bottom: 3px;
       font-size: 18px;
       color: white;
