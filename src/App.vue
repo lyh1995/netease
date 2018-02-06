@@ -3,7 +3,7 @@
     <transition name="router">
       <router-view></router-view>
     </transition>
-    <audio ref="player" :src="musicPlayedNow.song" @ended="isLoop" @timeupdate="timeChange()"></audio>
+    <audio ref="player" :src="musicPlayedNow.song" @ended="isLoop" @timeupdate="timeChange()" id="myAudio"></audio>
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
     ...mapState([
       'musicPlayedNow',
       'playMode',
-      'isPlaying',
+      //'isPlaying',
       'songCurrentTime',
       'songPlayingId'
     ])
@@ -35,16 +35,17 @@ export default {
     }
   },
   watch: {
-    isPlaying: {
+    /*isPlaying: {
       handler (now, old) {
         console.log(this.isPlaying);
+        alert(this.isPlaying);
         if(now) {
           this.$refs.player.play();
         } else {
           this.$refs.player.pause();
         }
       }
-    },
+    },*/
     songCurrentTime: {
       handler (now, old) {
         this.$refs.player.currentTime = now;

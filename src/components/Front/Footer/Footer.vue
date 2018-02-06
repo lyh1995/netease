@@ -14,12 +14,16 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'Footer',
+  mounted() {
+    this.myAudio = document.getElementById("myAudio");
+  },
   computed: {
     ...mapState([
       'footerColor',
       'musicPlayedNow',
       'playState',
-      'lrcData'
+      'lrcData',
+      'isPlaying'
     ])
   },
   data() {
@@ -36,7 +40,13 @@ export default {
       let target = eve.target || eve.srcElement;
       switch (target.id) {
         case 'footer-icon-play':
-          this.$store.commit('tooglePlayState');break;
+          this.$store.commit('tooglePlayState');
+          if (this.isPlaying) {
+            this.myAudio.play();
+          } else {
+            this.myAudio.pause();
+          }
+          break;
         case 'footer-icon-list':
           console.log("list");break;
         default:

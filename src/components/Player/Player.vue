@@ -41,6 +41,7 @@ export default {
     this.wrapperLength = Number.parseFloat(window.getComputedStyle(this.$refs.wrapper).width);
     this.sliderLength = Number.parseFloat(window.getComputedStyle(this.$refs.slider).width);
     this.sliderChange(this.songTimeNow);
+    this.myAudio = document.getElementById("myAudio");
   },
   computed: {
     ...mapState([
@@ -48,7 +49,8 @@ export default {
       'playerHeadIcon',
       'musicPlayedNow',
       'songTimeNow',
-      'currentPath'
+      'currentPath',
+      'isPlaying'
     ])
   },
   data() {
@@ -70,6 +72,11 @@ export default {
         case 1:
           console.log("share");
           this.$store.commit('tooglePlayState');
+          if (this.isPlaying) {
+            this.myAudio.play();
+          } else {
+            this.myAudio.pause();
+          }
           break;
       }
     },
@@ -165,19 +172,17 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  display: flex;
   flex-direction: column;
   user-select:none;
 
   .head {
-    flex: .8;
+    height: 70px;
     width: 100%;
 
     .head-icon {
       position: absolute;
-      flex: 1;
-      width: 35px;
-      height: 35px;
+      width: 25px;
+      height: 25px;
       margin: 18px 15px 15px 15px;
       cursor: pointer;
     }
@@ -213,10 +218,10 @@ export default {
   }
   .mid {
     width: 100%;
-    height: 76%
+    height: 70.3125%
   }
   .foot {
-    flex: 1.3;
+    height: 120px;
     width: 100%;
 
     .tempo {
