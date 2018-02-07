@@ -1,6 +1,11 @@
 <template>
   <div class="search-list">
     <MySearchSongList v-show="isShowSearchSongList"></MySearchSongList>
+    <div class="classify">
+      <div v-for="(value, key) of classifyList" @click="changeClassFy" :id="key" class="classify-container" :class="(pageNowIndex === key)?'classify-selected':''">
+        <span class="search-span":id="key + '0'">{{value}}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -27,11 +32,41 @@ export default {
   },
   data() {
     return {
+      classifyList: {
+        a_song: "单曲",
+        b_singer: "歌手",
+        c_album: "专辑",
+        d_songSheet: "歌单",
+        e_video: "视频",
+        f_radio: "主播电台",
+        g_user: "用户"
+      },
+      pageNowIndex: "a_song"
     }
   },
   methods: {
     ...mapMutations([
-      ])
+      ]),
+    changeClassFy(ev) {
+      let eve = ev || window.event;
+      let target = eve.target || eve.srcElement;
+      switch (target.id[0]) {
+        case 'a':
+            this.pageNowIndex = "a_song";break;
+        case 'b':
+            this.pageNowIndex = "b_singer";break;
+        case 'c':
+            this.pageNowIndex = "c_album";break;
+        case 'd':
+            this.pageNowIndex = "d_songSheet";break;
+        case 'e':
+            this.pageNowIndex = "e_video";break;
+        case 'f':
+            this.pageNowIndex = "f_radio";break;
+        case 'g':
+            this.pageNowIndex = "g_user";break;
+      }
+    }
   }
 }
 </script>
@@ -39,21 +74,27 @@ export default {
 
 <style lang="scss">
 .search-list {
-  padding-top: 4px;
-  padding-left: 4px;
-  padding-right:4px;
-  flex:8;
-  overflow: auto;
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -o-user-select:none;
-  user-select:none;
   background-color: #F0F4F3;
-}
-@media screen and (min-width: 320px) and (max-width: 480px){
-  .search-list {
-    background-color: #F0F4F3;
-    position: relative;
-   }
+
+  .classify {
+    height: 40px;
+    display: -webkit-box;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    background-color: #FFFFFF;
+
+    .classify-container {
+      width: 75px;
+      height: 40px;
+      text-align: center;//水平居中
+      line-height: 40px;//跟高度一样
+      border-bottom-width: 2px;
+      border-bottom-color: red;
+    }
+    .classify-selected {
+      border-bottom: 2px solid #D43C31;
+      color: #D43C31;
+    }
+  }
 }
 </style>

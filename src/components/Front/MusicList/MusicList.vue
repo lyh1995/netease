@@ -48,6 +48,8 @@ export default {
 
 <style lang="scss">
 .music-list {
+  padding: 0 4px 0 4px;
+  
   .list-item {
     padding: 4px 6px 0 6px;
     height: 50px;

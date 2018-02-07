@@ -57,7 +57,6 @@ export default {
     width: 100%;
   }
   [front-mid] {
-    padding: 0 4px 0 4px;
     height: 81.25%;
     overflow: auto;
     -webkit-user-select: none;
@@ -65,6 +64,7 @@ export default {
     -o-user-select: none;
     user-select: none;
     font-size: 14px;
+    position: relative;
   }
   [front-foot] {
     position: absolute;

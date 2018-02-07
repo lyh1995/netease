@@ -4,7 +4,7 @@
       <span class="search-span">搜索"{{songSearched}}"</span>
     </div>
     <div v-for="(item, index) of songSearchList" @click="searchName">
-      <div class="container" :id="index">
+      <div class="container" :id="index + 'j'">
         <span class="search-span":id="index + 'i'">{{item.name}}</span>
       </div>
     </div>
