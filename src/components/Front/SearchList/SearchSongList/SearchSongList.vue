@@ -42,6 +42,7 @@ export default {
         console.log(eveId);
         console.log(this.songSearchList[eveId].id);
         this.$store.commit('musicIdChange', this.songSearchList[eveId].id);
+        this.$router.push({ path: '/SearchRes' });
       }
     }
   }
@@ -56,6 +57,7 @@ export default {
   left: 10px;
   top: 5px;
   box-shadow: 0px 3px 20px 3px gray;
+  z-index: 1;
 
   .container {
     position: relative;

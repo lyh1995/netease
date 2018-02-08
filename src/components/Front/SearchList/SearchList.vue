@@ -6,6 +6,7 @@
         <span class="search-span":id="key + '0'">{{value}}</span>
       </div>
     </div>
+    <MySearchResSong></MySearchResSong>
   </div>
 </template>
 
@@ -13,11 +14,13 @@
 import { mapMutations } from 'vuex'
 import { mapState } from 'vuex'
 import MySearchSongList from './SearchSongList/SearchSongList.vue'
+import MySearchResSong from './SearchResClassify/SearchResSong.vue'
 
 export default {
   name: 'SearchList',
   components: {
-    MySearchSongList
+    MySearchSongList,
+    MySearchResSong
   },
   activated() {
     this.$store.commit('toogleHead', false);

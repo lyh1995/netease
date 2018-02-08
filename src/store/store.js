@@ -18,6 +18,7 @@ export const store= new Vuex.Store({
 		isPlaying: false,
 		isScrolling: false,
 		isShowSearchSongList: false,
+		isSearchNameRight: true,
 		testData:'',
 		headIcon: [{
 			imgUrl: "url('/static/asideList.svg')",
@@ -148,7 +149,7 @@ export const store= new Vuex.Store({
 			state.isScrolling = bool;
 		},
 		toogleHead (state, bool) {
-			state.isShowHead = bool;
+			state.isShowHead = bool;//暂时没用
 		},
 		songPercentChange (state, obj) {
 			let songTime = Number.parseFloat(state.musicPlayedNow.songTime);
