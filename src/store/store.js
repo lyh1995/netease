@@ -38,10 +38,10 @@ export const store= new Vuex.Store({
 		}],
 		playerHeadIcon: [{
 			imgUrl: "url('/static/goback.svg')",
-			leftStyle: "0%"
+			leftStyle: "18px"
 		}, {
 			imgUrl: "url('/static/share.svg')",
-			leftStyle: "85.9%"
+			leftStyle: "325px"
 		}],
 		listData: [{
 			icon: "url('/static/localMusic.svg')",

@@ -63,10 +63,10 @@ export default {
     .img {
       width: 260px;
       height: 260px;
-      border-radius: 5px;
-      margin-top: calc(65% - 145px);
-      margin-left: calc(50% - 130px);
-      border: 50px solid black;
+      position: absolute;
+      top: 70px;
+      left: calc(50% - 130px);
+      border: 40px solid black;
       border-radius: 50%;
     }
   }

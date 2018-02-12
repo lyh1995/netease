@@ -167,25 +167,26 @@ export default {
   .search-header {
     .search-head-icon {
       position: absolute;
-      width: 25px;
-      height: 25px;
-      top: 20px;
-      left: 8px;
+      width: 20px;
+      height: 20px;
+      top: 35px;
+      left: 20px;
       cursor: pointer;
       display: inline-block;
     }
     .searchtext {
       outline: none;
       position: absolute;
-      width: 80%;
-      left: 50px;
-      top: 25px;
+      width: 295px;
+      left: 55px;
+      bottom: 11px;
       padding-bottom: 3px;
-      font-size: 18px;
+      font-size: 20px;
       color: white;
       border-top-width: 0px;
       border-left-width: 0px;
       border-right-width: 0px;
+      border-bottom-width: 1px;
       border-bottom-color: white;
       display: inline-block;
     }

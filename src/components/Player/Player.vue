@@ -178,37 +178,39 @@ export default {
   .head {
     height: 70px;
     width: 100%;
+    position: relative;
 
-    .head-icon {
+    * {
       position: absolute;
-      width: 25px;
-      height: 25px;
-      margin: 18px 15px 15px 15px;
+    }
+    .head-icon {
+      width: 20px;
+      height: 20px;
+      top: 35px;
       cursor: pointer;
     }
     .name {
       display: inline-block;
-      width: 35%;
+      width: 210px;
       vertical-align: top;
-      margin-top: 14px;
-      margin-left: 65px;
+      left: 59px;
+      bottom: 25px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       padding-bottom: 0px;
-      font-size: 16px;
+      font-size: 15px;
       color: #FFF;
     }
     .singer {
       display: inline-block;
-      width: 55%;
+      width: 210px;
       vertical-align: top;
-      margin-top: -1px;
-      margin-left: 67px;
+      left: 60px;
+      bottom: 5px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      padding-bottom: 0px;
       font-szie: 12px;
       color: #FFF;
       opacity: .4;
@@ -223,46 +225,50 @@ export default {
   .foot {
     height: 120px;
     width: 100%;
+    position: relative;
 
     .tempo {
-      position: relative;
-      width: 92%;
-      height: 15%;
-      left: 4%;
+      position: absolute;
+      width: 100%;
+      height: 30px;
 
       .time {
         vertical-align: top;
-        margin: 3px 0 1px 0;
-        font-size: 5px;
-        width: 7.5%;
+        font-size: 15px;
+        width: 48px;
         display: inline-block;
 	position: absolute;
-	right: 93%;
+        left: 20px;
+	bottom: 0px;
 	color: white;
+        -webkit-transform-origin-x: 0;
+        -webkit-transform: scale(0.5);
       }
       .endtime {
         vertical-align: top;
-        margin: 3px 0 1px 0;
-        font-size: 5px;
-        width: 7.5%;
+        font-size: 15px;
+        width: 48px;
         display: inline-block;
 	position: absolute;
-	left: 93%;
+	left: 320px;
+        bottom: 0px;
 	color: silver;
+        -webkit-transform-origin-x: 0;
+        -webkit-transform: scale(0.5);
       }
       .wrapper {
         margin: 0 0 0 0;
         display: inline-block;
-        width: 80%;
+        width: 260px;
         height: 4px;
 	position: absolute;
-	left: 11%;
-	top: 65%;
+	left: 50px;
+	top: 35%;
 	background-color: silver;
 
         .slider {
-	  width: 20px;
-	  height: 20px;
+	  width: 16px;
+	  height: 16px;
 	  background: url('/static/slider.svg');
 	  display: inline-block;
 	  position: absolute;
