@@ -11,6 +11,10 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'Search',
+  activated() {
+    this.songname = "";
+    this.$refs.inputext.focus();
+  },
   computed: {
     ...mapState([
       'skinColor',
@@ -130,14 +134,6 @@ export default {
     }
   },
   watch: {
-    isShowHead: {
-      handler(now, old) {
-        if (now === false) {
-          this.songname = "";
-          this.$refs.inputext.focus();
-        }
-      }
-    },
     songname: {
       handler(now, old) {
         this.searchSong();
