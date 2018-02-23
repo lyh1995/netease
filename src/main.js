@@ -5,9 +5,11 @@ import App from './App'
 import router from './router'
 import {store} from './store/store.js'
 import axios from 'axios'
+import Icon from './components/Icon/Icon.vue'
 Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
+Vue.component('icon', Icon)
 
 
 /* eslint-disable no-new */
