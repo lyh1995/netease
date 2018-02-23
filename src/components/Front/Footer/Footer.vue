@@ -71,7 +71,6 @@ export default {
   #song-img {
     width: 37.5px;
     height: 37.5px;
-    border-radius: 5px;
     left: 6px;
     top: 6px;
   }

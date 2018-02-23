@@ -59,7 +59,7 @@ export const store= new Vuex.Store({
 			icon: "url('/static/myCollection.svg')",
 			listName: "我的收藏"
 		}],
-		initialTabData: "url('/static/tabDown.svg')",//创建歌单的icon
+		initialTabData: "tabDown",//创建歌单的icon
 		musicListCreated: [{
 			name: "reputation",
 			imgUrl: "/static/reputation.jpg",
@@ -83,7 +83,7 @@ export const store= new Vuex.Store({
 		}],
 		musicPlayedNow: {
 			songName: 'Getaway Car',
-			songImg: '/static/reputation.jpg',
+			songImg: '/static/red.jpg',
 			singer: 'Taylor Swift',
 			lyric: 'Taylor Swift - Reputation',
 			song: '/static/Taylor Swift - Getaway Car.mp3',
@@ -91,6 +91,7 @@ export const store= new Vuex.Store({
 		},
 		testSearchData: ["No Limit", "Perfect"],
 		skinColor: "#D43C31",//"#C20C0C",
+		iconColor: "#FFFFFF",
 		footerColor: "#FFFFFF",
 		tabColor: "#F0F4F3",
 		playerBack: "#6E6E6E",
@@ -110,11 +111,11 @@ export const store= new Vuex.Store({
 	},
 	mutations: {
 		toogleTab (state) {
-			if (state.initialTabData == "url('/static/tabDown.svg')") {
-				state.initialTabData = "url('/static/tabUp.svg')";
+			if (state.initialTabData == "tabDown") {
+				state.initialTabData = "tabUp";
 				state.isMyListShow = true;
 			} else {
-				state.initialTabData = "url('/static/tabDown.svg')";
+				state.initialTabData = "tabDown";
 				state.isMyListShow = false;
 			}
 		},//切换'创建的歌单'下拉页

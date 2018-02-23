@@ -1,13 +1,15 @@
 <template>
   <div class="music-list" :style="{backgroundColor: tabColor}">
     <div v-for="(item, index) of listData" class="list-item">
-      <span :style="{background: item.icon}" class="list-icon"></span>
+      <icon :name="item.iconName" class="list-icon" width="20px" height="20px" color="#D43C31"></icon>
       <span class="list-name">{{item.listName}}</span>
     </div>
     <div class="list-created">
-      <span :style="{background: initialTabData}" class="list-tab" @click="toogleTab"></span>
+      <div class="icon-con" @click="toogleTab">
+        <icon :name="initialTabData" class="list-tab" width="11px" height="11px" color="black"></icon>
+      </div>
       <span class="mylist-created" @click="toogleTab">创建的歌单({{musicListCreated.length}})</span>
-      <span class="list-setting" @click="toogleSettings"></span>
+      <icon name="settings" class="list-setting" @click="toogleSettings" width="15px" height="15px" color="#8c8c8c"></icon>
     </div>
     <div v-for="(item, index) of musicListCreated" class="my-list" v-show="isMyListShow">
       <img :src="item.imgUrl" class="mylist-img"></img>
@@ -26,7 +28,6 @@ export default {
   computed: {
     ...mapState([
       'initialTabData',
-      'listData',
       'musicListCreated',
       'isMyListShow',
       'tabColor'
@@ -34,6 +35,22 @@ export default {
   },
   data() {
     return {
+      listData: [{
+        iconName: "localMusic",
+        listName: "本地音乐"
+      }, {
+        iconName: "recentPlayed",
+        listName: "最近播放"
+      }, {
+        iconName: "download",
+        listName: "下载管理"
+      }, {
+        iconName: "myRadio",
+        listName: "我的电台"
+      }, {
+        iconName: "myCollection",
+        listName: "我的收藏"
+      }]
     }
   },
   methods: {
@@ -51,7 +68,6 @@ export default {
   padding: 0 4px 0 4px;
   
   .list-item {
-    padding: 4px 6px 0 6px;
     height: 50px;
     position: relative;
     margin-bottom: 0px;
@@ -61,25 +77,24 @@ export default {
     .list-icon {
       display: inline-block;
       position: absolute;
-      left: 15px;
-      top: 18px;
-      width: 20px;
-      height: 20px;
-      fill: #F08000;
+      left: 11px;
+      top: 14px;
     }
 
     span.list-name {
+      position: absolute;
       display: inline-block;
       width: 85%;
       vertical-align: top;
-      margin-top: 15px;
-      margin-left: 45px;
+      left: 46px;
+      top: 14px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       cursor: pointer;
       padding-bottom: 15px;
       border-bottom: .5px inset;
+      font-size: 15px;
     }
   }
   .list-created {
@@ -95,34 +110,37 @@ export default {
     user-select:none;
     font-size: 12px;
 
-    .list-tab {
+    .icon-con {
+      width: 34px;
+      height: 100%;
       display: inline-block;
-      position: absolute;
-      left: 20px;
-      top: 6px;
-      width: 15px;
-      height: 15px;
-      background-size: contain;
+
+      .list-tab {
+        display: inline-block;
+        position: absolute;
+        left: 12.5px;
+        top: 8.5px;
+        background-size: contain;
+      }
     }
     .mylist-created {
       display: inline-block;
       vertical-align: top;
-      margin-left: 45px;
+      position: absolute;
+      left: 34px;
       width: 77%;
+      color: #646464;
     }
     .list-setting {
-      background:url('/static/settings.svg');
       position: absolute;
-      right: 20px;
-      top: 4px;
-      width: 20px;
-      height: 20px;
+      right: 16.5px;
+      top: 7.5px;
       background-size: contain;
       display: inline-block;
     }
   }
   .my-list {
-    padding: 4px 6px 0 6px;
+    padding: 4px 0 0 0;
     position: relative;
     height: 60px;
     margin-bottom: 0px;
@@ -136,7 +154,7 @@ export default {
     .mylist-img {
       width: 55px;
       height: 55px;
-      border-radius: 5px;
+      left: 2px;
     }
     .mylist-name {
       display: inline-block;

@@ -6,6 +6,7 @@ import router from './router'
 import {store} from './store/store.js'
 import axios from 'axios'
 import Icon from './components/Icon/Icon.vue'
+import './components/Icon/Icons.js'
 Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false

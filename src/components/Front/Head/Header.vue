@@ -1,7 +1,8 @@
 <template>
   <div :style="{backgroundColor: skinColor}" class="header">
-    <div v-for="(item, index) of headIcon" @click="iconFun">
-      <span :style="{background: item.imgUrl,left: item.leftStyle}" class="head-icon" :id="index"></span>
+    <div v-for="(item, index) of iconName" @click="iconFun">
+      <!--<span :style="{background: item.imgUrl,left: item.leftStyle}" class="head-icon" :id="index"></span>!-->
+      <icon :name="item.iconName" class="head-icon" :id="index" width="25px" height="25px" :color="iconColor"></icon>
     </div>
   </div>
 </template>
@@ -16,11 +17,23 @@ export default {
     ...mapState([
       'skinColor',
       'headIcon',
-      'testData'
+      'testData',
+      'iconColor'
     ])
   },
   data() {
     return {
+      iconName: [{
+        iconName: "asideList"
+      }, {
+        iconName: "music"
+      }, {
+        iconName: "wangyiyun"
+      }, {
+        iconName: "found"
+      }, {
+        iconName: "search"
+      }]
     }
   },
   methods: {
@@ -30,7 +43,7 @@ export default {
       //事件委托
       let eve = ev || window.event;
       let target = eve.target || eve.srcElement;
-      if (target.nodeName.toLocaleLowerCase() === "span") {
+      if (target.nodeName.toLocaleLowerCase() === "svg") {
         switch (target.id) {
           case '0':
             console.log(0);alert(document.documentElement.clientWidth + "+" + document.documentElement.clientHeight + "+" + window.innerWidth + "+" + window.innerHeight);break;
@@ -54,10 +67,14 @@ export default {
 
 <style lang="scss">
 .header {
+  $icon-data: (1, 15px),(2, 110px),(3, 167.5px),(4, 225px),(5, 320px);
+  @each $index, $data in $icon-data {
+    & div:nth-child(#{$index}) > svg {
+      left: $data;
+    }
+  }
   .head-icon {
     position: absolute;
-    width: 25px;
-    height: 25px;
     top: 30px;
     cursor: pointer;
   }
