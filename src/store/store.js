@@ -19,6 +19,7 @@ export const store= new Vuex.Store({
 		isScrolling: false,
 		isShowSearchSongList: false,
 		isSearchNameRight: true,
+		timeChangedBySlider: false,
 		testData:'',
 		headIcon: [{
 			imgUrl: "url('/static/asideList.svg')",
@@ -124,10 +125,8 @@ export const store= new Vuex.Store({
 		},
 		tooglePlayState (state) {
 			if (state.isPlaying) {
-				state.playState = "url('/static/play.svg')";
 				state.isPlaying = false;
 			} else {
-				state.playState = "url('/static/pause.svg')";
 				state.isPlaying = true;
 			}
 		},//切换播放状态
@@ -137,9 +136,25 @@ export const store= new Vuex.Store({
 				state.strix = 0;
 				state.musicPlayedNow.lyric = state.lrcData[0].text;
 			} else if (state.strix < state.lrcData.length - 1) {
-				if (time > state.lrcData[state.strix+1].time) {
-					state.strix++;
-					state.musicPlayedNow.lyric = state.lrcData[state.strix].text;
+				if (state.timeChangedBySlider) {
+					for (let i = 0;i < state.lrcData.length;i++) {
+						if (i < state.lrcData.length - 1) {
+							if (time >= state.lrcData[i].time && time < state.lrcData[i+1].time) {
+								state.strix = i;
+								state.musicPlayedNow.lyric = state.lrcData[i].text;
+								break;
+							}
+						} else {
+							state.strix = i;
+							state.musicPlayedNow.lyric = state.lrcData[i].text;
+						}
+					}
+					state.timeChangedBySlider = false;
+				} else {
+					if (time > state.lrcData[state.strix+1].time) {
+						state.strix++;
+						state.musicPlayedNow.lyric = state.lrcData[state.strix].text;
+					}
 				}
 			}
 		},
@@ -179,6 +194,9 @@ export const store= new Vuex.Store({
 		},
 		getCurrentPath (state, str) {
 			state.currentPath = str;
+		},
+		sliderChangeTime (state, bool) {
+			state.timeChangedBySlider = bool;
 		}
 	},
 	getters: {

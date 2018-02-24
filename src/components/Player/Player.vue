@@ -87,9 +87,10 @@ export default {
         } else {
           this.$refs.fill.style.width = e.offsetX + "px";
         }*/
-	this.$refs.fill.style.width = e.offsetX + "px";
-	this.$refs.slider.style.left = e.offsetX - 10 + "px";
-	this.$store.commit('songPercentChange', {nume: e.offsetX, deno: this.wrapperLength});
+        this.$refs.fill.style.width = e.offsetX + "px";
+        this.$refs.slider.style.left = e.offsetX - 10 + "px";
+        this.$store.commit('sliderChangeTime', true);
+        this.$store.commit('songPercentChange', {nume: e.offsetX, deno: this.wrapperLength});
       }
     },
     timeFormate(time) {
@@ -119,15 +120,15 @@ export default {
       this.dragable = false;
     },
     sliderChange(timeNow) {
-	let fillLength = timeNow / this.musicPlayedNow.songTime * this.wrapperLength;
-	this.$refs.fill.style.width = fillLength + "px";
-	this.$refs.slider.style.left = fillLength - 10 + "px";
+      let fillLength = timeNow / this.musicPlayedNow.songTime * this.wrapperLength;
+      this.$refs.fill.style.width = fillLength + "px";
+      this.$refs.slider.style.left = fillLength - 10 + "px";
     }
   },
   watch: {
     songTimeNow: {
       handler(now, old) {
-	this.sliderChange(now);
+        this.sliderChange(now);
         /*let nowCeil = Math.ceil(now);
         let oldCeil = Math.ceil(old);
         if (nowCeil !== oldCeil) {

@@ -134,3 +134,22 @@ Icon.register({
 		}]
 	}
 })
+Icon.register({
+	"play": {
+		"width": 186,
+		"height": 186,
+		"circles": [{
+			"cx": "93","cy": "93","r": "90","stroke-width": "6","stroke": "rgb(99,99,99)","fill": "none"
+		}, {
+			"id": "play-circle","cx": "93","cy": "93","r": "90","stroke-width": "6","stroke": "rgb(99,99,99)","fill": "none"
+		}],
+		"lines": [{
+			"x1": "50","y1": "113","x2": "130","y2": "113","stroke-width": "10","stroke": "#D43C31"
+		}, {
+			"x1": "50","y1": "73","x2": "130","y2": "73","stroke-width": "10","stroke": "#D43C31"
+		}],
+		"paths": [{
+			"id": "play-path","d": "M100 73 L123 73 L93 133 L63 73z","fill": "none","stroke-width": "10","stroke": "#211915"
+		}]
+	}
+})

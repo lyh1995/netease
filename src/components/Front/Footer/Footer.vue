@@ -3,7 +3,8 @@
     <img :src="musicPlayedNow.songImg" id="song-img"></img>
     <span id="song-name">{{musicPlayedNow.songName}}</span>
     <span id="song-lyric">{{musicPlayedNow.lyric}}</span>
-    <span :style="{background: playState}" style="right: 46px" class="footer-icon" id="footer-icon-play"></span>
+    <!--<span :style="{background: playState}" style="right: 46px" class="footer-icon" id="footer-icon-play"></span>!-->
+    <icon name="play" style="stroke-dashoffset: 0;stroke-dasharray: 304%;transform: rotate(-90deg);" width="25px" height="25px" class="footer-icon" id="footer-icon-play" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}"></icon>
     <span style="background: url('/static/footerList.svg');right: 6px" class="footer-icon" id="footer-icon-list"></span>
   </div>
 </template>
@@ -23,7 +24,8 @@ export default {
       'musicPlayedNow',
       'playState',
       'lrcData',
-      'isPlaying'
+      'isPlaying',
+      'songTimeNow'
     ])
   },
   data() {
@@ -54,6 +56,13 @@ export default {
           this.$store.commit('getCurrentPath', this.$router.history.current.fullPath);
           this.$router.push({path:'/Player'});
           break;
+      }
+    }
+  },
+  watch: {
+    songTimeNow: {
+      handler(now, old) {
+        console.log("circle" + now);
       }
     }
   }
@@ -106,6 +115,9 @@ export default {
     width: 25px;
     height: 25px;
     margin: 4px;
+  }
+  #footer-icon-play {
+    right: 46px;
   }
 }
 </style>

@@ -10,8 +10,14 @@
     :viewBox="box"
     :style="style">
     <slot>
+      <template v-if="icon && icon.lines">
+        <line v-for="(line, i) in icon.lines" :key="`line-${i}`" v-bind="line" :style="linestyle"/>
+      </template>
+      <template v-if="icon && icon.circles">
+        <circle v-for="(circle, i) in icon.circles" :key="`circle-${i}`" v-bind="circle"/>
+      </template>
       <template v-if="icon && icon.paths">
-        <path v-for="(path, i) in icon.paths" :key="`path-${i}`" v-bind="path"/>
+        <path v-for="(path, i) in icon.paths" :key="`path-${i}`" v-bind="path" :style="pathstyle"/>
       </template>
       <template v-if="icon && icon.polygons">
         <polygon v-for="(polygon, i) in icon.polygons" :key="`polygon-${i}`" v-bind="polygon"/>
@@ -87,7 +93,9 @@ export default {
         return val === 'horizontal' || val === 'vertical'
       }
     },
-    label: String
+    label: String,
+    linestyle: Object,
+    pathstyle: Object
   },
   data () {
     return {
