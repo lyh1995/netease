@@ -4,7 +4,7 @@
     <span id="song-name">{{musicPlayedNow.songName}}</span>
     <span id="song-lyric">{{musicPlayedNow.lyric}}</span>
     <!--<span :style="{background: playState}" style="right: 46px" class="footer-icon" id="footer-icon-play"></span>!-->
-    <icon name="play" style="stroke-dashoffset: 0;stroke-dasharray: 304%;transform: rotate(-90deg);" width="25px" height="25px" class="footer-icon" id="footer-icon-play" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}"></icon>
+    <icon name="play" style="transform: rotate(-90deg);" width="25px" height="25px" class="footer-icon" id="footer-icon-play" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}"></icon>
     <span style="background: url('/static/footerList.svg');right: 6px" class="footer-icon" id="footer-icon-list"></span>
   </div>
 </template>
@@ -17,6 +17,8 @@ export default {
   name: 'Footer',
   mounted() {
     this.myAudio = document.getElementById("myAudio");
+    this.playIconCircle = document.getElementById("play-circle");
+    this.circleLength = this.playIconCircle.getTotalLength();
   },
   computed: {
     ...mapState([
@@ -63,6 +65,9 @@ export default {
     songTimeNow: {
       handler(now, old) {
         console.log("circle" + now);
+        console.log(this.playIconCircle);
+        let circlePrc = this.circleLength * now / this.musicPlayedNow.songTime;
+        this.playIconCircle.setAttribute("stroke-dasharray", circlePrc + ",10000");
       }
     }
   }

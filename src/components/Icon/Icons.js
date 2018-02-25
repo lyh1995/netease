@@ -141,7 +141,7 @@ Icon.register({
 		"circles": [{
 			"cx": "93","cy": "93","r": "90","stroke-width": "6","stroke": "rgb(99,99,99)","fill": "none"
 		}, {
-			"id": "play-circle","cx": "93","cy": "93","r": "90","stroke-width": "6","stroke": "rgb(99,99,99)","fill": "none"
+			"id": "play-circle","cx": "93","cy": "93","r": "90","stroke-width": "6","stroke": "#D43C31","fill": "none","stroke-dasharray": "0,10000"
 		}],
 		"lines": [{
 			"x1": "50","y1": "113","x2": "130","y2": "113","stroke-width": "10","stroke": "#D43C31"
