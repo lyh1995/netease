@@ -4,7 +4,9 @@
     <span id="song-name">{{musicPlayedNow.songName}}</span>
     <span id="song-lyric">{{musicPlayedNow.lyric}}</span>
     <!--<span :style="{background: playState}" style="right: 46px" class="footer-icon" id="footer-icon-play"></span>!-->
-    <icon name="play" style="transform: rotate(-90deg);" width="25px" height="25px" class="footer-icon" id="footer-icon-play" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}"></icon>
+    <div id="footer-icon-play" @click.stop="startPlay">
+      <icon name="play" style="transform: rotate(-90deg);" width="25px" height="25px" class="footer-icon" id="footer-icon-play" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}" :circlestyle="isPlaying?circledataplaying:circledatapause"></icon>
+    </div>
     <span style="background: url('/static/footerList.svg');right: 6px" class="footer-icon" id="footer-icon-list"></span>
   </div>
 </template>
@@ -19,6 +21,8 @@ export default {
     this.myAudio = document.getElementById("myAudio");
     this.playIconCircle = document.getElementById("play-circle");
     this.circleLength = this.playIconCircle.getTotalLength();
+    let circlePrc = this.circleLength * this.songTimeNow / this.musicPlayedNow.songTime;
+    this.playIconCircle.setAttribute("stroke-dasharray", circlePrc + ",10000");
   },
   computed: {
     ...mapState([
@@ -32,7 +36,9 @@ export default {
   },
   data() {
     return {
-      start:0.2
+      start:0.2,
+      circledataplaying: [{"cx": "93","cy": "93","r": "88","stroke-width": "10","stroke": "#636363","fill": "none","iconindex": 0}],
+      circledatapause: [{"cx": "93","cy": "93","r": "88","stroke-width": "10","stroke": "#211915","fill": "none", "iconindex": 0}]
     }
   },
   methods: {
@@ -43,14 +49,14 @@ export default {
       let eve = ev || window.event;
       let target = eve.target || eve.srcElement;
       switch (target.id) {
-        case 'footer-icon-play':
+        /*case 'footer-icon-play':
           this.$store.commit('tooglePlayState');
           if (this.isPlaying) {
             this.myAudio.play();
           } else {
             this.myAudio.pause();
           }
-          break;
+          break;*/
         case 'footer-icon-list':
           console.log("list");break;
         default:
@@ -59,13 +65,20 @@ export default {
           this.$router.push({path:'/Player'});
           break;
       }
+    },
+    startPlay() {
+      this.$store.commit('tooglePlayState');
+      if (this.isPlaying) {
+        this.myAudio.play();
+      } else {
+        this.myAudio.play();
+      }
     }
   },
   watch: {
     songTimeNow: {
       handler(now, old) {
         console.log("circle" + now);
-        console.log(this.playIconCircle);
         let circlePrc = this.circleLength * now / this.musicPlayedNow.songTime;
         this.playIconCircle.setAttribute("stroke-dasharray", circlePrc + ",10000");
       }
@@ -122,7 +135,15 @@ export default {
     margin: 4px;
   }
   #footer-icon-play {
-    right: 46px;
+    right: 40px;
+    width: 40px;
+    height: 50px;
+
+    & > svg {
+      right: 7.5px;
+      top: 12.5px;
+      position: absolute;
+    }
   }
 }
 </style>

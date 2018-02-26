@@ -139,9 +139,9 @@ Icon.register({
 		"width": 186,
 		"height": 186,
 		"circles": [{
-			"cx": "93","cy": "93","r": "90","stroke-width": "6","stroke": "rgb(99,99,99)","fill": "none"
+			"id": "play-circle-static","cx": "93","cy": "93","r": "88","stroke-width": "10","stroke": "rgb(99,99,99)","fill": "none"
 		}, {
-			"id": "play-circle","cx": "93","cy": "93","r": "90","stroke-width": "6","stroke": "#D43C31","fill": "none","stroke-dasharray": "0,10000"
+			"id": "play-circle","cx": "93","cy": "93","r": "88","stroke-width": "10","stroke": "#D43C31","fill": "none","stroke-dasharray": "0,10000"
 		}],
 		"lines": [{
 			"x1": "50","y1": "113","x2": "130","y2": "113","stroke-width": "10","stroke": "#D43C31"
@@ -150,6 +150,17 @@ Icon.register({
 		}],
 		"paths": [{
 			"id": "play-path","d": "M100 73 L123 73 L93 133 L63 73z","fill": "none","stroke-width": "10","stroke": "#211915"
+		}]
+	}
+})
+Icon.register({
+	"slider": {
+		"width": 30,
+		"height": 30,
+		"circles": [{
+			"cx": "15","cy": "15","r": "15","fill": "white"
+		}, {
+			"cx": "15","cy": "15","r": "4","fill": "red"
 		}]
 	}
 })

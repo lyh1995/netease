@@ -21,6 +21,7 @@
           <div class="fill" ref="fill">
           </div
           ><div class="slider" ref="slider">
+            <icon name="slider" width="15px" height="15px"></icon>
           </div>
         </div
         ><div class="endtime">
@@ -238,10 +239,10 @@ export default {
         font-size: 15px;
         width: 48px;
         display: inline-block;
-	position: absolute;
+        position: absolute;
         left: 20px;
-	bottom: 0px;
-	color: white;
+        bottom: 0px;
+        color: white;
         -webkit-transform-origin-x: 0;
         -webkit-transform: scale(0.5);
       }
@@ -250,10 +251,10 @@ export default {
         font-size: 15px;
         width: 48px;
         display: inline-block;
-	position: absolute;
-	left: 320px;
+        position: absolute;
+        left: 320px;
         bottom: 0px;
-	color: silver;
+        color: silver;
         -webkit-transform-origin-x: 0;
         -webkit-transform: scale(0.5);
       }
@@ -261,26 +262,25 @@ export default {
         margin: 0 0 0 0;
         display: inline-block;
         width: 260px;
-        height: 4px;
-	position: absolute;
-	left: 50px;
-	top: 35%;
-	background-color: silver;
+        height: 2px;
+        position: absolute;
+        left: 50px;
+        top: 19px;
+        background-color: silver;
 
         .slider {
-	  width: 16px;
-	  height: 16px;
-	  background: url('/static/slider.svg');
-	  display: inline-block;
-	  position: absolute;
-	  top: -200%;
+	  width: 15px;
+	  height: 15px;
+          display: inline-block;
+          position: absolute;
+          top: -8.5px;
         }
         .fill {
           width: 0%;
-          height: 4px;
+          height: 2px;
           background-color: red;
           display: inline-block;
-	  position: absolute;
+          position: absolute;
         }
       }
     }
