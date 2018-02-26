@@ -14,7 +14,7 @@
         <line v-for="(line, i) in icon.lines" :key="`line-${i}`" v-bind="line" :style="linestyle"/>
       </template>
       <template v-if="icon && icon.circles">
-        <circle v-for="(circle, i) in icon.circles" :key="`circle-${i}`" v-bind="(circlestyle&&circlestyle[i]&&(circlestyle[i].iconindex===i))?circle[i]:circle"/>
+        <circle v-for="(circle, i) in icon.circles" :key="`circle-${i}`" v-bind="(circlestyle&&circlestyle[i]&&(circlestyle[i].iconindex===i))?circlestyle[i]:circle"/>
       </template>
       <template v-if="icon && icon.paths">
         <path v-for="(path, i) in icon.paths" :key="`path-${i}`" v-bind="path" :style="pathstyle"/>

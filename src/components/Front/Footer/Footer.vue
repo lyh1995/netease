@@ -5,7 +5,7 @@
     <span id="song-lyric">{{musicPlayedNow.lyric}}</span>
     <!--<span :style="{background: playState}" style="right: 46px" class="footer-icon" id="footer-icon-play"></span>!-->
     <div id="footer-icon-play" @click.stop="startPlay">
-      <icon name="play" style="transform: rotate(-90deg);" width="25px" height="25px" class="footer-icon" id="footer-icon-play" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}" :circlestyle="isPlaying?circledataplaying:circledatapause"></icon>
+      <icon name="play" style="transform: rotate(-90deg);" width="25px" height="25px" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}" :circlestyle="isPlaying?circledataplaying:circledatapause"></icon>
     </div>
     <span style="background: url('/static/footerList.svg');right: 6px" class="footer-icon" id="footer-icon-list"></span>
   </div>
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       start:0.2,
-      circledataplaying: [{"cx": "93","cy": "93","r": "88","stroke-width": "10","stroke": "#636363","fill": "none","iconindex": 0}],
+      circledataplaying: [{"cx": "93","cy": "93","r": "88","stroke-width": "10","stroke": "#d9d9d9","fill": "none","iconindex": 0}],
       circledatapause: [{"cx": "93","cy": "93","r": "88","stroke-width": "10","stroke": "#211915","fill": "none", "iconindex": 0}]
     }
   },
@@ -71,7 +71,7 @@ export default {
       if (this.isPlaying) {
         this.myAudio.play();
       } else {
-        this.myAudio.play();
+        this.myAudio.pause();
       }
     }
   },
