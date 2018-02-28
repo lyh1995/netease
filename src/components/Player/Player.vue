@@ -2,22 +2,22 @@
   <div :style="{backgroundColor: playerBack}" class="player">
     <div class="head">
       <div v-for="(item, index) of playerHeadIcon">
-        <span :style="{background: item.imgUrl, left: item.leftStyle}" class="head-icon" @click.stop="iconfun(index)"></span>
+        <span :style="{background: item.imgUrl, left: item.leftStyle}" class="head-icon" @click.stop="headIconfun(index)"></span>
       </div>
       <span class="name">{{musicPlayedNow.songName}}</span>
       <span class="singer">{{musicPlayedNow.singer}}</span>
     </div>
-    <div class="mid" id="getw" @mouseup="mouseUp" @mousemove="mouseMove">
+    <div class="mid" id="getw">
       <transition name="router">
         <router-view></router-view>
       </transition>
     </div>
-    <div class="foot" @mouseup="mouseUp" @mousemove="mouseMove">
-      <div class="tempo" :style="{backgroundColor: playerBack}">
+    <div class="foot">
+      <div class="tempo" :style="{backgroundColor: playerBack}" @touchmove.stop="touchMove" @touchend.stop="touchEnd" @touchstart.stop="touchStart">
         <div class="time">
           <span>{{timeNowStr}}</span>
         </div
-        ><div class="wrapper" id="hi" @click.stop="changeTime" ref="wrapper" @mousedown.stop="mouseDown">
+        ><div class="wrapper" id="hi" ref="wrapper" @touchstart.stop="touchStart">
           <div class="fill" ref="fill">
           </div
           ><div class="slider" ref="slider">
@@ -26,6 +26,14 @@
         </div
         ><div class="endtime">
           <span>{{timeFormate(musicPlayedNow.songTime)}}</span>
+        </div>
+      </div>
+      <div class="footicon">
+        <div v-for="(item, index) of footIconName" :key="item.id" @click.stop="footIconFun(index)">
+          <icon :name="item.iconName" :width="item.dim" :height="item.dim"></icon>
+        </div>
+        <div class="icon-con" @click.stop="clickPlayIcon">
+          <icon name="playerPlay" width="45px" height="45px" class="playerplayicon" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}"></icon>
         </div>
       </div>
     </div>
@@ -51,27 +59,44 @@ export default {
       'musicPlayedNow',
       'songTimeNow',
       'currentPath',
-      'isPlaying'
+      'isPlaying',
+      'timeChangedBySliderUsedOutside'
     ])
   },
   data() {
     return {
       timeNow: 0,
       timeNowStr: "00:00",
-      dragable: false
+      dragable: false,
+      footIconName: [{
+        iconName: "preSong",
+        id: "presong-id-1",
+        dim: "20px"
+      }, {
+        iconName: "preSong",
+        id: "preSong-id-2",
+        dim: "25px"
+      }, {
+        iconName: "nextSong",
+        id: "nextSong-id-1",
+        dim: "25px"
+      }, {
+        iconName: "nextSong",
+        id: "nextSong-id-2",
+        dim: "20px"
+      }]
     }
   },
   methods: {
     ...mapMutations([
     ]),
-    iconfun(index) {
+    headIconfun(index) {
       switch (index) {
         case 0:
           //this.$router.push({ path: '/' });
           this.$router.push({path: this.currentPath});
           break;
         case 1:
-          console.log("share");
           this.$store.commit('tooglePlayState');
           if (this.isPlaying) {
             this.myAudio.play();
@@ -79,19 +104,6 @@ export default {
             this.myAudio.pause();
           }
           break;
-      }
-    },
-    changeTime(e) {
-      if (e.target != this.$refs.slider) {
-        /*if (e.offsetX > this.wrapperLength - this.sliderLength) {
-          this.$refs.fill.style.width = this.wrapperLength - this.sliderLength + "px";
-        } else {
-          this.$refs.fill.style.width = e.offsetX + "px";
-        }*/
-        this.$refs.fill.style.width = e.offsetX + "px";
-        this.$refs.slider.style.left = e.offsetX - 10 + "px";
-        this.$store.commit('sliderChangeTime', true);
-        this.$store.commit('songPercentChange', {nume: e.offsetX, deno: this.wrapperLength});
       }
     },
     timeFormate(time) {
@@ -103,19 +115,19 @@ export default {
     mouseDown() {
       this.dragable = true;
     },
-    mouseMove() {
-      if (this.dragable) {
-        let e = event || window.event;
-        let songWidth = e.pageX - this.$refs.wrapper.offsetLeft - document.documentElement.clientWidth * 0.235 - 209;
-        /*if(songWidth <= 0) {
-        	this.$refs.fill.style.width = 0;
-        } else if (0 < songwidth < this.$refs.wrapper.offsetWidth) {
-        	this.$refs.fill.style.width = songWidth - this.sliderLength + "px";
-        } else if (songWidth >= this.$refs.wrapper.offsetWidth) {
-        	this.$refs.fill.style.width = this.$refs.wrapper.offsetWidth - this.sliderLength + "px";
-        }*/
-        this.$refs.fill.style.width = songWidth > this.$refs.wrapper.offsetWidth ? this.$refs.wrapper.offsetWidth - this.sliderLength + "px" : songWidth - this.sliderLength + "px";
+    changeTime() {
+      let e = event || window.event;
+      let songWidth = e.pageX - this.$refs.wrapper.offsetLeft;
+      if(songWidth <= 0) {
+        songWidth = 0;
+      } else if (songWidth > this.$refs.wrapper.offsetWidth) {
+        songWidth = this.$refs.wrapper.offsetWidth;
       }
+      this.$refs.fill.style.width = songWidth + "px";
+      this.$refs.slider.style.left = songWidth - this.sliderLength / 2 + "px";
+      this.$store.commit('sliderChangeTime', true);
+      this.$store.commit('sliderChangeTimeOut', true);
+      this.$stroe.commit('songPercentChange', {nume: songWidth, deno: this.wrapperLength});
     },
     mouseUp() {
       this.dragable = false;
@@ -123,8 +135,60 @@ export default {
     sliderChange(timeNow) {
       let fillLength = timeNow / this.musicPlayedNow.songTime * this.wrapperLength;
       this.$refs.fill.style.width = fillLength + "px";
-      this.$refs.slider.style.left = fillLength - 10 + "px";
-    }
+      this.$refs.slider.style.left = fillLength - 7.5 + "px";
+    },
+    touchStart(e) {
+      let resObj = this.getSongWidth(e.touches[0].clientX, this.$refs.wrapper.offsetLeft, this.$refs.wrapper.offsetWidth, this.sliderLength);
+      this.$refs.fill.style.width = resObj.fillWidth + "px";
+      this.$refs.slider.style.left = resObj.sliderLeftDis + "px";
+      this.$store.commit('sliderChangeTime', true);
+      this.$store.commit('sliderChangeTimeOut', true);
+      this.$store.commit('songPercentChange', {nume: resObj.fillWidth, deno: this.wrapperLength});
+    },
+    touchMove(e) {
+      let resObj = this.getSongWidth(e.touches[0].clientX, this.$refs.wrapper.offsetLeft, this.$refs.wrapper.offsetWidth, this.sliderLength);
+      this.$refs.fill.style.width = resObj.fillWidth + "px";
+      this.$refs.slider.style.left = resObj.sliderLeftDis + "px";
+      this.$store.commit('sliderChangeTime', true);
+      this.$store.commit('sliderChangeTimeOut', true);
+      this.$store.commit('songPercentChange', {nume: resObj.fillWidth, deno: this.wrapperLength});
+    },
+    touchEnd(e) {
+    },
+    getSongWidth(eClientX, leftDis, wrapperWidth, sliderLength) {
+      let songWidthRes = eClientX - leftDis;
+      if (songWidthRes <= 0) {
+        songWidthRes = 0;
+      } else if (songWidthRes > wrapperWidth) {
+        songWidthRes = wrapperWidth;
+      }
+      let sliderLeft = songWidthRes - sliderLength / 2;
+      let res = {
+        fillWidth: songWidthRes,
+        sliderLeftDis: sliderLeft
+      };
+      return res;
+    },
+    clickPlayIcon() {
+      this.$store.commit('tooglePlayState');
+      if (this.isPlaying) {
+        this.myAudio.play();
+      } else {
+        this.myAudio.pause();
+      }
+    },
+    footIconFun(index) {
+      switch (index) {
+        case 0:
+          break;
+        case 1:
+          break;
+        case 2:
+          break;
+        case 3:
+          break;
+      }
+    }    
   },
   watch: {
     songTimeNow: {
@@ -137,13 +201,22 @@ export default {
         }*/
         let oldTime = this.timeNow;
         let num = Math.ceil(now);
-        if (num - now < 0.2) {
-          if (oldTime !== num) {
+        if (this.timeChangedBySliderUsedOutside) {
+          this.$store.commit('sliderChangeTimeOut', false);
+          if (num - now <= 0.5) {
             this.timeNow = num;
-          }
-        } else if (num - now > 0.5) {
-          if (oldTime !== num - 1) {
+          } else {
             this.timeNow = num - 1;
+          }
+        } else {
+          if (num - now < 0.2) {
+            if (oldTime !== num) {
+              this.timeNow = num;
+            }
+          } else if (num - now > 0.5) {
+            if (oldTime !== num - 1) {
+              this.timeNow = num - 1;
+            }
           }
         }
         if (oldTime !== this.timeNow) {
@@ -158,7 +231,7 @@ export default {
 
 <style lang="scss">
 .router-enter-active {
-  transition: all .5s ease-out;
+  transition: all .1s ease-out;
 }
 
 .router-leave-active {
@@ -173,7 +246,9 @@ export default {
 .player {
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
+  top: 0px;
+  left: 0px;
   flex-direction: column;
   user-select:none;
 
@@ -269,11 +344,11 @@ export default {
         background-color: silver;
 
         .slider {
-	  width: 15px;
-	  height: 15px;
+          width: 15px;
+          height: 15px;
           display: inline-block;
           position: absolute;
-          top: -8.5px;
+          top: -6.5px;
         }
         .fill {
           width: 0%;
@@ -281,6 +356,42 @@ export default {
           background-color: red;
           display: inline-block;
           position: absolute;
+        }
+      }
+    }
+    .footicon {
+      position: absolute;
+      width: 100%;
+      height: 90px;
+      top: 30px;
+
+      $foot-icon-data: (1, 27.5px, 15px, 5px),(2, 27.5px, 90px, 2.5px),(3, 27.5px, 242.5px, 2.5px),(4, 27.5px, 315px, 5px);
+      @each $index, $top, $left, $icondis in $foot-icon-data {
+        & div:nth-child(#{$index}) {
+          position: absolute;
+          top: $top;
+          left: $left;
+          height: 30px;
+          width: 30px;
+
+          & > svg {
+            position: absolute;
+            top: $icondis;
+            left: $icondis;
+          }
+        }
+      }
+      .icon-con {
+        position: absolute;
+        height: 60px;
+        width: 60px;
+        top: 12.5px;
+        left: 150px;
+
+        .playerplayicon {
+          position: absolute;
+          left: 7.5px;
+          top: 7.5px;
         }
       }
     }

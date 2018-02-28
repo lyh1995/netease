@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <transition name="router">
+    <transition name="app" mode="in-out">
       <router-view></router-view>
     </transition>
     <audio ref="player" :src="musicPlayedNow.song" @ended="isLoop" @timeupdate="timeChange()" id="myAudio"></audio>
@@ -77,14 +77,23 @@ export default {
 <style lang="scss">
 @import "./css/base.scss";
 
-.router-enter-active {
-  transition: all .5s ease-out;
+.app-enter-active {
+  transition: all .3s;
+  position: absolute;
+  z-index: 2;
 }
-.router-leave-active {
-  transition: all 0 ease;
+.app-leave-active {
+  position: absolute;
+  transition: all .1s;
 }
-.router-enter, .router-leave-active {
+.app-enter,{
+  position: absolute;
+  transform: translateY(700px);
+  opacity: 1;
+}
+.app-leave-to {
   opacity: 0;
+  position: absolute;
 }
 #app{
   position: relative;

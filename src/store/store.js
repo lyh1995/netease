@@ -20,6 +20,7 @@ export const store= new Vuex.Store({
 		isShowSearchSongList: false,
 		isSearchNameRight: true,
 		timeChangedBySlider: false,
+		timeChangedBySliderUsedOutside: false,
 		testData:'',
 		headIcon: [{
 			imgUrl: "url('/static/asideList.svg')",
@@ -197,6 +198,9 @@ export const store= new Vuex.Store({
 		},
 		sliderChangeTime (state, bool) {
 			state.timeChangedBySlider = bool;
+		},
+		sliderChangeTimeOut (state, bool) {
+			state.timeChangedBySliderUsedOutside = bool;
 		}
 	},
 	getters: {

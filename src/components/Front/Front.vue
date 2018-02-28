@@ -47,7 +47,9 @@ export default {
 
 <style lang="scss">
 .tab-index {
-  position: relative;
+  position: absolute;
+  top: 0px;
+  left: 0px;
   width: 100%;
   height: 100%;
 

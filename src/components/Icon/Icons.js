@@ -164,3 +164,57 @@ Icon.register({
 		}]
 	}
 })
+Icon.register({
+	"playerPlay": {
+		"width": 90,
+		"height": 90,
+		"circles": [{
+			"cx": "45","cy": "45","r": "43","stroke-width": "4","stroke": "white","fill": "none"
+		}],
+		"lines": [{
+			"x1": "37","y1": "25","x2": "37","y2": "65","stroke-width": "4","stroke": "white"
+		}, {
+			"x1": "53","y1": "25","x2": "53","y2": "65","stroke-width": "4","stroke": "white"
+		}],
+		"paths": [{
+			"d": "M35 40 L35 25 L65 45 L35 65z","fill": "white"
+		}]
+	}
+})
+Icon.register({
+	"preSong": {
+		"width": 25,
+		"height": 25,
+		"lines": [{
+			"x1": "1","y1": "0","x2": "1","y2": "25","stroke-width": "2","stroke": "white"
+		}],
+		"paths": [{
+			"d": "M24 15 L24 1 L3 12.5 L24 24z","fill": "none","stroke-width": "2","stroke": "white"
+		}]
+	}
+})
+Icon.register({
+	"nextSong": {
+		"width": 25,
+		"height": 25,
+		"lines": [{
+			"x1": "24","y1": "0","x2": "24","y2": "25","stroke-width": "2","stroke": "white"
+		}],
+		"paths": [{
+			"d": "M1 15 L1 1 L22 12.5 L1 24z","fill": "none","stroke-width": "2","stroke": "white"
+		}]
+	}
+})
+Icon.register({
+	"goback": {
+		"width": 20,
+		"height": 20,
+		"lines": [{
+			"x1": "1","y1": "10","x2": "10","y2": "1","stroke-width": "2"
+		}, {
+			"x1": "1","y1": "10","x2": "20","y2": "10","stroke-width": "2"
+		}, {
+			"x1": "1","y1": "10","x2": "10","y2": "19","stroke-width": "2"
+		}]
+	}
+})
