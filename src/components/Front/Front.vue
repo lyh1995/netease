@@ -4,17 +4,17 @@
     <!--<MyHeader v-show="isShowHead"></MyHeader>-->
     <!--<MySearcher v-show="!isShowHead"></MySearcher>-->
     <!-- tab页 -->
-    <keep-alive>
-      <transition :name="(toPath === '/Search')?'searcheadin':'searcheadout'" mode="in-out">
+    <transition :name="(toPath === '/Search')?'searcheadin':'searcheadout'" mode="in-out">
+      <keep-alive>
         <router-view name="head" front-head></router-view>
         <router-view name="search" front-head></router-view>
-      </transition>
-    </keep-alive>
-    <keep-alive>
-      <transition :name="(toPath === '/Search')?'searcherin':'searcherout'" mode="in-out">
+      </keep-alive>
+    </transition>
+    <transition :name="(toPath === '/Search')?'searcherin':'searcherout'" mode="in-out">
+      <keep-alive>
         <router-view front-mid></router-view>
-      </transition>
-    </keep-alive>
+      </keep-alive>
+    </transition>
     <!-- 播放器 -->
     <MyFooter v-show="isShowFooter" front-foot></MyFooter>
   </div>
@@ -49,21 +49,36 @@ export default {
 
 
 <style lang="scss">
-.searcherin-enter, .searcherout-leave-to {
+.searcherin-enter {
   opacity: 0;
-  transform: translateY(710px);
+  transform: translateY(580px);
 }
-.searcherin-enter-active, .searcherout-leave-active, .searcheadin-enter-active, .searcheadout-leave-activr {
-  transition: all .5s ease;
+.searcherout-leave-to {
+  opacity: 0;
+  transform: translateY(640px);
+}
+.searcherin-enter-active, .searcherout-leave-active, .searcheadin-enter-active, .searcheadout-leave-active {
+  transition: all 300s ease;
   z-index: 2;
 }
 .searcherout-leave, .searcheadout-leave {
   z-index: 2;
 }
 
-.searcheadin-enter, .searcheadout-leave-to {
+.searcheadout-leave-to {
   opacity: 0;
   transform: translateY(640px);
+}
+.searcheadin-enter {
+  opacity: 0;
+  transform: translateY(580px);
+}
+.searcheadout-enter-active, .searcherout-enter-active {
+  transition: all .1s ease;
+  z-index: -1;
+}
+.searcheadout-enter, .searcherout-enter {
+  z-index: -1;
 }
 
 .tab-index {

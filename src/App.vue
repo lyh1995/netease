@@ -83,7 +83,7 @@ export default {
   transform: translateY(100%);
 }
 .playerin-enter-active, .playerout-leave-active {
-  transition: all .5s ease;
+  transition: all .3s ease;
   z-index: 4;
 }
 .playerin-leave-active, .playerout-enter-active {
