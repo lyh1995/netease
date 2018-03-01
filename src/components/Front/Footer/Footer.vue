@@ -90,6 +90,7 @@ export default {
 <style lang="scss">
 .footer {
   height: 100%;
+  z-index: 3;
   
   *{
     position: absolute;

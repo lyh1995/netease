@@ -11,6 +11,13 @@ Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 Vue.component('icon', Icon)
+router.beforeEach((to, from, next) => {
+  store.state.fromPath = from.path;
+  store.state.toPath = to.path;
+  console.log(from.path);
+  console.log(to.path);
+  next();
+})
 
 
 /* eslint-disable no-new */

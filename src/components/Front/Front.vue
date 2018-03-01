@@ -5,13 +5,15 @@
     <!--<MySearcher v-show="!isShowHead"></MySearcher>-->
     <!-- tab页 -->
     <keep-alive>
-      <router-view name="head" front-head></router-view>
+      <transition :name="(toPath === '/Search')?'searcheadin':'searcheadout'" mode="in-out">
+        <router-view name="head" front-head></router-view>
+        <router-view name="search" front-head></router-view>
+      </transition>
     </keep-alive>
     <keep-alive>
-      <router-view name="search" front-head></router-view>
-    </keep-alive>
-    <keep-alive>
-      <router-view front-mid></router-view>
+      <transition :name="(toPath === '/Search')?'searcherin':'searcherout'" mode="in-out">
+        <router-view front-mid></router-view>
+      </transition>
     </keep-alive>
     <!-- 播放器 -->
     <MyFooter v-show="isShowFooter" front-foot></MyFooter>
@@ -34,7 +36,8 @@ export default {
   computed: {
     ...mapState([
       'isShowHead',
-      'isShowFooter'
+      'isShowFooter',
+      'toPath'
     ])
   },
   data() {
@@ -46,6 +49,23 @@ export default {
 
 
 <style lang="scss">
+.searcherin-enter, .searcherout-leave-to {
+  opacity: 0;
+  transform: translateY(710px);
+}
+.searcherin-enter-active, .searcherout-leave-active, .searcheadin-enter-active, .searcheadout-leave-activr {
+  transition: all .5s ease;
+  z-index: 2;
+}
+.searcherout-leave, .searcheadout-leave {
+  z-index: 2;
+}
+
+.searcheadin-enter, .searcheadout-leave-to {
+  opacity: 0;
+  transform: translateY(640px);
+}
+
 .tab-index {
   position: absolute;
   top: 0px;
@@ -54,19 +74,24 @@ export default {
   height: 100%;
 
   [front-head] {
-    position: relative;
+    position: absolute;
+    top: 0px;
+    left: 0px;
     height: 70px;
     width: 100%;
   }
   [front-mid] {
     height: 81.25%;
+    width: 100%;
     overflow: auto;
     -webkit-user-select: none;
     -moz-user-select: none;
     -o-user-select: none;
     user-select: none;
     font-size: 14px;
-    position: relative;
+    position: absolute;
+    top: 70px;
+    left: 0px;
   }
   [front-foot] {
     position: absolute;
