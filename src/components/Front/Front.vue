@@ -58,7 +58,7 @@ export default {
   transform: translateY(640px);
 }
 .searcherin-enter-active, .searcherout-leave-active, .searcheadin-enter-active, .searcheadout-leave-active {
-  transition: all 300s ease;
+  transition: all .3s ease;
   z-index: 2;
 }
 .searcherout-leave, .searcheadout-leave {

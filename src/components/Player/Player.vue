@@ -138,20 +138,20 @@ export default {
       this.$refs.slider.style.left = fillLength - 7.5 + "px";
     },
     touchStart(e) {
-      let resObj = this.getSongWidth(e.touches[0].clientX, this.$refs.wrapper.offsetLeft, this.$refs.wrapper.offsetWidth, this.sliderLength);
-      this.$refs.fill.style.width = resObj.fillWidth + "px";
-      this.$refs.slider.style.left = resObj.sliderLeftDis + "px";
+      let [fillWidth, sliderLeftDis] = this.getSongWidth(e.touches[0].clientX, this.$refs.wrapper.offsetLeft, this.$refs.wrapper.offsetWidth, this.sliderLength);
+      this.$refs.fill.style.width = fillWidth + "px";
+      this.$refs.slider.style.left = sliderLeftDis + "px";
       this.$store.commit('sliderChangeTime', true);
       this.$store.commit('sliderChangeTimeOut', true);
-      this.$store.commit('songPercentChange', {nume: resObj.fillWidth, deno: this.wrapperLength});
+      this.$store.commit('songPercentChange', {nume: fillWidth, deno: this.wrapperLength});
     },
     touchMove(e) {
-      let resObj = this.getSongWidth(e.touches[0].clientX, this.$refs.wrapper.offsetLeft, this.$refs.wrapper.offsetWidth, this.sliderLength);
-      this.$refs.fill.style.width = resObj.fillWidth + "px";
-      this.$refs.slider.style.left = resObj.sliderLeftDis + "px";
+      let [fillWidth, sliderLeftDis] = this.getSongWidth(e.touches[0].clientX, this.$refs.wrapper.offsetLeft, this.$refs.wrapper.offsetWidth, this.sliderLength);
+      this.$refs.fill.style.width = fillWidth + "px";
+      this.$refs.slider.style.left = sliderLeftDis + "px";
       this.$store.commit('sliderChangeTime', true);
       this.$store.commit('sliderChangeTimeOut', true);
-      this.$store.commit('songPercentChange', {nume: resObj.fillWidth, deno: this.wrapperLength});
+      this.$store.commit('songPercentChange', {nume: fillWidth, deno: this.wrapperLength});
     },
     touchEnd(e) {
     },
@@ -163,11 +163,7 @@ export default {
         songWidthRes = wrapperWidth;
       }
       let sliderLeft = songWidthRes - sliderLength / 2;
-      let res = {
-        fillWidth: songWidthRes,
-        sliderLeftDis: sliderLeft
-      };
-      return res;
+      return [songWidthRes, sliderLeft];
     },
     clickPlayIcon() {
       this.$store.commit('tooglePlayState');
