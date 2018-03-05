@@ -5,7 +5,7 @@
     </div>
     <div v-for="(item, index) of songSearchList" @click="searchName">
       <div class="container" :id="index + 'j'">
-        <span class="search-span":id="index + 'i'">{{item.name}}</span>
+        <span class="search-span">{{item.name}}</span>
       </div>
     </div>
     <div class="song-list">
@@ -37,13 +37,11 @@ export default {
       //shi jian wei tuo
       let eve = ev || window.event;
       let target = eve.target || eve.srcElement;
-      if (target.nodeName.toLocaleLowerCase() === "span" || target.nodeName.toLocaleLowerCase() === "div") {
-        let eveId = parseInt(target.id[0]);
-        console.log(eveId);
-        console.log(this.songSearchList[eveId].id);
-        this.$store.commit('musicIdChange', this.songSearchList[eveId].id);
-        this.$router.push({ path: '/SearchRes' });
-      }
+      let eveId = parseInt(target.id[0]);
+      console.log(eveId);
+      console.log(this.songSearchList[eveId].id);
+      this.$store.commit('musicIdChange', this.songSearchList[eveId].id);
+      this.$router.push({ path: '/SearchRes' });
     }
   }
 }
@@ -56,7 +54,7 @@ export default {
   width: 340px;
   left: 10px;
   top: 5px;
-  box-shadow: 0px 3px 20px 3px gray;
+  box-shadow: 0 3px 20px 3px gray;
   z-index: 1;
 
   .container {
@@ -75,6 +73,7 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      pointer-events: none;
     }
   }
 }

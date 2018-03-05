@@ -243,8 +243,8 @@ export default {
   width: 100%;
   height: 100%;
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   flex-direction: column;
   user-select:none;
 
@@ -271,7 +271,7 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      padding-bottom: 0px;
+      padding-bottom: 0;
       font-size: 15px;
       color: #FFF;
     }
@@ -324,7 +324,7 @@ export default {
         display: inline-block;
         position: absolute;
         left: 320px;
-        bottom: 0px;
+        bottom: 0;
         color: silver;
         -webkit-transform-origin-x: 0;
         -webkit-transform: scale(0.5);

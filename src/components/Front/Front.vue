@@ -83,15 +83,15 @@ export default {
 
 .tab-index {
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 
   [front-head] {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     height: 70px;
     width: 100%;
   }
@@ -106,14 +106,14 @@ export default {
     font-size: 14px;
     position: absolute;
     top: 70px;
-    left: 0px;
+    left: 0;
   }
   [front-foot] {
     position: absolute;
     height: 50px;
     width: 100%;
     cursor: pointer;
-    bottom: 0px;
+    bottom: 0;
   }
 }
 </style>

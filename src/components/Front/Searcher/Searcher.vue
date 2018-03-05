@@ -101,8 +101,10 @@ export default {
       this.$store.commit('isShowSearchList', !this.isStrAllBlank(this.songname));
     },
     losefocus() {
-      document.getElementsByTagName('body')[0].style.height = "100%";
-      this.$store.commit('isShowSearchList', false);
+      setTimeout(() => {
+        document.getElementsByTagName('body')[0].style.height = "100%";
+        this.$store.commit('isShowSearchList', false);
+      }, 100);//防止移动web上出现点击不响应问题
     },
     getNoRepeatName(arr) {
       let low = [];
@@ -179,9 +181,9 @@ export default {
       padding-bottom: 3px;
       font-size: 20px;
       color: white;
-      border-top-width: 0px;
-      border-left-width: 0px;
-      border-right-width: 0px;
+      border-top-width: 0;
+      border-left-width: 0;
+      border-right-width: 0;
       border-bottom-width: 1px;
       border-bottom-color: white;
       display: inline-block;

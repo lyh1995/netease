@@ -4,7 +4,7 @@
     <span id="song-name">{{musicPlayedNow.songName}}</span>
     <span id="song-lyric">{{musicPlayedNow.lyric}}</span>
     <!--<span :style="{background: playState}" style="right: 46px" class="footer-icon" id="footer-icon-play"></span>!-->
-    <div id="footer-icon-play" @click.stop="startPlay">
+    <div id="footer-icon-play">
       <icon name="play" style="transform: rotate(-90deg);" width="25px" height="25px" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}" :circlestyle="isPlaying?circledataplaying:circledatapause"></icon>
     </div>
     <span style="background: url('/static/footerList.svg');right: 6px" class="footer-icon" id="footer-icon-list"></span>
@@ -48,15 +48,16 @@ export default {
     footIconFun(ev) {
       let eve = ev || window.event;
       let target = eve.target || eve.srcElement;
+      console.log(target);
       switch (target.id) {
-        /*case 'footer-icon-play':
+        case 'footer-icon-play':
           this.$store.commit('tooglePlayState');
           if (this.isPlaying) {
             this.myAudio.play();
           } else {
             this.myAudio.pause();
           }
-          break;*/
+          break;
         case 'footer-icon-list':
           console.log("list");break;
         default:
@@ -64,14 +65,6 @@ export default {
           this.$store.commit('getCurrentPath', this.$router.history.current.fullPath);
           this.$router.push({path:'/Player'});
           break;
-      }
-    },
-    startPlay() {
-      this.$store.commit('tooglePlayState');
-      if (this.isPlaying) {
-        this.myAudio.play();
-      } else {
-        this.myAudio.pause();
       }
     }
   },
@@ -109,7 +102,7 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding-bottom: 0px;
+    padding-bottom: 0;
     font-size: 13px;
     top: 8px;
     left: 50px;
@@ -123,7 +116,7 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding-bottom: 0px;
+    padding-bottom: 0;
     font-size: 12px;
     color: #787878;
     -webkit-transform-origin-x: 0;
@@ -144,6 +137,7 @@ export default {
       right: 7.5px;
       top: 12.5px;
       position: absolute;
+      pointer-events: none;
     }
   }
 }

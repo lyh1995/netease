@@ -46,21 +46,20 @@ export default {
       //事件委托
       let eve = ev || window.event;
       let target = eve.target || eve.srcElement;
-      if (target.nodeName.toLocaleLowerCase() === "svg") {
-        switch (target.id) {
-          case 'asideList-id':
-            console.log(0);alert(document.documentElement.clientWidth + "+" + document.documentElement.clientHeight + "+" + window.innerWidth + "+" + window.innerHeight);break;
-          case 'music-id':
-            console.log(1);window.open("http://localhost:8080/#/","","width=360,height=640");break;
-          case 'wangyiyun-id':
-            console.log(2);document.documentElement.webkitRequestFullScreen();break;
-          case 'found-id':
-            console.log(3);document.webkitCancelFullScreen();break;
-          case 'search-id':
-            //this.$router.push({path:'/Search'}); 
-            this.$router.push({ path: '/Search' });
-            break;
-        }
+      console.log(target);
+      switch (target.id) {
+        case 'asideList-id':
+          console.log(0);alert(document.documentElement.clientWidth + "+" + document.documentElement.clientHeight + "+" + window.innerWidth + "+" + window.innerHeight);break;
+        case 'music-id':
+          console.log(1);window.open("http://localhost:8080/#/","","width=360,height=640");break;
+        case 'wangyiyun-id':
+          console.log(2);document.documentElement.webkitRequestFullScreen();break;
+        case 'found-id':
+          console.log(3);document.webkitCancelFullScreen();break;
+        case 'search-id':
+          //this.$router.push({path:'/Search'}); 
+          this.$router.push({ path: '/Search' });
+          break;
       }
     }
   }
@@ -80,6 +79,10 @@ export default {
     position: absolute;
     top: 30px;
     cursor: pointer;
+
+    & > path {
+      pointer-events: none;
+    }
   }
 }
 

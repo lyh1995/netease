@@ -70,7 +70,7 @@ export default {
   .list-item {
     height: 50px;
     position: relative;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     border-radius: 5px;
     cursor: pointer;
 
@@ -100,7 +100,7 @@ export default {
   .list-created {
     background-color: #E5E9E8;
     padding: 6px 0 6px 0;
-    margin: 0px -4px 0 -4px;
+    margin: 0 -4px 0 -4px;
     height: 30px;
     position: relative;
     cursor: pointer;
@@ -143,7 +143,7 @@ export default {
     padding: 4px 0 0 0;
     position: relative;
     height: 60px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     border-radius: 5px;
     cursor: pointer;
     border: none;
@@ -163,7 +163,7 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      padding-bottom: 0px;
+      padding-bottom: 0;
       font-size: 15px;
       top: 9px;
       left: 70px;
