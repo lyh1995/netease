@@ -126,13 +126,10 @@ export default {
       for (let i of str) {
         if(i !== " ") {
           bool = false;
+          break;
         }
       }
-      if (bool) {
-        return true
-      } else {
-        return false
-      }
+      return bool;
     }
   },
   watch: {

@@ -91,6 +91,8 @@ export const store= new Vuex.Store({
 			song: '/static/Taylor Swift - Getaway Car.mp3',
 			songTime: '233'
 		},
+		searchHistoryData: ["Perfect"],
+		hotSearchData: ["Perfect"],
 		testSearchData: ["No Limit", "Perfect"],
 		skinColor: "#D43C31",//"#C20C0C",
 		iconColor: "#FFFFFF",
@@ -203,6 +205,13 @@ export const store= new Vuex.Store({
 		},
 		sliderChangeTimeOut (state, bool) {
 			state.timeChangedBySliderUsedOutside = bool;
+		},
+		hotSearchDataChange (state, obj) {
+			if(obj.add) {
+				state.hotSearchData.push(obj.name);
+			} else {
+				state.hotSearchData.shift();
+			}
 		}
 	},
 	getters: {

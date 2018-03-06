@@ -51,6 +51,7 @@ export default {
       console.log(target);
       switch (target.id) {
         case 'footer-icon-play':
+          this.$store.commit('hotSearchDataChange', {add: false});
           this.$store.commit('tooglePlayState');
           if (this.isPlaying) {
             this.myAudio.play();
@@ -59,7 +60,7 @@ export default {
           }
           break;
         case 'footer-icon-list':
-          console.log("list");break;
+          console.log("list");this.$store.commit('hotSearchDataChange', {add: true, name:"Attention"});break;
         default:
           console.log('go player');
           this.$store.commit('getCurrentPath', this.$router.history.current.fullPath);
