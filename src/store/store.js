@@ -91,8 +91,8 @@ export const store= new Vuex.Store({
 			song: '/static/Taylor Swift - Getaway Car.mp3',
 			songTime: '233'
 		},
-		searchHistoryData: ["Perfect"],
-		hotSearchData: ["Perfect"],
+		searchHistoryData: ["Perfect", "Lights Down Low", "Let Me Go", "End Game", "Umbrella"],
+		hotSearchData: ["Perfect", "Lights Down Low", "Let Me Go", "End Game", "Umbrella", "Say Something", "Feel It Still", "Meant to Be", "All The Stars", "Marry Me"],
 		testSearchData: ["No Limit", "Perfect"],
 		skinColor: "#D43C31",//"#C20C0C",
 		iconColor: "#FFFFFF",
@@ -211,6 +211,13 @@ export const store= new Vuex.Store({
 				state.hotSearchData.push(obj.name);
 			} else {
 				state.hotSearchData.shift();
+			}
+		},
+		searchHistoryDataChange (state, obj) {
+			if (obj.add) {
+
+			} else {
+				state.searchHistoryData.splice(obj.index, 1);
 			}
 		}
 	},

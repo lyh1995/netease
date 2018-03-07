@@ -2,20 +2,26 @@
   <div class="search-history">
     <MySearchSongList v-show="isShowSearchSongList"></MySearchSongList>
     <div class="singer-classify">
-      <span>歌手分类</span>
+      <span>姝屾墜鍒嗙被</span>
     </div>
     <div class="hot-search">
-      <span>热门搜索</span>
+      <span>鐑棬鎼滅储</span>
       <transition-group name="hotsearch" tag="div">
-        <div v-for="(item, index) in hotSearchData" :key="index" class="hot-search-con">
+        <div v-for="(item, index) in hotSearchData" :key="item" class="hot-search-con">
           <span>{{item}}</span>
         </div>
       </transition-group>
     </div>
     <div class="searched-song-history">
       <transition-group name="songhistory" tag="div">
-        <div v-for="(item, index) in searchHistoryData" :key="index" class="search-history-con">
-          <span>{{item}}</span>
+        <div v-for="(item, index) in searchHistoryData" :key="item" class="search-history-con" @click.stop="searchHisFun(index)">
+          <icon name="searchHistory" width="15px" height="15px" class="search-his-icon" ref="songhistoryItem"></icon>
+          <div>
+            <span>{{item}}</span>
+            <div class="search-his-delete" :id="'search-his-item-'+index">
+              <icon name="delete" width="15px" height="15px"></icon>
+            </div>
+          </div>
         </div>
       </transition-group>
     </div>
@@ -45,7 +51,18 @@ export default {
   },
   methods: {
     ...mapMutations([
-      ])
+      ]),
+    searchHisFun(index) {
+      let e = window.event || arguments.calle.caller.arguments[0];
+      let target = e.target;
+      console.log(index);
+      if (target.id) {
+        console.log(target.id);
+        this.$store.commit('searchHistoryDataChange', {add: false, index: index});
+      } else {
+        console.log("default");
+      }
+    }
   }
 }
 </script>
@@ -58,6 +75,25 @@ export default {
 }
 .hotsearch-leave-to {
   opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+.hotsearch-leave-active {
+  position: absolute;
+}
+.hotsearch-move {
+  transition: transform 10s;
+}
+.songhistory-enter {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+}
+.songhistory-leave-to {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+.songhistory-leave-active {
+  position: absolute;
+  z-index: 5;
 }
 .search-history {
   background-color: #F0F4F3;
@@ -66,7 +102,7 @@ export default {
     position: relative;
     width: 100%;
     height: 45px;
-    border-bottom: .5px inset;
+    border-bottom: 1px solid rgba(128,138,135,0.1);
 
     & > span {
       position: absolute;
@@ -101,8 +137,7 @@ export default {
         white-space: nowrap;
         height: 28.75px;
         border-radius: 15px;
-        border: 1px solid;
-        border-color: gray;
+        border: 1px solid rgba(128,138,135,0.3);
         transition: all 1s;
 
         & > span {
@@ -123,13 +158,41 @@ export default {
       top: 3px;
 
       .search-history-con {
-        position: relative;
+        transition: all 1s;
         height: 45px;
 
-        & > span {
-          position: absolute;
+        & > div {
+          position: relative;
+          top: -20px;
           left: 30px;
-          top: 18px;
+          width: 329px;
+          height: 45px;
+          border-bottom: 1px solid rgba(128,138,135,0.1);
+
+          .search-his-delete {
+            position: absolute;
+            top: 10px;
+            left: 295px;
+            width: 25px;
+            height: 25px;
+
+            & > svg {
+              position: relative;
+              margin: 5px;
+              pointer-events: none;
+            }
+          }
+          & > span {
+            font-size: 12px;
+            position: absolute;
+            top: 15px;
+            left: 5px;
+          }
+        }
+        .search-his-icon {
+          position: relative;
+          left: 10px;
+          top: 15px;
         }
       }
     }

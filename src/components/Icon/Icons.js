@@ -218,3 +218,28 @@ Icon.register({
 		}]
 	}
 })
+Icon.register({
+	"searchHistory": {
+		"width": 60,
+		"height": 60,
+		"circles": [{
+			"cx": "30","cy": "30","r": "29","stroke-width": "2","stroke": "gray","fill": "none"
+		}],
+		"lines": [{
+			"x1": "28","y1": "12","x2": "28","y2": "32","stroke-width": "2","stroke": "gray"
+		}, {
+			"x1": "28","y1": "32","x2": "42.14","y2": "46.14","stroke-width": "2","stroke": "gray"
+		}]
+	}
+})
+Icon.register({
+	"delete": {
+		"width": 60,
+		"height": 60,
+		"lines": [{
+			"x1": "8","y1": "8","x2": "52","y2": "52","stroke-width": "2","stroke": "gray"
+		}, {
+			"x1": "52","y1": "8","x2": "8","y2": "52","stroke-width": "2","stroke": "gray"
+		}]
+	}
+})
