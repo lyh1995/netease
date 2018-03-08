@@ -21,6 +21,7 @@ export const store= new Vuex.Store({
 		isSearchNameRight: true,
 		timeChangedBySlider: false,
 		timeChangedBySliderUsedOutside: false,
+		isShowAsideList: false,
 		testData:'',
 		headIcon: [{
 			imgUrl: "url('/static/asideList.svg')",
@@ -91,7 +92,7 @@ export const store= new Vuex.Store({
 			song: '/static/Taylor Swift - Getaway Car.mp3',
 			songTime: '233'
 		},
-		searchHistoryData: ["Perfect", "Lights Down Low", "Let Me Go", "End Game", "Umbrella"],
+		searchHistoryData: [],
 		hotSearchData: ["Perfect", "Lights Down Low", "Let Me Go", "End Game", "Umbrella", "Say Something", "Feel It Still", "Meant to Be", "All The Stars", "Marry Me"],
 		testSearchData: ["No Limit", "Perfect"],
 		skinColor: "#D43C31",//"#C20C0C",
@@ -128,12 +129,11 @@ export const store= new Vuex.Store({
 		toogleSettings (state) {
 			console.log('hi');
 		},
+		toogleAsideList(state) {
+			state.isShowAsideList = !state.isShowAsideList;
+		},
 		tooglePlayState (state) {
-			if (state.isPlaying) {
-				state.isPlaying = false;
-			} else {
-				state.isPlaying = true;
-			}
+			state.isPlaying = !state.isPlaying;
 		},//切换播放状态
 		songTimeChange (state, time) {
 			state.songTimeNow = time;
@@ -215,7 +215,23 @@ export const store= new Vuex.Store({
 		},
 		searchHistoryDataChange (state, obj) {
 			if (obj.add) {
-
+				let lowName = obj.name.toLowerCase();
+				let lowerArr = [];
+				for (let i of state.searchHistoryData) {
+					lowerArr.push(i.toLowerCase());
+				}
+				let index = lowerArr.indexOf(lowName);
+				if (index === -1) {
+					if (state.searchHistoryData.length < 5) {
+						state.searchHistoryData.unshift(obj.name);
+					} else {
+						state.searchHistoryData.pop();
+						state.searchHistoryData.unshift(obj.name);
+					}
+				} else {
+					state.searchHistoryData.splice(index, 1);
+					state.searchHistoryData.unshift(obj.name);
+				}	
 			} else {
 				state.searchHistoryData.splice(obj.index, 1);
 			}

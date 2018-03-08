@@ -1,7 +1,7 @@
 <template>
   <div :style="{backgroundColor: skinColor}" class="search-header">
     <span class="search-head-icon" @click="goback" :style="{background: backicon}"></span>
-    <input type="text" class="searchtext" v-model="songname" :style="{backgroundColor: skinColor}" placeholder="search" @focus="getfocus" @blur="losefocus" ref="inputext">
+    <input type="text" class="searchtext" v-model="songname" :style="{backgroundColor: skinColor}" placeholder="search" @focus="getfocus" @blur="losefocus" ref="inputext" @keydown.enter="pushSearchHis">
   </div>
 </template>
 
@@ -17,8 +17,7 @@ export default {
   },
   computed: {
     ...mapState([
-      'skinColor',
-      'isShowHead'
+      'skinColor'
     ])
   },
   data() {
@@ -130,6 +129,12 @@ export default {
         }
       }
       return bool;
+    },
+    pushSearchHis() {
+      if (!this.isStrAllBlank(this.songname)) {
+        this.$store.commit('searchHistoryDataChange', {add: true, name: this.songname});
+        consolelog("pushed");
+      }
     }
   },
   watch: {

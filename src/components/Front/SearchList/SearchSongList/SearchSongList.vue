@@ -40,6 +40,7 @@ export default {
       let eveId = parseInt(target.id[0]);
       console.log(eveId);
       console.log(this.songSearchList[eveId].id);
+      this.$store.commit('searchHistoryDataChange', {add: true, name: this.songSearchList[eveId].name});
       this.$store.commit('musicIdChange', this.songSearchList[eveId].id);
       this.$router.push({ path: '/SearchRes' });
     }

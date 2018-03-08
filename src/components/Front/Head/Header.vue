@@ -49,7 +49,10 @@ export default {
       console.log(target);
       switch (target.id) {
         case 'asideList-id':
-          console.log(0);alert(document.documentElement.clientWidth + "+" + document.documentElement.clientHeight + "+" + window.innerWidth + "+" + window.innerHeight);break;
+          console.log(0);
+          console.log(document.documentElement.clientWidth + "+" + document.documentElement.clientHeight + "+" + window.innerWidth + "+" + window.innerHeight);
+          this.$store.commit('toogleAsideList');
+          break;
         case 'music-id':
           console.log(1);window.open("http://localhost:8080/#/","","width=360,height=640");break;
         case 'wangyiyun-id':

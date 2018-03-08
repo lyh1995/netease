@@ -85,7 +85,7 @@ export default {
 }
 .songhistory-enter {
   opacity: 0;
-  transform: translate3d(0, 30px, 0);
+  transform: translate3d(20px, -277px, 0);
 }
 .songhistory-leave-to {
   opacity: 0;

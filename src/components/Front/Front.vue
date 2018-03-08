@@ -4,6 +4,9 @@
     <!--<MyHeader v-show="isShowHead"></MyHeader>-->
     <!--<MySearcher v-show="!isShowHead"></MySearcher>-->
     <!-- tab页 -->
+    <transition name="asideList">
+      <MyAsideList v-if="isShowAsideList" font-aside></MyAsideList>
+    </transition>
     <transition :name="(toPath === '/Search')?'searcheadin':'searcheadout'" mode="in-out">
       <keep-alive>
         <router-view name="head" front-head></router-view>
@@ -25,19 +28,22 @@ import MyHeader from './Head/Header.vue'
 import MyFooter from './Footer/Footer.vue'
 import MySearcher from './Searcher/Searcher.vue'
 import { mapState } from 'vuex'
+import MyAsideList from './AsideList/AsideList.vue'
 
 export default {
   name: 'front',
   components: {
     MyHeader,
     MyFooter,
-    MySearcher
+    MySearcher,
+    MyAsideList
   },
   computed: {
     ...mapState([
       'isShowHead',
       'isShowFooter',
-      'toPath'
+      'toPath',
+      'isShowAsideList'
     ])
   },
   data() {
@@ -49,6 +55,13 @@ export default {
 
 
 <style lang="scss">
+.asideList-enter, .asideList-leave-to {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+.asideList-enter-active, .asideList-leave-active {
+  transition: all .3s ease;
+}
 .searcherin-enter {
   opacity: 0;
   transform: translateY(580px);
@@ -88,6 +101,10 @@ export default {
   width: 100%;
   height: 100%;
 
+  [font-aside] {
+    position: relative;
+    z-index: 5;
+  }
   [front-head] {
     position: absolute;
     top: 0;
