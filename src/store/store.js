@@ -62,7 +62,6 @@ export const store= new Vuex.Store({
 			icon: "url('/static/myCollection.svg')",
 			listName: "我的收藏"
 		}],
-		initialTabData: "tabDown",//创建歌单的icon
 		musicListCreated: [{
 			name: "reputation",
 			imgUrl: "/static/reputation.jpg",
@@ -92,6 +91,7 @@ export const store= new Vuex.Store({
 			song: '/static/Taylor Swift - Getaway Car.mp3',
 			songTime: '233'
 		},
+		testSongImgList: ["/static/1989.jpg", "/static/red.jpg", "/static/1989.jpg"],
 		searchHistoryData: [],
 		hotSearchData: ["Perfect", "Lights Down Low", "Let Me Go", "End Game", "Umbrella", "Say Something", "Feel It Still", "Meant to Be", "All The Stars", "Marry Me"],
 		testSearchData: ["No Limit", "Perfect"],
@@ -118,14 +118,8 @@ export const store= new Vuex.Store({
 	},
 	mutations: {
 		toogleTab (state) {
-			if (state.initialTabData == "tabDown") {
-				state.initialTabData = "tabUp";
-				state.isMyListShow = true;
-			} else {
-				state.initialTabData = "tabDown";
-				state.isMyListShow = false;
-			}
-		},//切换'创建的歌单'下拉页
+			state.isMyListShow = !state.isMyListShow;
+		},
 		toogleSettings (state) {
 			console.log('hi');
 		},
@@ -235,10 +229,29 @@ export const store= new Vuex.Store({
 			} else {
 				state.searchHistoryData.splice(obj.index, 1);
 			}
+		},
+		changeSong (state, direction) {//right = next
+			if (direction === "right") {
+				state.musicPlayedNowIndex = state.musicPlayedNowIndex === 0?state.musicPlayList.length - 1:state.musicPlayedNowIndex - 1;
+				if (state.musicPlayList.length > 1) {
+					Object.assign(state.musicPlayedNow, state.musicPlayList[state.musicPlayedNowIndex]);
+				}
+			} else {
+				state.musicPlayedNowIndex = state.musicPlayedNowIndex === (state.musicPlayList.length - 1)?0:state..musicPlayedNowIndex - 1;
+				if (state.musicPlayList.length > 1) {
+					Object.assign(state.musicPlayedNowIndex, state.musicPlayList[state.musicPlayedNowIndex]);
+				}
+			}
 		}
 	},
 	getters: {
-
+		songSliderList: state => {
+			let res = new Array(1).fill(state.musicPlayList[state.musicPlayedNowIndex].songImg),
+				pre = state.musicPlayedNowIndex == 0?state.musicPlayList.length - 1:state.musicPlayedNowIndex - 1;
+				next = state.musicPlayedNowIndex === (state.musicPlayList.length - 1)?0:state.musicPlayedNowIndex + 1;
+			res.unshift(state.musicPlayList[pre].songImg);
+			res.push(state.musicPlayList[next].songImg);
+		}
 	},
 	actions: {
 		getLrc({ commit,state }) {

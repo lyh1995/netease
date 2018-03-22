@@ -7,7 +7,10 @@ import {store} from './store/store.js'
 import axios from 'axios'
 import Icon from './components/Icon/Icon.vue'
 import './components/Icon/Icons.js'
+import {myBaseJs} from './base.js'
 Vue.prototype.$axios = axios
+Vue.prototype.pxToVwNum = myBaseJs.pxToVw(360)
+Vue.prototype.pxToVwStr = number => `${myBaseJs.pxToVw(360)(number)}vw`
 
 Vue.config.productionTip = false
 Vue.component('icon', Icon)

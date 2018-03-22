@@ -68,7 +68,9 @@ export default {
       }
     },
     timeChange() {
-      this.$store.commit('songTimeChange', this.$refs.player.currentTime);
+      if(this.$refs.player.currentTime !== 0) {
+        this.$store.commit('songTimeChange', this.$refs.player.currentTime);
+      }
     }
   }
 }
@@ -107,5 +109,10 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
+}
+.con-center {//使容器内的item垂直居中,用在容器上
+  justify-content: center;//水平居中
+  display: flex;
+  align-items: center;//垂直居中
 }
 </style>

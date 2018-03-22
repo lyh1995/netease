@@ -62,6 +62,8 @@ export default {
               let str = [];
               this.$store.commit('getSongSearchList', str);
             }
+          }).catch(error => {
+            console.log(error);
           });
           /*let reqStrSuggest = `/netApi/search/suggest?keywords=${codeSongName}`;
           this.$axios.get(reqStrSuggest).then(res => {

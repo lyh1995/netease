@@ -4,10 +4,10 @@
     <span id="song-name">{{musicPlayedNow.songName}}</span>
     <span id="song-lyric">{{musicPlayedNow.lyric}}</span>
     <!--<span :style="{background: playState}" style="right: 46px" class="footer-icon" id="footer-icon-play"></span>!-->
-    <div id="footer-icon-play">
-      <icon name="play" style="transform: rotate(-90deg);" width="25px" height="25px" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}" :circlestyle="isPlaying?circledataplaying:circledatapause"></icon>
+    <div id="footer-icon-play" class="con-center">
+      <icon name="play" style="transform: rotate(-90deg);" :width="pxToVwStr(25)" :height="pxToVwStr(25)" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}" :circlestyle="isPlaying?circledataplaying:circledatapause"></icon>
     </div>
-    <span style="background: url('/static/footerList.svg');right: 6px" class="footer-icon" id="footer-icon-list"></span>
+    <span class="footer-icon" id="footer-icon-list"></span>
   </div>
 </template>
 
@@ -129,15 +129,16 @@ export default {
     height: 25px;
     margin: 4px;
   }
+  #footer-icon-list {
+    background: url('/static/footerList.svg');
+    right: 6px;
+  }
   #footer-icon-play {
     right: 40px;
     width: 40px;
     height: 50px;
 
     & > svg {
-      right: 7.5px;
-      top: 12.5px;
-      position: absolute;
       pointer-events: none;
     }
   }

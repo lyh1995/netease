@@ -21,7 +21,7 @@
           <div class="fill" ref="fill">
           </div
           ><div class="slider" ref="slider">
-            <icon name="slider" width="15px" height="15px"></icon>
+            <icon name="slider" :width="pxToVwStr(15)" :height="pxToVwStr(15)"></icon>
           </div>
         </div
         ><div class="endtime">
@@ -29,11 +29,11 @@
         </div>
       </div>
       <div class="footicon">
-        <div v-for="(item, index) of footIconName" :key="item.id" @click.stop="footIconFun(index)">
+        <div v-for="(item, index) of footIconName" class="con-center" :key="item.id" @click.stop="footIconFun(index)">
           <icon :name="item.iconName" :width="item.dim" :height="item.dim"></icon>
         </div>
-        <div class="icon-con" @click.stop="clickPlayIcon">
-          <icon name="playerPlay" width="45px" height="45px" class="playerplayicon" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}"></icon>
+        <div class="icon-con con-center" @click.stop="clickPlayIcon">
+          <icon name="playerPlay" :width="pxToVwStr(45)" :height="pxToVwStr(45)" :linestyle="{'visibility': isPlaying?'visible':'hidden'}" :pathstyle="{'visibility': isPlaying?'hidden':'visible'}"></icon>
         </div>
       </div>
     </div>
@@ -71,19 +71,19 @@ export default {
       footIconName: [{
         iconName: "preSong",
         id: "presong-id-1",
-        dim: "20px"
+        dim: this.pxToVwStr(20)
       }, {
         iconName: "preSong",
         id: "preSong-id-2",
-        dim: "25px"
+        dim: this.pxToVwStr(25)
       }, {
         iconName: "nextSong",
         id: "nextSong-id-1",
-        dim: "25px"
+        dim: this.pxToVwStr(25)
       }, {
         iconName: "nextSong",
         id: "nextSong-id-2",
-        dim: "20px"
+        dim: this.pxToVwStr(20)
       }]
     }
   },
@@ -369,12 +369,6 @@ export default {
           left: $left;
           height: 30px;
           width: 30px;
-
-          & > svg {
-            position: absolute;
-            top: $icondis;
-            left: $icondis;
-          }
         }
       }
       .icon-con {
@@ -383,12 +377,6 @@ export default {
         width: 60px;
         top: 12.5px;
         left: 150px;
-
-        .playerplayicon {
-          position: absolute;
-          left: 7.5px;
-          top: 7.5px;
-        }
       }
     }
   }

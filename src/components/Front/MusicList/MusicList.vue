@@ -1,15 +1,17 @@
 <template>
   <div class="music-list" :style="{backgroundColor: tabColor}">
     <div v-for="(item, index) of listData" class="list-item">
-      <icon :name="item.iconName" class="list-icon" width="20px" height="20px" color="#D43C31"></icon>
+      <icon :name="item.iconName" class="list-icon" :width="pxToVwStr(20)" :height="pxToVwStr(20)" color="#D43C31"></icon>
       <span class="list-name">{{item.listName}}</span>
     </div>
     <div class="list-created">
-      <div class="icon-con" @click="toogleTab">
-        <icon :name="initialTabData" class="list-tab" width="11px" height="11px" color="black"></icon>
+      <div class="icon-con" @click="toogleTabFun">
+        <div ref="testIconRef">
+          <icon name="tabDown" class="list-tab" :width="pxToVwStr(11)" :height="pxToVwStr(11)" color="black"></icon>
+        </div>
       </div>
-      <span class="mylist-created" @click="toogleTab">创建的歌单({{musicListCreated.length}})</span>
-      <icon name="settings" class="list-setting" @click="toogleSettings" width="15px" height="15px" color="#8c8c8c"></icon>
+      <span class="mylist-created" @click="toogleTabFun">创建的歌单({{musicListCreated.length}})</span>
+      <icon name="settings" class="list-setting" @click="toogleSettings" :width="pxToVwStr(15)" :height="pxToVwStr(15)" color="#8c8c8c"></icon>
     </div>
     <div v-for="(item, index) of musicListCreated" class="my-list" v-show="isMyListShow">
       <img :src="item.imgUrl" class="mylist-img"></img>
@@ -55,9 +57,13 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'toogleTab',
       'toogleSettings'
-      ])
+      ]),
+    toogleTabFun() {
+      let deg = this.isMyListShow?"0deg":"90deg";
+      this.$store.commit('toogleTab');
+      this.$refs.testIconRef.style.transform = `rotate(${deg})`;
+    }
   }
 }
 </script>
@@ -115,12 +121,18 @@ export default {
       height: 100%;
       display: inline-block;
 
-      .list-tab {
+      & > div {
         display: inline-block;
         position: absolute;
         left: 12.5px;
         top: 8.5px;
-        background-size: contain;
+        transform-origin: 5.5px 5.5px;
+
+        .list-tab {
+          display: inline-block;
+          position: absolute;
+          background-size: contain;
+        }
       }
     }
     .mylist-created {

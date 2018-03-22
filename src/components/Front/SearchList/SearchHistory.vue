@@ -15,11 +15,11 @@
     <div class="searched-song-history">
       <transition-group name="songhistory" tag="div">
         <div v-for="(item, index) in searchHistoryData" :key="item" class="search-history-con" @click.stop="searchHisFun(index)">
-          <icon name="searchHistory" width="15px" height="15px" class="search-his-icon" ref="songhistoryItem"></icon>
+          <icon name="searchHistory" :width="pxToVwStr(15)" :height="pxToVwStr(15)" class="search-his-icon" ref="songhistoryItem"></icon>
           <div>
             <span>{{item}}</span>
             <div class="search-his-delete" :id="'search-his-item-'+index">
-              <icon name="delete" width="15px" height="15px"></icon>
+              <icon name="delete" :width="pxToVwStr(15)" :height="pxToVwStr(15)"></icon>
             </div>
           </div>
         </div>

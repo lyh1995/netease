@@ -6,7 +6,7 @@
       <div class="aside-foot">
         <div class="aside-foot-up">
           <div v-for="(item, index) of iconList" class="aside-foot-up-item">
-            <icon name="searchHistory" width="15px" height="15px"></icon>
+            <icon name="searchHistory" :width="pxToVwStr(15)" :height="pxToVwStr(15)"></icon>
             <span>{{item.name}}</span>
           </div>
         </div>

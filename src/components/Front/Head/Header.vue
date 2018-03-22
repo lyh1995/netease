@@ -1,7 +1,9 @@
 <template>
-  <div :style="{backgroundColor: skinColor}" class="header" @click.stop="iconFun">
+  <div :style="backColor" class="header" @click.stop="iconFun">
     <!--<span :style="{background: item.imgUrl,left: item.leftStyle}" class="head-icon" :id="index"></span>!-->
-    <icon v-for="(item, index) of iconName" :name="item.iconName" class="head-icon" :key="item.id" :id="item.id" width="25px" height="25px" :color="iconColor"></icon>
+    <div v-for="(item, index) of iconName" :key="item.id" :id="item.id" class="head-icon con-center">
+      <icon :name="item.iconName" :width="pxToVwStr(25)" :height="pxToVwStr(25)" :color="iconColor"></icon>
+    </div>
   </div>
 </template>
 
@@ -17,7 +19,12 @@ export default {
       'headIcon',
       'testData',
       'iconColor'
-    ])
+    ]),
+    backColor() {
+      return {
+        'background-color': this.skinColor
+      }
+    }
   },
   data() {
     return {
@@ -72,7 +79,7 @@ export default {
 
 <style lang="scss">
 .header {
-  $icon-data: (1, 15px),(2, 110px),(3, 167.5px),(4, 225px),(5, 320px);
+  $icon-data: (1, 12.5px),(2, 107.5px),(3, 165px),(4, 222.5px),(5, 317.5px);
   @each $index, $data in $icon-data {
     & :nth-child(#{$index}) {
       left: $data;
@@ -80,10 +87,12 @@ export default {
   }
   .head-icon {
     position: absolute;
-    top: 30px;
+    width: 30px;
+    height: 30px;
+    top: 27.5px;
     cursor: pointer;
 
-    & > path {
+    & > svg {
       pointer-events: none;
     }
   }
