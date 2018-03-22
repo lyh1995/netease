@@ -2,9 +2,12 @@
   <div class="roller">
     <div class="swith" :class="isPlaying?(isMoving?'songpause':''):'songpause'">
     </div>
-    <div class="img-con">
-      <img :src="musicPlayedNow.songImg" class="img" :style="{'animationPlayState':isPlaying?(isMoving?'paused':'running'):'paused'}" @click="goLryicer" @touchmove.stop="touchMove" @touchstart.stop="touchStart" @touchend.stop="touchEnd" ref="rollimg"></img>
-      <img src="/static/1989.jpg" class="img img-hide" :style="{'animationPlayState':isPlaying?(isMoving?'paused':'running'):'paused'}" @click="goLryicer" @touchmove.stop="touchMove" @touchstart.stop="touchStart" @touchend.stop="touchEnd" ref="rollimgn" v-if="isShowAnImg"></img>
+    <div class="img-back">
+    </div>
+    <div class="img-con" ref="imgContainer">
+      <div v-for="(item, index) in songSliderList" :key="item" class="img-div" @click="goLryicer" @touchmove.stop="touchMove" @touchstart.stop="touchStart" @touchend.stop="touchEnd" :ref="'rollimgFir'+index">
+        <img :src="item" class="img" :style="{'animationPlayState':isPlaying?(isMoving?'paused':'running'):'paused'}"></img>
+      </div>
     </div>
   </div>
 </template>
@@ -12,19 +15,26 @@
 <script>
 import { mapMutations } from 'vuex'
 import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Roller',
   computed: {
     ...mapState([
       'musicPlayedNow',
-      'isPlaying'
+      'isPlaying',
+      'songImgList'
+    ]),
+    ...mapGetters([
+      'songSliderList'
     ])
   },
   data() {
     return {
       isMoving: false,
-      isShowAnImg: false
+      isShowAnImg: false,
+      transDis: 0,
+      isFastMove: true
     }
   },
   methods: {
@@ -33,27 +43,53 @@ export default {
     },
     touchStart(e) {
       this.touchStartLeft = e.touches[0].clientX;
+      setTimeout(() => this.isFastMove = false, 150);
     },
     touchMove(e) {
       this.isMoving = true;
-      this.$refs.rollimg.style.left = 5 + e.touches[0].clientX - this.touchStartLeft + "px";
-      let dis = Number.parseFloat(this.$refs.rollimg.style.left);
-      if (dis >= 55) {
-        this.isShowAnImg = true;
-        this.$refs.rollimgn.style.left = dis - 260 - 45 + "px";
-      } else if (dis <= -45) {
-        this.isShowAnImg = true;
-        this.$refs.rollimgn.style.left = dis + 315 + "px";
-      } else {
-        this.isShowAnImg = false;
-      }
+      this.transDis = e.touches[0].clientX - this.touchStartLeft;
+      this.setAnimation("imgContainer", `translate3d(${this.pxToVwStr(this.transDis)},0,0)`, "");
     },
     touchEnd(e) {
-      this.isMoving = false;
-      let dis = Number.parseFloat(this.$refs.rollimg.style.left);
-      if (dis > -175 && dis < 185) {
-        this.$refs.rollimg.style.left = "5px";
+      if (!this.isMoving) {
+        return;
+      } else {
+        if (this.isFastMove) {
+          let dire = this.transDis > 0?"right":"left",
+              dis = this.transDis > 0?this.pxToVwStr(360):this.pxToVwStr(-360);
+          this.setAnimation("imgContainer", `translate3d(${dis}),0,0 )`, "1s");
+          setTimeout(() => {
+            this.setAnimation("imgContainer", `translate3d(0,0,0)`, "");
+            this.$store.commit('changeSong', dire);
+            this.isMoving = false;
+          },500);
+        } else {
+          if (this.transDis >= 180) {
+            this.setAnimation("imgContainer", `translate3d(${this.pxToVwStr(360)},0,0)`, "1s");
+            setTimeout(() => {
+              this.setAnimation("imgContainer", "translate3d(0,0,0)","");
+              this.$store.commit('changeSong', "right");
+              this.isMoving = false;
+            },500);
+          } else if (this.transDis <= -180) {
+            this.setAnimation("imgContainer", `translate3d(${this.pxToVwStr(-360)},0,0)`, "1s");
+            setTimeout(() => {
+              this.setAnimation("imgContainer", `translate3d(0,0,0)`, "");
+              this.$store.commit('changeSong', 'left');
+              this.isMoving = false;
+            },500);
+          } else {
+            this.setAnimation("imgContainer", `translate3d(0,0,0)`, ".5s");
+            setTimeout(() => this.isMoving = false, 250);
+          }
+        }
       }
+      setTimeout(() => this.isFastMove = true, 200);
+    },
+    setAnimation(target, trans, time, timeFun = "ease") {
+      this.$refs[target].style.transform = trans;
+      this.$refs[target].style.transitionDuration = time;
+      this.$refs[target].style.transitionTimingFunction = timeFun;
     }
   }
 }
@@ -87,27 +123,38 @@ export default {
       background-size: contain;
       z-index: 1;
     }
-    .img-con {
+    .img-back {
       width: 270px;
       height: 270px;
       border-radius: 50%;
-      position: relative;
+      position: absolute;
       top: 65px;
       left: 45px;
       background-color: rgb(99,99,99);
+    }
+    .img-con {
+      width: 1080px;
+      height: 260px;
+      position: absolute;
+      top: 70px;
+      left: -360px;
 
-      .img {
-        width: 260px;
+      .img-div {
+        width: 360px;
         height: 260px;
         position: relative;
-        top: 5px;
-        left: 5px;
-        border: 40px solid black;
-        border-radius: 50%;
-        animation: roll 10s linear infinite;
-      }
-      .img-hide {
-        top: -260px;
+        display: inline-block;
+
+        .img {
+          width: 260px;
+          height: 260px;
+          position: relative;
+          left: 50px;
+          border: 40px solid black;
+          border-radius: 50%;
+          display: inline-block;
+          animation: roll 10s linear infinite;
+        }
       }
     }
   }

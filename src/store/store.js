@@ -85,13 +85,43 @@ export const store= new Vuex.Store({
 		}],
 		musicPlayedNow: {
 			songName: 'Getaway Car',
-			songImg: '/static/red.jpg',
+			songImg: '/static/reputation.jpg',
 			singer: 'Taylor Swift',
 			lyric: 'Taylor Swift - Reputation',
 			song: '/static/Taylor Swift - Getaway Car.mp3',
 			songTime: '233'
 		},
-		testSongImgList: ["/static/1989.jpg", "/static/red.jpg", "/static/1989.jpg"],
+		musicPlayedNowIndex: 0,
+		musicPlayList: [{
+			songName: 'Getaway Car',
+			songImg: '/static/reputation.jpg',
+			singer: 'Taylor Swift',
+			lyric: 'Taylor Swift - Reputation',
+			song: '/static/Taylor Swift - Getaway Car.mp3',
+			songTime: '233'
+		}, {
+			songName: 'Getaway Car',
+			songImg: '/static/1989.jpg',
+			singer: 'Taylor Swift',
+			lyric: 'Taylor Swift - Reputation',
+			song: '/static/Taylor Swift - Getaway Car.mp3',
+			songTime: '233'
+		}, {
+			songName: 'Getaway Car',
+			songImg: '/static/red.jpg',
+			singer: 'Taylor Swift',
+			lyric: 'Taylor Swift - Reputation',
+			song: '/static/Taylor Swift - Getaway Car.mp3',
+			songTime: '233'
+		}, {
+			songName: 'Getaway Car',
+			songImg: '/static/1989.jpg',
+			singer: 'Taylor Swift',
+			lyric: 'Taylor Swift - Reputation',
+			song: '/static/Taylor Swift - Getaway Car.mp3',
+			songTime: '233'
+		}],
+		songImgList: ["/static/1989.jpg", "/static/red.jpg", "/static/1989.jpg"],
 		searchHistoryData: [],
 		hotSearchData: ["Perfect", "Lights Down Low", "Let Me Go", "End Game", "Umbrella", "Say Something", "Feel It Still", "Meant to Be", "All The Stars", "Marry Me"],
 		testSearchData: ["No Limit", "Perfect"],
@@ -230,27 +260,25 @@ export const store= new Vuex.Store({
 				state.searchHistoryData.splice(obj.index, 1);
 			}
 		},
-		changeSong (state, direction) {//right = next
-			if (direction === "right") {
+		changeSong (state, direction) {//left = next
+			if (direction === "left") {
 				state.musicPlayedNowIndex = state.musicPlayedNowIndex === 0?state.musicPlayList.length - 1:state.musicPlayedNowIndex - 1;
-				if (state.musicPlayList.length > 1) {
-					Object.assign(state.musicPlayedNow, state.musicPlayList[state.musicPlayedNowIndex]);
-				}
 			} else {
-				state.musicPlayedNowIndex = state.musicPlayedNowIndex === (state.musicPlayList.length - 1)?0:state..musicPlayedNowIndex - 1;
-				if (state.musicPlayList.length > 1) {
-					Object.assign(state.musicPlayedNowIndex, state.musicPlayList[state.musicPlayedNowIndex]);
-				}
+				state.musicPlayedNowIndex = state.musicPlayedNowIndex === (state.musicPlayList.length - 1)?0:state.musicPlayedNowIndex - 1;
+			}
+			if (state.musicPlayList.length > 1) {
+				Object.assign(state.musicPlayedNow, state.musicPlayList[state.musicPlayedNowIndex]);
 			}
 		}
 	},
 	getters: {
 		songSliderList: state => {
 			let res = new Array(1).fill(state.musicPlayList[state.musicPlayedNowIndex].songImg),
-				pre = state.musicPlayedNowIndex == 0?state.musicPlayList.length - 1:state.musicPlayedNowIndex - 1;
+				pre = state.musicPlayedNowIndex === 0?state.musicPlayList.length - 1:state.musicPlayedNowIndex - 1,
 				next = state.musicPlayedNowIndex === (state.musicPlayList.length - 1)?0:state.musicPlayedNowIndex + 1;
 			res.unshift(state.musicPlayList[pre].songImg);
 			res.push(state.musicPlayList[next].songImg);
+			return res;
 		}
 	},
 	actions: {
