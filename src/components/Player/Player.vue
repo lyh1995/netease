@@ -178,8 +178,10 @@ export default {
         case 0:
           break;
         case 1:
+          this.$store.commit('changeSong', "right");
           break;
         case 2:
+          this.$store.commit('changeSong', "left");
           break;
         case 3:
           break;

@@ -5,7 +5,7 @@
     <div class="img-back">
     </div>
     <div class="img-con" ref="imgContainer">
-      <div v-for="(item, index) in songSliderList" :key="item" class="img-div" @click="goLryicer" @touchmove.stop="touchMove" @touchstart.stop="touchStart" @touchend.stop="touchEnd" :ref="'rollimgFir'+index">
+      <div v-for="(item, index) in mySliderList" :key="item" class="img-div" @click="goLryicer" @touchmove.stop="touchMove" @touchstart.stop="touchStart" @touchend.stop="touchEnd">
         <img :src="item" class="img" :style="{'animationPlayState':isPlaying?(isMoving?'paused':'running'):'paused'}"></img>
       </div>
     </div>
@@ -19,11 +19,15 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Roller',
+  mounted() {
+    this.mySliderList = this.songSliderList;
+  },
   computed: {
     ...mapState([
       'musicPlayedNow',
       'isPlaying',
-      'songImgList'
+      'songImgList',
+      'musicPlayedNowIndex'
     ]),
     ...mapGetters([
       'songSliderList'
@@ -34,7 +38,8 @@ export default {
       isMoving: false,
       isShowAnImg: false,
       transDis: 0,
-      isFastMove: true
+      isFastMove: true,
+      mySliderList: []
     }
   },
   methods: {
@@ -55,31 +60,15 @@ export default {
         return;
       } else {
         if (this.isFastMove) {
-          let dire = this.transDis > 0?"right":"left",
-              dis = this.transDis > 0?this.pxToVwStr(360):this.pxToVwStr(-360);
-          this.setAnimation("imgContainer", `translate3d(${dis}),0,0 )`, "1s");
-          setTimeout(() => {
-            this.setAnimation("imgContainer", `translate3d(0,0,0)`, "");
-            this.$store.commit('changeSong', dire);
-            this.isMoving = false;
-          },500);
+          let dire = this.tranDis > 0 ? "right" : "left";
+          this.$store.commit('changeSong', dire);
         } else {
           if (this.transDis >= 180) {
-            this.setAnimation("imgContainer", `translate3d(${this.pxToVwStr(360)},0,0)`, "1s");
-            setTimeout(() => {
-              this.setAnimation("imgContainer", "translate3d(0,0,0)","");
               this.$store.commit('changeSong', "right");
-              this.isMoving = false;
-            },500);
           } else if (this.transDis <= -180) {
-            this.setAnimation("imgContainer", `translate3d(${this.pxToVwStr(-360)},0,0)`, "1s");
-            setTimeout(() => {
-              this.setAnimation("imgContainer", `translate3d(0,0,0)`, "");
-              this.$store.commit('changeSong', 'left');
-              this.isMoving = false;
-            },500);
+              this.$store.commit('changeSong', "left");
           } else {
-            this.setAnimation("imgContainer", `translate3d(0,0,0)`, ".5s");
+            this.setAnimation("imgContainer", "translate3d(0,0,0)", ".5s");
             setTimeout(() => this.isMoving = false, 250);
           }
         }
@@ -90,6 +79,29 @@ export default {
       this.$refs[target].style.transform = trans;
       this.$refs[target].style.transitionDuration = time;
       this.$refs[target].style.transitionTimingFunction = timeFun;
+    },
+    sliderAnimation(dire) {
+      let dis = dire === "right" ? 360 : -360;
+      this.setAnimation("imgContainer", `translate3d(${this.pxToVwStr(dis)},0,0)`, "1s");
+      setTimeout(() => {
+        this.serAnimation("imgContainer", "translate3d(0,0,0)", "");
+        this.isMoving = false;
+      },500);
+    }
+  },
+  watch: {
+    musicPlayedNowIndex: {
+      handler(now, old) {
+        this.isMoving = true;
+        let dire;
+        if (Math.abs(now - old) === 1) {
+          dire = now - old > 0 ? "left" : "right";
+        } else {
+          dire = now - old > 0 ? "right" : "left";
+        }
+        this.sliderAnimation(dire);
+        setTimeout(() => this.mySliderList = this.songSliderList,500);
+      }
     }
   }
 }

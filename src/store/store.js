@@ -121,7 +121,6 @@ export const store= new Vuex.Store({
 			song: '/static/Taylor Swift - Getaway Car.mp3',
 			songTime: '233'
 		}],
-		songImgList: ["/static/1989.jpg", "/static/red.jpg", "/static/1989.jpg"],
 		searchHistoryData: [],
 		hotSearchData: ["Perfect", "Lights Down Low", "Let Me Go", "End Game", "Umbrella", "Say Something", "Feel It Still", "Meant to Be", "All The Stars", "Marry Me"],
 		testSearchData: ["No Limit", "Perfect"],
@@ -260,11 +259,11 @@ export const store= new Vuex.Store({
 				state.searchHistoryData.splice(obj.index, 1);
 			}
 		},
-		changeSong (state, direction) {//left = next
-			if (direction === "left") {
+		changeSong (state, direction) {//right = next
+			if (direction === "right") {
 				state.musicPlayedNowIndex = state.musicPlayedNowIndex === 0?state.musicPlayList.length - 1:state.musicPlayedNowIndex - 1;
 			} else {
-				state.musicPlayedNowIndex = state.musicPlayedNowIndex === (state.musicPlayList.length - 1)?0:state.musicPlayedNowIndex - 1;
+				state.musicPlayedNowIndex = state.musicPlayedNowIndex === (state.musicPlayList.length - 1)?0:state.musicPlayedNowIndex + 1;
 			}
 			if (state.musicPlayList.length > 1) {
 				Object.assign(state.musicPlayedNow, state.musicPlayList[state.musicPlayedNowIndex]);
