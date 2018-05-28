@@ -259,7 +259,7 @@ export const store= new Vuex.Store({
 				state.searchHistoryData.splice(obj.index, 1);
 			}
 		},
-		changeSong (state, direction) {//right = next
+		changeSong (state, direction) {//right = pre
 			if (direction === "right") {
 				state.musicPlayedNowIndex = state.musicPlayedNowIndex === 0?state.musicPlayList.length - 1:state.musicPlayedNowIndex - 1;
 			} else {

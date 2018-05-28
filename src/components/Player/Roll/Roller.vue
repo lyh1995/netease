@@ -26,7 +26,6 @@ export default {
     ...mapState([
       'musicPlayedNow',
       'isPlaying',
-      'songImgList',
       'musicPlayedNowIndex'
     ]),
     ...mapGetters([
@@ -60,7 +59,7 @@ export default {
         return;
       } else {
         if (this.isFastMove) {
-          let dire = this.tranDis > 0 ? "right" : "left";
+          let dire = this.transDis > 0 ? "right" : "left";
           this.$store.commit('changeSong', dire);
         } else {
           if (this.transDis >= 180) {
@@ -84,7 +83,7 @@ export default {
       let dis = dire === "right" ? 360 : -360;
       this.setAnimation("imgContainer", `translate3d(${this.pxToVwStr(dis)},0,0)`, "1s");
       setTimeout(() => {
-        this.serAnimation("imgContainer", "translate3d(0,0,0)", "");
+        this.setAnimation("imgContainer", "translate3d(0,0,0)", "");
         this.isMoving = false;
       },500);
     }
