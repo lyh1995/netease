@@ -10,6 +10,7 @@ Vue.use(Vuex);
 
 
 
+
 export const store= new Vuex.Store({
 	state: {
 		isShowHead: true,//控制header是否显示
@@ -84,12 +85,12 @@ export const store= new Vuex.Store({
 			songNum: "19"
 		}],
 		musicPlayedNow: {
-			songName: 'Getaway Car',
-			songImg: '/static/reputation.jpg',
-			singer: 'Taylor Swift',
-			lyric: 'Taylor Swift - Reputation',
-			song: '/static/Taylor Swift - Getaway Car.mp3',
-			songTime: '233'
+			songName: 'Let Me Go',
+			songImg: 'http://p1.music.126.net/var7r0mMOlpNBxVQ-JMaqQ==/109951163020831746.jpg',
+			singer: 'Hailee Steinfeld',
+			lyric: 'Hailee Steinfeld - Let Me Go',
+			song: 'http://music.163.com/song/media/outer/url?id=504425721.mp3',
+			songTime: '177'
 		},
 		musicPlayedNowIndex: 0,
 		musicPlayList: [{
@@ -131,13 +132,16 @@ export const store= new Vuex.Store({
 		playerBack: "#6E6E6E",
 		playState: "url('/static/play.svg')",
 		playMode: "loop",
+		searchResArtist: "/static/reputation.jpg",
 		lrcData: [],
 		strix: 0,
 		songStartTime: 0.2,
 		lrcScrollTop: 0,
 		songTimeNow: 0,
 		songCurrentTime: 0,
-		songSearchList: [],
+		songPlayedPrecent: 0,
+		suggestSearchList: [],
+		searchSongList: [],
 		songSearched: "",
 		songPlayingId: "",
 		currentPath: "/",
@@ -207,11 +211,11 @@ export const store= new Vuex.Store({
 			state.musicPlayedNow.song = url;
 			state.songPlayingId = id;
 		},
-		getSongSearchList (state, arr) {
+		getSuggestSearchList (state, arr) {
 			if (arr.length <= 10) {
-				state.songSearchList = arr;
+				state.suggestSearchList = arr;
 			} else {
-				state.songSearchList = arr.slice(0, 10);
+				state.suggestSearchList = arr.slice(0, 10);
 			}
 		},
 		isShowSearchList (state, bool) {
@@ -267,6 +271,33 @@ export const store= new Vuex.Store({
 			}
 			if (state.musicPlayList.length > 1) {
 				Object.assign(state.musicPlayedNow, state.musicPlayList[state.musicPlayedNowIndex]);
+			}
+		},
+		getSearchList (state, list) {
+			state.searchSongList = list;
+		},
+		getSongPlayedPrecent (state, num) {
+			state.songPlayedPrecent = num;
+		},
+		getSongDuration (state, num) {
+			state.musicPlayedNow.songTime = `${Math.round(num)}`;
+		},
+		playingSongChange (state, id) {
+			let obj = state.searchSongList[id],
+			url = `http://music.163.com/song/media/outer/url?id=${obj.id}.mp3`;
+			state.musicPlayedNow.song = url;
+			state.songPlayingId = obj.id;
+			state.musicPlayedNow.songName = obj.name;
+			state.musicPlayedNow.singer = obj.artistName;
+			state.musicPlayedNow.lyric = `${obj.artistName} - ${obj.albumName}`;
+			console.log("obj");
+			console.log(obj);
+			console.log(state.musicPlayedNow)
+			if (state.isPlaying) {
+				state.isPlaying = !state.isPlaying;
+				state.isPlaying = !state.isPlaying;
+			} else {
+				state.isPlaying = true;
 			}
 		}
 	},
@@ -324,7 +355,104 @@ export const store= new Vuex.Store({
 					});
 				resolve();
 			});
+		},
+		getSearchSong({commit, state}, songname) {
+			return new Promise((resolve, reject) => {
+				let reqStr = `http://106.14.151.215:3000/search?keywords=${songname}`,
+					songRes = [];
+				Vue.axios.get(reqStr, {timeout: 5000}).then(res => {
+					console.log(res);
+					if (res.data.result.songs) {
+						res.data.result.songs.forEach((obj) => {
+							songRes.push({
+								name: obj.name,
+								id: obj.id,
+								mvId: obj.mvid,
+								albumName: obj.album.name,
+								albumId: obj.album.id,
+								albumPicId: obj.album.picId,
+								artistName: obj.artists[0].name,
+								artistId: obj.artists[0].id
+							});
+						})
+					}
+					let artistUrl = `http://106.14.151.215:3000/artist/album?id=${songRes[0].artistId}&limit=30`;
+					Vue.axios.get(artistUrl, {timeout: 5000}).then(res => {
+						console.log(artistUrl);
+						console.log(res);
+						state.searchResArtist = {pic: res.data.artist.picUrl, name: songRes[0].artistName};
+						console.log(state.searchResArtist);
+					});
+					console.log(songRes)
+					commit('getSearchList', songRes);
+				});
+			}).catch(error => {
+				console.log(error);
+			});
+		},
+		getSuggest({commit, state}, songname) {
+			commit('getSongSearchedName', songname);
+			commit('isShowSearchList', true);
+			/*console.log(this.songname);
+			let req = Object.assign({
+			  keywords:this.songname
+			});
+			console.log(req);
+			*/
+			//let codeSongName = escape(songname);
+			let reqStr = `http://106.14.151.215:3000/search/suggest?keywords=${songname}`;
+			Vue.axios.get(reqStr, {timeout: 5000}).then(res => {
+				console.log(res);
+				let songName = [];
+				if (res.data.result.songs) {
+					console.log(res.data.result.songs[0].id);
+					for (let i = 0;i <= res.data.result.songs.length - 1;i++) {
+						songName.push({name: res.data.result.songs[i].name, id: res.data.result.songs[i].id});
+					}
+					/*console.log(songName);
+					let songNameRes = this.getNoRepeatName(songName);
+					console.log(songNameRes);*/
+				}
+				commit('getSuggestSearchList', songName);
+			}).catch(error => {
+				console.log(error);
+			});
+		},
+		getPlayingSongDetail({commit, state}, obj) {
+			let lryicUrl = `http://106.14.151.215:3000/lyric?id=${obj.id}`,
+				imgUrl = `http://106.14.151.215:3000/song/detail?ids=${obj.id}`;
+			Vue.axios.get(lryicUrl, {timeout: 5000}).then(res => {
+				console.log(res);
+				console.log(res.data.lrc.lyric);
+				let dataOfLrc = res.data.lrc.lyric.split("\n");
+				let dataLrc = [];
+				for (let i in dataOfLrc) {
+					let timeMatch = dataOfLrc[i].match(/\[(\d+:\d+\.\d+)\]/);
+					if (timeMatch) {
+						timeMatch = timeMatch[1];
+						console.log(timeMatch);
+						let minutes = parseInt(timeMatch.slice(0, timeMatch.indexOf(':')));
+						let seconds = parseFloat(timeMatch.substr(timeMatch.indexOf(':')+1));
+						let newTime = (minutes*60 + seconds).toFixed(2);
+						console.log(newTime);
+						dataLrc.push({
+							index: i,
+							time: newTime,
+							text: dataOfLrc[i].replace(/^.+?\]/, '')
+						})
+					}
+				}
+				state.lrcData = dataLrc;
+				state.strix = 0;
+				localStorage.lrcData = JSON.stringify(state.lrcData);
+				console.log('lrcdata');
+				console.log(state.lrcData);
+			});
+			Vue.axios.get(imgUrl, {timeout: 5000}).then(res => {
+				console.log(imgUrl);
+				console.log(res);
+				state.musicPlayedNow.songImg = res.data.songs[0].al.picUrl;
+			});
 		}
 	}
-
 })

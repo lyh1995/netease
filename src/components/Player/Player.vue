@@ -1,8 +1,8 @@
 <template>
-  <div :style="{backgroundColor: playerBack}" class="player">
+  <div :style="{backgroundImage: `url(${musicPlayedNow.songImg})`}" class="player">
     <div class="head">
-      <div v-for="(item, index) of playerHeadIcon">
-        <span :style="{background: item.imgUrl, left: item.leftStyle}" class="head-icon" @click.stop="headIconfun(index)"></span>
+      <div v-for="(item, index) of headIconName" class="head-icon con-center" @click.stop="headIconfun(index)" :style="{left: item.dis}">
+        <icon :name="item.iconName" :width="pxToVwStr(20)" :height="pxToVwStr(20)"></icon>
       </div>
       <span class="name">{{musicPlayedNow.songName}}</span>
       <span class="singer">{{musicPlayedNow.singer}}</span>
@@ -13,7 +13,7 @@
       </transition>
     </div>
     <div class="foot">
-      <div class="tempo" :style="{backgroundColor: playerBack}" @touchmove.stop="touchMove" @touchend.stop="touchEnd" @touchstart.stop="touchStart">
+      <div class="tempo" @touchmove.stop="touchMove" @touchend.stop="touchEnd" @touchstart.stop="touchStart">
         <div class="time">
           <span>{{timeNowStr}}</span>
         </div
@@ -84,6 +84,13 @@ export default {
         iconName: "nextSong",
         id: "nextSong-id-2",
         dim: this.pxToVwStr(20)
+      }],
+      headIconName: [{
+        iconName: "goback",
+        dis: this.pxToVwStr(18)
+      }, {
+        iconName: "share",
+        dis: this.pxToVwStr(325)
       }]
     }
   },
@@ -248,8 +255,20 @@ export default {
   top: 0;
   left: 0;
   flex-direction: column;
-  user-select:none;
+  user-select: none;
+  background-position: center;
+  background-size: cover;
 
+  &::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    bottom: -60px;
+    left: -60px;
+    right: -60px;
+    background: inherit;
+    filter: blur(25px) invert(35%);
+  }
   .head {
     height: 70px;
     width: 100%;
@@ -263,6 +282,11 @@ export default {
       height: 20px;
       top: 35px;
       cursor: pointer;
+
+      & > svg {
+        pointer-events: none;
+        left: 0;
+      }
     }
     .name {
       display: inline-block;
@@ -288,7 +312,7 @@ export default {
       text-overflow: ellipsis;
       font-szie: 12px;
       color: #FFF;
-      opacity: .4;
+      opacity: .8;
       -webkit-transform-origin-x: 0;
       -webkit-transform: scale(0.75);
     }

@@ -1,10 +1,10 @@
 <template>
   <div class="search-song-list">
-    <div class="container">
+    <div class="container" @click="searchName('empty')">
       <span class="search-span">搜索"{{songSearched}}"</span>
     </div>
-    <div v-for="(item, index) of songSearchList" @click="searchName">
-      <div class="container" :id="index + 'j'">
+    <div v-for="(item, index) of suggestSearchList" @click="searchName(index)">
+      <div class="container">
         <span class="search-span">{{item.name}}</span>
       </div>
     </div>
@@ -21,7 +21,7 @@ export default {
   name: 'SearchSongList',
   computed: {
     ...mapState([
-      'songSearchList',
+      'suggestSearchList',
       'testSearchData',
       'songSearched'
     ])
@@ -33,15 +33,15 @@ export default {
   methods: {
     ...mapMutations([
       ]),
-    searchName(ev) {
+    searchName(index) {
       //shi jian wei tuo
-      let eve = ev || window.event;
-      let target = eve.target || eve.srcElement;
-      let eveId = parseInt(target.id[0]);
-      console.log(eveId);
-      console.log(this.songSearchList[eveId].id);
-      this.$store.commit('searchHistoryDataChange', {add: true, name: this.songSearchList[eveId].name});
-      this.$store.commit('musicIdChange', this.songSearchList[eveId].id);
+      //let eve = ev || window.event,
+      //target = eve.target || eve.srcElement,
+      //eveId = parseInt(target.id[0]);
+      console.log(index);
+      let songName = (index === "empty") ? this.songSearched : this.suggestSearchList[index].name;
+      this.$store.dispatch('getSearchSong', songName);
+      this.$store.commit('searchHistoryDataChange', {add: true, name: songName});
       this.$router.push({ path: '/SearchRes' });
     }
   }
@@ -51,10 +51,10 @@ export default {
 
 <style lang="scss">
 .search-song-list {
-  position: absolute;
+  position: fixed;
   width: 340px;
   left: 10px;
-  top: 5px;
+  top: 75px;
   box-shadow: 0 3px 20px 3px gray;
   z-index: 1;
 

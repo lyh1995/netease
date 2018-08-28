@@ -1,7 +1,11 @@
 <template>
   <div :style="{backgroundColor: skinColor}" class="search-header">
-    <span class="search-head-icon" @click="goback" :style="{background: backicon}"></span>
-    <input type="text" class="searchtext" v-model="songname" :style="{backgroundColor: skinColor}" placeholder="search" @focus="getfocus" @blur="losefocus" ref="inputext" @keydown.enter="pushSearchHis">
+    <div class="search-head-icon" @click="goback">
+      <icon name="goback"></icon>
+    </div>
+    <form action="" @onsubmit="">
+      <input type="text" class="searchtext" v-model="songname" :style="{backgroundColor: skinColor}" placeholder="search" @focus="getfocus" @blur="losefocus" ref="inputext" @keydown.enter="pushSearchHis">
+    </form>
   </div>
 </template>
 
@@ -13,7 +17,7 @@ export default {
   name: 'Search',
   activated() {
     this.songname = "";
-    this.$refs.inputext.focus();
+    //this.$refs.inputext.focus();
   },
   computed: {
     ...mapState([
@@ -36,16 +40,11 @@ export default {
     searchSong() {
       if (this.songname.length !== 0) {
         if (!this.isStrAllBlank(this.songname)) {
-          this.$store.commit('getSongSearchedName', this.songname);
+          this.$store.dispatch('getSuggest', this.songname);
+          /*this.$store.commit('getSongSearchedName', this.songname);
           this.$store.commit('isShowSearchList', true);
-          /*console.log(this.songname);
-          let req = Object.assign({
-            keywords:this.songname
-          });
-          console.log(req);
-          */
           let codeSongName = escape(this.songname);
-          let reqStr = `/netApi/search?keywords=${codeSongName}`;
+          let reqStr = `/netApi/search/suggest?keywords=${codeSongName}`;
           this.$axios.get(reqStr, {timeout: 1000}).then(res => {
             console.log(res);
             if (res.data.result.songs) {
@@ -57,37 +56,37 @@ export default {
               console.log(songName);
               let songNameRes = this.getNoRepeatName(songName);
               console.log(songNameRes);
-              this.$store.commit('getSongSearchList', songNameRes);
+              this.$store.commit('getSuggestSearchList', songNameRes);
             } else {
               let str = [];
-              this.$store.commit('getSongSearchList', str);
+              this.$store.commit('getSuggestSearchList', str);
             }
           }).catch(error => {
             console.log(error);
           });
-          /*let reqStrSuggest = `/netApi/search/suggest?keywords=${codeSongName}`;
-          this.$axios.get(reqStrSuggest).then(res => {
-            console.log(res);
-            if (res.data.result.songs) {
-              console.log("suggest" + res.data.result.songs[0].id);
-              this.$store.commit('musicIdChange', res.data.result.songs[0].id);
-            }
-          });
-          let reqStrs = `/netApi/album?id=35150843`;
-          this.$axios.get(reqStrs).then(res => {
-            console.log(res);
-          });
-          let reqStrt = `/netApi/testapi?keywords=${codeSongName}`;
-          this.$axios.get(reqStrt).then(res => {
-            console.log(res);
-          });
-          let reqStrtNoLimit = `/netApi/music/url?id=504425722`;
-          this.$axios.get(reqStrtNoLimit).then(res => {
-            console.log(res);
-          });
-          /*this.$axios.get('/netApi/music/url?id=460043703').then(res => {
-            console.log(res);
-          });*/
+            /*let reqStrSuggest = `/netApi/search/suggest?keywords=${codeSongName}`;
+            this.$axios.get(reqStrSuggest).then(res => {
+              console.log(res);
+              if (res.data.result.songs) {
+                console.log("suggest" + res.data.result.songs[0].id);
+                this.$store.commit('musicIdChange', res.data.result.songs[0].id);
+              }
+            });
+            let reqStrs = `/netApi/album?id=35150843`;
+            this.$axios.get(reqStrs).then(res => {
+              console.log(res);
+            });
+            let reqStrt = `/netApi/testapi?keywords=${codeSongName}`;
+            this.$axios.get(reqStrt).then(res => {
+              console.log(res);
+            });
+            let reqStrtNoLimit = `/netApi/music/url?id=504425722`;
+            this.$axios.get(reqStrtNoLimit).then(res => {
+              console.log(res);
+            });
+            /*this.$axios.get('/netApi/music/url?id=460043703').then(res => {
+              console.log(res);
+            });*/
         } else {
           this.$store.commit('isShowSearchList', false);
         }
@@ -133,9 +132,15 @@ export default {
       return bool;
     },
     pushSearchHis() {
+      console.log("pushpush")
       if (!this.isStrAllBlank(this.songname)) {
+        this.$store.dispatch('getSearchSong', this.songname);
         this.$store.commit('searchHistoryDataChange', {add: true, name: this.songname});
-        consolelog("pushed");
+        this.$router.push({ path: '/SearchRes' });
+        setTimeout(() => {
+          document.getElementsByTagName('body')[0].style.height = "100%";
+          this.$store.commit('isShowSearchList', false);
+        }, 100);
       }
     }
   },
@@ -151,47 +156,38 @@ export default {
 
 
 <style lang="scss">
+::-webkit-input-placeholder{color: silver;}
 .search-header {
-  flex: .7;
-  width: 100%;
-
   .search-head-icon {
     position: absolute;
-    flex: 1;
-    width: 35px;
-    height: 35px;
-    top: 1.5%;
+    width: 20px;
+    height: 20px;
+    top: 35px;
+    left: 20px;
     cursor: pointer;
-  }
-}
-@media screen and (min-width: 320px) and (max-width: 480px){
-  ::-webkit-input-placeholder{color: silver;}
-  .search-header {
-    .search-head-icon {
-      position: absolute;
+    display: inline-block;
+
+    & > svg {
+      pointer-events: none;
       width: 20px;
       height: 20px;
-      top: 35px;
-      left: 20px;
-      cursor: pointer;
-      display: inline-block;
     }
-    .searchtext {
-      outline: none;
-      position: absolute;
-      width: 295px;
-      left: 55px;
-      bottom: 11px;
-      padding-bottom: 3px;
-      font-size: 20px;
-      color: white;
-      border-top-width: 0;
-      border-left-width: 0;
-      border-right-width: 0;
-      border-bottom-width: 1px;
-      border-bottom-color: white;
-      display: inline-block;
-    }
-}
+  }
+  .searchtext {
+    outline: none;
+    position: absolute;
+    width: 295px;
+    left: 55px;
+    bottom: 11px;
+    padding-bottom: 3px;
+    font-size: 20px;
+    color: white;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 1px;
+    border-bottom-color: white;
+    display: inline-block;
+  }
 }
 </style>

@@ -2,8 +2,8 @@
   <div class="lryicer" @click="goRoller" @mousewheel="scrolling">
     <div class="volume">
     </div>
-    <div class="lrcbox" ref="lrcbox">
-      <div v-for="(item, index) of newLrc" class="lrc" :style="{'color':(strix === index - 4)?'white':'black'}">
+    <div class="lrcbox" ref="lrcbox" @touchmove.stop="touchMove" @touchstart.stop.prevent="touchStart" @touchend.stop.prevent="touchEnd">
+      <div v-for="(item, index) of newLrc" class="lrc" :style="{'opacity':(strix === index - 4)?'1':'.6'}">
         <p :style="{'visibility':(item.index === 'x')?'hidden':'visible'}">{{item.text}}</p>
       </div>
     </div>
@@ -66,7 +66,7 @@ export default {
     timeFun() {
       try {
         if (this.$refs.lrcbox) {
-          this.$refs.lrcbox.scrollTop = this.$refs.lrcbox.children[this.strix + 4].offsetTop - this.$refs.lrcbox.children[4].offsetTop;
+          this.$refs.lrcbox.scrollTop = this.$refs.lrcbox.children[this.strix + 4].offsetTop - this.$refs.lrcbox.children[4].offsetTop;//需要用js加个scroll动画
           this.$store.commit('scroll', false);
         } else {
           console.log("lrcbox dont exist");
@@ -96,6 +96,27 @@ export default {
       } else {
         this.$refs.lrcbox.scrollTop += 40;
       }
+    },
+    touchStart(e) {
+      console.log(e);
+      this.startY = e.touches[0].clientY;
+      this.startScrollTop = this.$refs.lrcbox.scrollTop;
+      this.isTouchMoving = false;
+    },
+    touchMove(e) {
+      clearTimeout(this.timer);
+      this.$store.commit('scroll', true);
+      this.timer = setTimeout(this.timeFun, 3000);
+      let moveDis = this.startY - e.touches[0].clientY;
+      console.log(`startX:${this.startY}---clientX${e.touches[0].clientY}`);
+      console.log(moveDis);
+      this.$refs.lrcbox.scrollTop = this.startScrollTop + moveDis;
+      this.isTouchMoving = true;
+    },
+    touchEnd(e) {
+      if (!this.isTouchMoving) {
+        this.goRoller();
+      }
     }
   }
 }
@@ -106,7 +127,7 @@ export default {
 .lryicer {
   width: 100%;
   height: 100%;
-  background-color: #6E6E6E;
+  position: relative;
 
   .volume {
     width: 80%;
@@ -122,7 +143,7 @@ export default {
       margin: 25px auto 25px auto;
       font-size: 18px;
       text-align: center;
-      color: black;
+      color: white;
     }
   }
 }

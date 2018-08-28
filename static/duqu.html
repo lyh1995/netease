@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vuetest</title>
+</head>
+<body>
+<div id="list-complete-demo" class="demo">
+  <input type="file" id="file_input" @change="click" ref="in" webkitdirectory directory />
+  <div v-for="(item, index) of file">
+    <img class="img" :src="item.name" />
+  </div>
+</div>
+<script src='https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+<script type="text/javascript">
+new Vue({
+  el: '#list-complete-demo',
+  data: {
+    path: "",
+    file: []
+  },
+  methods: {
+    click: function(e) {
+      for (i in this.$refs.in.files) {
+        if (i.name.endsWith("JPG") || i.name.endsWith("JPEG") || i.name.endsWith("PNG")) {
+          this.file.push(i.name);
+        }
+      }
+      console.log(this.file);
+    }
+  }
+})
+</script>
+</body>
+<style>
+.list-complete-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.img{
+  width: 50px;
+  height: 50px;
+}
+</style>
+
+</html>

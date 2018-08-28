@@ -3,7 +3,7 @@
     <transition :name="(toPath === '/Player')?'playerin':'playerout'" mode="in-out">
       <router-view></router-view>
     </transition>
-    <audio ref="player" :src="musicPlayedNow.song" @ended="isLoop" @timeupdate="timeChange()" id="myAudio"></audio>
+    <audio ref="player" :src="musicPlayedNow.song" @ended="isLoop" @timeupdate="timeChange()" id="myAudio" @progress="getSongDuration"></audio>
   </div>
 </template>
 
@@ -55,7 +55,12 @@ export default {
     songPlayingId: {
       handler (now, old) {
         this.$refs.player.pause();
-        setTimeout(() => this.$store.commit('tooglePlayState'), 100);
+        this.$refs.player.volume = 0.1;
+        this.$store.commit('tooglePlayState');
+        setTimeout(() => {
+          this.$store.commit('tooglePlayState');
+          this.$refs.player.play();
+        }, 100);
       }
     }
   },
@@ -70,7 +75,12 @@ export default {
     timeChange() {
       if(this.$refs.player.currentTime !== 0) {
         this.$store.commit('songTimeChange', this.$refs.player.currentTime);
+        //this.$store.commit('getSongPlayedPrecent', this.$refs.player.played.end(0));
       }
+    },
+    getSongDuration() {
+      console.log(`Duration${this.$refs.player.duration}`)
+      this.$store.commit('getSongDuration', this.$refs.player.duration);
     }
   }
 }
@@ -110,9 +120,9 @@ export default {
   width: 100%;
   height: 100%;
 }
-.con-center {//使容器内的item垂直居中,用在容器上
-  justify-content: center;//水平居中
+.con-center {//使?????tem??直????????
+  justify-content: center;//水平???
   display: flex;
-  align-items: center;//垂直居中
+  align-items: center;//??直???
 }
 </style>

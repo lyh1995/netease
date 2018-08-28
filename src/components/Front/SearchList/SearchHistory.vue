@@ -7,7 +7,7 @@
     <div class="hot-search">
       <span>热门搜索</span>
       <transition-group name="hotsearch" tag="div">
-        <div v-for="(item, index) in hotSearchData" :key="item" class="hot-search-con">
+        <div v-for="(item, index) in hotSearchData" :key="item" class="hot-search-con" @click.stop="clickHotSeach(index)">
           <span>{{item}}</span>
         </div>
       </transition-group>
@@ -61,7 +61,17 @@ export default {
         this.$store.commit('searchHistoryDataChange', {add: false, index: index});
       } else {
         console.log("default");
+        this.$store.dispatch('getSearchSong', this.searchHistoryData[index]);
+        this.$store.commit('searchHistoryDataChange', {add: true, name: this.searchHistoryData[index]});
+        this.$router.push({ path: '/SearchRes' });
       }
+    },
+    clickHotSeach(index) {
+      console.log(this.hotSearchData[index]);
+      let songName = this.hotSearchData[index];
+      this.$store.dispatch('getSearchSong', songName);
+      this.$store.commit('searchHistoryDataChange', {add: true, name: songName});
+      this.$router.push({ path: '/SearchRes' });
     }
   }
 }
