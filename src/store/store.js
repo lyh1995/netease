@@ -282,7 +282,7 @@ export const store= new Vuex.Store({
 		getSongDuration (state, num) {
 			state.musicPlayedNow.songTime = `${Math.round(num)}`;
 		},
-		playingSongChange (state, id) {
+		playingSongChangeBySearch (state, id) {
 			let obj = state.searchSongList[id],
 			url = `http://music.163.com/song/media/outer/url?id=${obj.id}.mp3`;
 			state.musicPlayedNow.song = url;
@@ -290,6 +290,29 @@ export const store= new Vuex.Store({
 			state.musicPlayedNow.songName = obj.name;
 			state.musicPlayedNow.singer = obj.artistName;
 			state.musicPlayedNow.lyric = `${obj.artistName} - ${obj.albumName}`;
+			let hisArr = JSON.parse(localStorage.playHis),
+				repeatedIndex = "noRe";
+			hisArr.forEach((a, index) => { //用for of优化一下跳出循环
+				if(a.songId === obj.id) {
+					repeatedIndex = index;
+				}
+			})
+			if (repeatedIndex === "noRe") {
+				if (hisArr.length === 100) {
+					hisArr.shift();
+				}
+				let songObj = {
+					songUrl: url,
+					songName: obj.name,
+					singer: obj.artistName,
+					lyric: `${obj.artistName} - ${obj.albumName}`,
+					songId: obj.id
+				};
+				hisArr.push(songObj);
+			} else {
+				[hisArr[repeatedIndex], hisArr[hisArr.length - 1]] = [hisArr[hisArr.length - 1], hisArr[repeatedIndex]];
+			}
+			localStorage.playHis = JSON.stringify(hisArr);
 			console.log("obj");
 			console.log(obj);
 			console.log(state.musicPlayedNow)
@@ -358,7 +381,8 @@ export const store= new Vuex.Store({
 		},
 		getSearchSong({commit, state}, songname) {
 			return new Promise((resolve, reject) => {
-				let reqStr = `http://106.14.151.215:3000/search?keywords=${songname}`,
+				console.log(localStorage);
+				let reqStr = `netApi/search?keywords=${songname}`,
 					songRes = [];
 				Vue.axios.get(reqStr, {timeout: 5000}).then(res => {
 					console.log(res);
@@ -376,7 +400,7 @@ export const store= new Vuex.Store({
 							});
 						})
 					}
-					let artistUrl = `http://106.14.151.215:3000/artist/album?id=${songRes[0].artistId}&limit=30`;
+					let artistUrl = `netApi/artist/album?id=${songRes[0].artistId}&limit=30`;
 					Vue.axios.get(artistUrl, {timeout: 5000}).then(res => {
 						console.log(artistUrl);
 						console.log(res);
@@ -400,7 +424,7 @@ export const store= new Vuex.Store({
 			console.log(req);
 			*/
 			//let codeSongName = escape(songname);
-			let reqStr = `http://106.14.151.215:3000/search/suggest?keywords=${songname}`;
+			let reqStr = `netApi/search/suggest?keywords=${songname}`;
 			Vue.axios.get(reqStr, {timeout: 5000}).then(res => {
 				console.log(res);
 				let songName = [];
@@ -419,8 +443,8 @@ export const store= new Vuex.Store({
 			});
 		},
 		getPlayingSongDetail({commit, state}, obj) {
-			let lryicUrl = `http://106.14.151.215:3000/lyric?id=${obj.id}`,
-				imgUrl = `http://106.14.151.215:3000/song/detail?ids=${obj.id}`;
+			let lryicUrl = `netApi/lyric?id=${obj.id}`,
+				imgUrl = `netApi/song/detail?ids=${obj.id}`;
 			Vue.axios.get(lryicUrl, {timeout: 5000}).then(res => {
 				console.log(res);
 				console.log(res.data.lrc.lyric);
@@ -447,11 +471,33 @@ export const store= new Vuex.Store({
 				localStorage.lrcData = JSON.stringify(state.lrcData);
 				console.log('lrcdata');
 				console.log(state.lrcData);
+				let hisArr = JSON.parse(localStorage.playHis);
+				if (hisArr[hisArr.length - 1].songId === obj.id) {
+					hisArr[hisArr.length - 1].songLrcData = JSON.stringify(dataLrc);
+				} else {
+					hisArr.forEach((a, index) => {
+						if (a.songId === obj.id) {
+							hisArr[index].songLrcData = JSON.stringify(dataLrc);
+						}
+					})
+				}
+				localStorage.playHis = JSON.stringify(hisArr);
 			});
 			Vue.axios.get(imgUrl, {timeout: 5000}).then(res => {
 				console.log(imgUrl);
 				console.log(res);
 				state.musicPlayedNow.songImg = res.data.songs[0].al.picUrl;
+				let hisArr = JSON.parse(localStorage.playHis);
+				if (hisArr[hisArr.length - 1].songId === obj.id) {
+					hisArr[hisArr.length - 1].songImg = JSON.stringify(res.data.songs[0].al.picUrl);
+				} else {
+					hisArr.forEach((a, index) => {
+						if (a.songId === obj.id) {
+							hisArr[index].songImg = JSON.stringify(res.data.songs[0].al.picUrl);
+						}
+					})
+				}
+				localStorage.playHis = JSON.stringify(hisArr);
 			});
 		}
 	}

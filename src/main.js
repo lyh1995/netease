@@ -11,6 +11,9 @@ import {myBaseJs} from './base.js'
 Vue.prototype.$axios = axios
 Vue.prototype.pxToVwNum = myBaseJs.pxToVw(360)
 Vue.prototype.pxToVwStr = number => `${myBaseJs.pxToVw(360)(number)}vw`
+if (!localStorage.playHis) {
+  localStorage.playHis = JSON.stringify([]);
+}
 
 Vue.config.productionTip = false
 Vue.component('icon', Icon)
