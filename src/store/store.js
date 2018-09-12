@@ -141,6 +141,8 @@ export const store= new Vuex.Store({
 		songCurrentTime: 0,
 		songPlayedPrecent: 0,
 		suggestSearchList: [],
+		cacheHis: [],
+		cacheHisIndex: 0,
 		searchSongList: [],
 		songSearched: "",
 		songPlayingId: "",
@@ -158,6 +160,9 @@ export const store= new Vuex.Store({
 		},
 		toogleAsideList(state) {
 			state.isShowAsideList = !state.isShowAsideList;
+		},
+		tooglePlayStateToPlaying(state) {
+			state.isPlaying = true;
 		},
 		tooglePlayState (state) {
 			state.isPlaying = !state.isPlaying;
@@ -322,6 +327,35 @@ export const store= new Vuex.Store({
 			} else {
 				state.isPlaying = true;
 			}
+		},
+		syncCache (state) { //同步缓存的历史记录和localStroage里的历史记录
+			state.cacheHis = JSON.parse(localStorage.playHis);
+		},
+		initCacheHis (state) {//初始化历史记录缓存
+			state.cacheHis = JSON.parse(localStorage.playHis);
+			state.cacheHisIndex = 0;
+		},
+		changeSongByHis (state, dire) {
+			let hisArr = JSON.parse(localStorage.playHis);
+			state.cacheHisIndex = (dire === "right") ?
+				((state.cacheHisIndex === state.cacheHis.length - 1) ? 0 : state.cacheHisIndex + 1) :
+				((state.cacheHisIndex === 0) ? state.cacheHis.length - 1 : state.cacheHisIndex - 1);
+			let obj = state.cacheHis[state.cacheHisIndex];
+			state.musicPlayedNow.song = obj.songUrl;
+			state.musicPlayedNow.songName = obj.songName;
+			state.musicPlayedNow.singer = obj.singer;
+			state.musicPlayedNow.lyric = obj.lyric;
+			state.lrcData = JSON.parse(obj.songLrcData);
+			console.log(state.lrcData);
+			state.musicPlayedNow.songImg = obj.songImg;
+			state.songPlayingId = obj.songId;
+			console.log(state.songPlayingId )
+			hisArr.forEach((a, index) => {
+				if (a.songId === obj.songId) {
+					hisArr.push(...hisArr.splice(index, 1));
+				}
+			});
+			localStorage.playHis = JSON.stringify(hisArr);
 		}
 	},
 	getters: {
@@ -332,6 +366,11 @@ export const store= new Vuex.Store({
 			res.unshift(state.musicPlayList[pre].songImg);
 			res.push(state.musicPlayList[next].songImg);
 			return res;
+		},
+		lrcGetter: state => {
+			let obj = { text: "a", index: "x" };
+    		let emptyAr = Array(4).fill(obj);
+    		return [...emptyAr, ...state.lrcData, ...emptyAr, obj];
 		}
 	},
 	actions: {
@@ -468,7 +507,6 @@ export const store= new Vuex.Store({
 				}
 				state.lrcData = dataLrc;
 				state.strix = 0;
-				localStorage.lrcData = JSON.stringify(state.lrcData);
 				console.log('lrcdata');
 				console.log(state.lrcData);
 				let hisArr = JSON.parse(localStorage.playHis);
@@ -482,6 +520,7 @@ export const store= new Vuex.Store({
 					})
 				}
 				localStorage.playHis = JSON.stringify(hisArr);
+				commit('initCacheHis');
 			});
 			Vue.axios.get(imgUrl, {timeout: 5000}).then(res => {
 				console.log(imgUrl);
@@ -489,15 +528,16 @@ export const store= new Vuex.Store({
 				state.musicPlayedNow.songImg = res.data.songs[0].al.picUrl;
 				let hisArr = JSON.parse(localStorage.playHis);
 				if (hisArr[hisArr.length - 1].songId === obj.id) {
-					hisArr[hisArr.length - 1].songImg = JSON.stringify(res.data.songs[0].al.picUrl);
+					hisArr[hisArr.length - 1].songImg = res.data.songs[0].al.picUrl;
 				} else {
 					hisArr.forEach((a, index) => {
 						if (a.songId === obj.id) {
-							hisArr[index].songImg = JSON.stringify(res.data.songs[0].al.picUrl);
+							hisArr[index].songImg = res.data.songs[0].al.picUrl;
 						}
 					})
 				}
 				localStorage.playHis = JSON.stringify(hisArr);
+				commit('initCacheHis');
 			});
 		}
 	}

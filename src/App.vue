@@ -21,6 +21,9 @@ export default {
   beforeCreate() {
     this.$store.dispatch('getLrc');
   },
+  mounted() {
+    this.$store.commit("initCacheHis");
+  },
   computed: {
     ...mapState([
       'musicPlayedNow',
@@ -56,9 +59,8 @@ export default {
       handler (now, old) {
         this.$refs.player.pause();
         this.$refs.player.volume = 0.1;
-        this.$store.commit('tooglePlayState');
         setTimeout(() => {
-          this.$store.commit('tooglePlayState');
+          this.$store.commit('tooglePlayStateToPlaying');
           this.$refs.player.play();
         }, 100);
       }

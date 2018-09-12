@@ -185,10 +185,10 @@ export default {
         case 0:
           break;
         case 1:
-          this.$store.commit('changeSong', "right");
+          this.$store.commit('changeSongByHis', "left");
           break;
         case 2:
-          this.$store.commit('changeSong', "left");
+          this.$store.commit('changeSongByHis', "right");
           break;
         case 3:
           break;
@@ -370,7 +370,7 @@ export default {
           height: 15px;
           display: inline-block;
           position: absolute;
-          top: -6.5px;
+          top: -8px;
         }
         .fill {
           width: 0%;

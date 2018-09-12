@@ -44,6 +44,7 @@ export default {
       this.$store.dispatch('getPlayingSongDetail', this.searchSongList[index]);
       this.$store.commit('searchHistoryDataChange', {add: true, name: this.searchSongList[index].name});
       this.$store.commit('playingSongChangeBySearch', index);
+      this.$store.commit('initCacheHis');
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="volume">
     </div>
     <div class="lrcbox" ref="lrcbox" @touchmove.stop="touchMove" @touchstart.stop.prevent="touchStart" @touchend.stop.prevent="touchEnd">
-      <div v-for="(item, index) of newLrc" class="lrc" :style="{'opacity':(strix === index - 4)?'1':'.6'}">
+      <div v-for="(item, index) of lrcGetter" class="lrc" :style="{'opacity':(strix === index - 4)?'1':'.6'}">
         <p :style="{'visibility':(item.index === 'x')?'hidden':'visible'}">{{item.text}}</p>
       </div>
     </div>
@@ -11,16 +11,11 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 import { mapState } from 'vuex'
 
 export default {
   name: 'Lryicer',
-  created() {
-    let obj = { text: "a", index: "x" };
-    let emptyAr = Array(4).fill(obj);
-    this.newLrc = [...emptyAr, ...this.lrcData, ...emptyAr, obj];
-  },
   mounted() {
     this.$refs.lrcbox.scrollTop = this.$refs.lrcbox.children[this.strix + 4].offsetTop - this.$refs.lrcbox.children[4].offsetTop;
   },
@@ -31,7 +26,10 @@ export default {
       'musicPlayedNow',
       'strix',
       'isScrolling'
-    ])
+    ]),
+    ...mapGetters([
+      'lrcGetter'
+      ])
   },
   data() {
     return {
