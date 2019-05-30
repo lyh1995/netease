@@ -23,13 +23,13 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    port: 80,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/netApi': {
-        target: 'http://106.14.151.215:3000',
+        target: 'http://139.199.187.77:3000',
         //target: 'http://47.100.160.74:3000',
         changeOrigin: true,
         pathRewrite: {

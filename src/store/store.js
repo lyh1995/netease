@@ -23,6 +23,7 @@ export const store= new Vuex.Store({
 		timeChangedBySlider: false,
 		timeChangedBySliderUsedOutside: false,
 		isShowAsideList: false,
+		isSearching: false,
 		testData:'',
 		headIcon: [{
 			imgUrl: "url('/static/asideList.svg')",
@@ -152,6 +153,9 @@ export const store= new Vuex.Store({
 		keycode: [8, 12, 32, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 109, 110, 111, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222]
 	},
 	mutations: {
+		searchingStateChange (state, bool) {
+			state.isSearching = bool;
+		},
 		toogleTab (state) {
 			state.isMyListShow = !state.isMyListShow;
 		},
@@ -419,6 +423,7 @@ export const store= new Vuex.Store({
 			});
 		},
 		getSearchSong({commit, state}, songname) {
+			state.isSearching = true;
 			return new Promise((resolve, reject) => {
 				console.log(localStorage);
 				let reqStr = `netApi/search?keywords=${songname}`,
@@ -448,9 +453,11 @@ export const store= new Vuex.Store({
 					});
 					console.log(songRes)
 					commit('getSearchList', songRes);
+					state.isSearching = false;
 				});
 			}).catch(error => {
 				console.log(error);
+				state.isSearching = false;
 			});
 		},
 		getSuggest({commit, state}, songname) {

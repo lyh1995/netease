@@ -16,12 +16,16 @@
         <span class="search-res-artist">{{item.artistName}} - {{item.albumName}}</span>
       </div>
     </div>
+    <div class="search-res-loading" v-if="isSearching">
+      <vue-loading type="spin" color="#d9544e" :size="{ width: '50px', height: '50px' }" class="search-loading-pos"></vue-loading> 
+    </div>
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
 import { mapState } from 'vuex'
+import { VueLoading } from 'vue-loading-template'
 
 export default {
   name: 'SearchResSong',
@@ -29,8 +33,12 @@ export default {
     ...mapState([
       'isSearchNameRight',
       'searchSongList',
-      'searchResArtist'
+      'searchResArtist',
+      'isSearching'
     ])
+  },
+  components: {
+    VueLoading
   },
   data() {
     return {
@@ -56,6 +64,19 @@ export default {
   position: relative;
   overflow: auto;
 
+  .search-res-loading {
+    z-index: 999;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.4);
+
+    .search-loading-pos {
+      margin-top: 50%;
+    }
+  }
   .best-match-span {
     height: 35px;
     fonsize: 12px;
