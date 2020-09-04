@@ -12,7 +12,7 @@
     "axios": "^0.15.3",
     "big-integer": "^1.6.26",
     "cssnano": "^3.10.0",
-    "node-sass": "^4.6.1",
+    "node-sass": "^4.13.1",
     "postcss-aspect-ratio-mini": "0.0.2",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^11.0.0",
